@@ -1,0 +1,502 @@
+
+[00:04:18.145][silabs ][RCT] INFO: CODE=01
+[00:04:18.146][silabs ][CLS] INFO: Callback: clusterId=OnOff OnOf=1
+[00:04:18.146][silabs ][CLS] INFO: current_onff_value=1
+[00:04:18.147][silabs ][LIT] INFO: skip move cw in off state
+[00:04:18.166][silabs ][LIT] INFO: skip move cw in off state
+[00:04:18.197][silabs ][LIT] INFO: Turning light On
+[00:04:18.197][silabs ][LIT] INFO: cur_ct_test 65000
+[00:04:18.197][silabs ][LIT] INFO: jiabo target_brightness:268 brightness 26
+[00:04:18.197][silabs ][LIT] INFO: CT 65000->65000(1) BR 24->268(1)
+[00:04:18.197][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.197][silabs ][LIT] INFO: ColorTemp: 65000 Level: 25-24, output CW: 24 WW: 0
+[00:04:18.203][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.203][silabs ][LIT] INFO: ColorTemp: 65000 Level: 26-24, output CW: 24 WW: 0
+[00:04:18.208][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.208][silabs ][LIT] INFO: ColorTemp: 65000 Level: 27-25, output CW: 25 WW: 0
+[00:04:18.213][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.213][silabs ][LIT] INFO: ColorTemp: 65000 Level: 28-25, output CW: 25 WW: 0
+[00:04:18.218][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.218][silabs ][LIT] INFO: ColorTemp: 65000 Level: 29-26, output CW: 26 WW: 0
+[00:04:18.223][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.223][silabs ][LIT] INFO: ColorTemp: 65000 Level: 30-26, output CW: 26 WW: 0
+[00:04:18.228][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.228][silabs ][LIT] INFO: ColorTemp: 65000 Level: 31-27, output CW: 27 WW: 0
+[00:04:18.233][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.233][silabs ][LIT] INFO: ColorTemp: 65000 Level: 32-27, output CW: 27 WW: 0
+[00:04:18.239][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.239][silabs ][LIT] INFO: ColorTemp: 65000 Level: 33-28, output CW: 28 WW: 0
+[00:04:18.244][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.244][silabs ][LIT] INFO: ColorTemp: 65000 Level: 34-28, output CW: 28 WW: 0
+[00:04:18.249][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.249][silabs ][LIT] INFO: ColorTemp: 65000 Level: 35-29, output CW: 29 WW: 0
+[00:04:18.253][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.253][silabs ][LIT] INFO: ColorTemp: 65000 Level: 36-29, output CW: 29 WW: 0
+[00:04:18.258][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.258][silabs ][LIT] INFO: ColorTemp: 65000 Level: 37-30, output CW: 30 WW: 0
+[00:04:18.267][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.267][silabs ][LIT] INFO: ColorTemp: 65000 Level: 38-30, output CW: 30 WW: 0
+[00:04:18.272][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.272][silabs ][LIT] INFO: ColorTemp: 65000 Level: 39-31, output CW: 31 WW: 0
+[00:04:18.278][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.278][silabs ][LIT] INFO: ColorTemp: 65000 Level: 40-31, output CW: 31 WW: 0
+[00:04:18.283][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.283][silabs ][LIT] INFO: ColorTemp: 65000 Level: 41-32, output CW: 32 WW: 0
+[00:04:18.288][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.288][silabs ][LIT] INFO: ColorTemp: 65000 Level: 42-32, output CW: 32 WW: 0
+[00:04:18.292][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.292][silabs ][LIT] INFO: ColorTemp: 65000 Level: 43-33, output CW: 33 WW: 0
+[00:04:18.297][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.297][silabs ][LIT] INFO: ColorTemp: 65000 Level: 44-33, output CW: 33 WW: 0
+[00:04:18.303][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.303][silabs ][LIT] INFO: ColorTemp: 65000 Level: 45-33, output CW: 33 WW: 0
+[00:04:18.308][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.308][silabs ][LIT] INFO: ColorTemp: 65000 Level: 46-34, output CW: 34 WW: 0
+[00:04:18.314][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.315][silabs ][LIT] INFO: ColorTemp: 65000 Level: 47-34, output CW: 34 WW: 0
+[00:04:18.320][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.320][silabs ][LIT] INFO: ColorTemp: 65000 Level: 48-35, output CW: 35 WW: 0
+[00:04:18.325][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.325][silabs ][LIT] INFO: ColorTemp: 65000 Level: 49-35, output CW: 35 WW: 0
+[00:04:18.330][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.330][silabs ][LIT] INFO: ColorTemp: 65000 Level: 50-36, output CW: 36 WW: 0
+[00:04:18.335][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.335][silabs ][LIT] INFO: ColorTemp: 65000 Level: 51-36, output CW: 36 WW: 0
+[00:04:18.340][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.340][silabs ][LIT] INFO: ColorTemp: 65000 Level: 52-37, output CW: 37 WW: 0
+[00:04:18.346][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.346][silabs ][LIT] INFO: ColorTemp: 65000 Level: 53-37, output CW: 37 WW: 0
+[00:04:18.352][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.352][silabs ][LIT] INFO: ColorTemp: 65000 Level: 54-38, output CW: 38 WW: 0
+[00:04:18.358][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.358][silabs ][LIT] INFO: ColorTemp: 65000 Level: 55-38, output CW: 38 WW: 0
+[00:04:18.363][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.363][silabs ][LIT] INFO: ColorTemp: 65000 Level: 56-39, output CW: 39 WW: 0
+[00:04:18.368][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.368][silabs ][LIT] INFO: ColorTemp: 65000 Level: 57-39, output CW: 39 WW: 0
+[00:04:18.373][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.373][silabs ][LIT] INFO: ColorTemp: 65000 Level: 58-40, output CW: 40 WW: 0
+[00:04:18.378][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.378][silabs ][LIT] INFO: ColorTemp: 65000 Level: 59-40, output CW: 40 WW: 0
+[00:04:18.384][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.384][silabs ][LIT] INFO: ColorTemp: 65000 Level: 60-41, output CW: 41 WW: 0
+[00:04:18.389][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.389][silabs ][LIT] INFO: ColorTemp: 65000 Level: 61-41, output CW: 41 WW: 0
+[00:04:18.395][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.395][silabs ][LIT] INFO: ColorTemp: 65000 Level: 62-42, output CW: 42 WW: 0
+[00:04:18.401][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.401][silabs ][LIT] INFO: ColorTemp: 65000 Level: 63-42, output CW: 42 WW: 0
+[00:04:18.407][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.407][silabs ][LIT] INFO: ColorTemp: 65000 Level: 64-42, output CW: 42 WW: 0
+[00:04:18.412][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.412][silabs ][LIT] INFO: ColorTemp: 65000 Level: 65-43, output CW: 43 WW: 0
+[00:04:18.417][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.417][silabs ][LIT] INFO: ColorTemp: 65000 Level: 66-43, output CW: 43 WW: 0
+[00:04:18.423][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.423][silabs ][LIT] INFO: ColorTemp: 65000 Level: 67-44, output CW: 44 WW: 0
+[00:04:18.428][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.428][silabs ][LIT] INFO: ColorTemp: 65000 Level: 68-44, output CW: 44 WW: 0
+[00:04:18.434][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.434][silabs ][LIT] INFO: ColorTemp: 65000 Level: 69-45, output CW: 45 WW: 0
+[00:04:18.439][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.439][silabs ][LIT] INFO: ColorTemp: 65000 Level: 70-45, output CW: 45 WW: 0
+[00:04:18.445][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.445][silabs ][LIT] INFO: ColorTemp: 65000 Level: 71-46, output CW: 46 WW: 0
+[00:04:18.450][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.450][silabs ][LIT] INFO: ColorTemp: 65000 Level: 72-46, output CW: 46 WW: 0
+[00:04:18.455][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.455][silabs ][LIT] INFO: ColorTemp: 65000 Level: 73-47, output CW: 47 WW: 0
+[00:04:18.459][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.459][silabs ][LIT] INFO: ColorTemp: 65000 Level: 74-47, output CW: 47 WW: 0
+[00:04:18.465][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.465][silabs ][LIT] INFO: ColorTemp: 65000 Level: 75-48, output CW: 48 WW: 0
+[00:04:18.471][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.471][silabs ][LIT] INFO: ColorTemp: 65000 Level: 76-48, output CW: 48 WW: 0
+[00:04:18.477][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.477][silabs ][LIT] INFO: ColorTemp: 65000 Level: 77-49, output CW: 49 WW: 0
+[00:04:18.483][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.483][silabs ][LIT] INFO: ColorTemp: 65000 Level: 78-49, output CW: 49 WW: 0
+[00:04:18.488][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.488][silabs ][LIT] INFO: ColorTemp: 65000 Level: 79-50, output CW: 50 WW: 0
+[00:04:18.493][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.493][silabs ][LIT] INFO: ColorTemp: 65000 Level: 80-50, output CW: 50 WW: 0
+[00:04:18.498][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.498][silabs ][LIT] INFO: ColorTemp: 65000 Level: 81-51, output CW: 51 WW: 0
+[00:04:18.503][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.503][silabs ][LIT] INFO: ColorTemp: 65000 Level: 82-51, output CW: 51 WW: 0
+[00:04:18.508][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.508][silabs ][LIT] INFO: ColorTemp: 65000 Level: 83-51, output CW: 51 WW: 0
+[00:04:18.514][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.514][silabs ][LIT] INFO: ColorTemp: 65000 Level: 84-52, output CW: 52 WW: 0
+[00:04:18.520][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.520][silabs ][LIT] INFO: ColorTemp: 65000 Level: 85-52, output CW: 52 WW: 0
+[00:04:18.526][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.526][silabs ][LIT] INFO: ColorTemp: 65000 Level: 86-53, output CW: 53 WW: 0
+[00:04:18.532][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.532][silabs ][LIT] INFO: ColorTemp: 65000 Level: 87-53, output CW: 53 WW: 0
+[00:04:18.537][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.537][silabs ][LIT] INFO: ColorTemp: 65000 Level: 88-54, output CW: 54 WW: 0
+[00:04:18.541][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.541][silabs ][LIT] INFO: ColorTemp: 65000 Level: 89-54, output CW: 54 WW: 0
+[00:04:18.546][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.546][silabs ][LIT] INFO: ColorTemp: 65000 Level: 90-55, output CW: 55 WW: 0
+[00:04:18.552][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.552][silabs ][LIT] INFO: ColorTemp: 65000 Level: 91-55, output CW: 55 WW: 0
+[00:04:18.558][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.558][silabs ][LIT] INFO: ColorTemp: 65000 Level: 92-56, output CW: 56 WW: 0
+[00:04:18.564][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.564][silabs ][LIT] INFO: ColorTemp: 65000 Level: 93-56, output CW: 56 WW: 0
+[00:04:18.570][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.570][silabs ][LIT] INFO: ColorTemp: 65000 Level: 94-57, output CW: 57 WW: 0
+[00:04:18.575][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.575][silabs ][LIT] INFO: ColorTemp: 65000 Level: 95-57, output CW: 57 WW: 0
+[00:04:18.581][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.581][silabs ][LIT] INFO: ColorTemp: 65000 Level: 96-58, output CW: 58 WW: 0
+[00:04:18.585][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.585][silabs ][LIT] INFO: ColorTemp: 65000 Level: 97-58, output CW: 58 WW: 0
+[00:04:18.590][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.590][silabs ][LIT] INFO: ColorTemp: 65000 Level: 98-59, output CW: 59 WW: 0
+[00:04:18.595][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.595][silabs ][LIT] INFO: ColorTemp: 65000 Level: 99-59, output CW: 59 WW: 0
+[00:04:18.601][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.601][silabs ][LIT] INFO: ColorTemp: 65000 Level: 100-60, output CW: 60 WW: 0
+[00:04:18.607][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.607][silabs ][LIT] INFO: ColorTemp: 65000 Level: 101-60, output CW: 60 WW: 0
+[00:04:18.613][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.613][silabs ][LIT] INFO: ColorTemp: 65000 Level: 102-60, output CW: 60 WW: 0
+[00:04:18.618][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.618][silabs ][LIT] INFO: ColorTemp: 65000 Level: 103-60, output CW: 60 WW: 0
+[00:04:18.623][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.623][silabs ][LIT] INFO: ColorTemp: 65000 Level: 104-61, output CW: 61 WW: 0
+[00:04:18.628][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.628][silabs ][LIT] INFO: ColorTemp: 65000 Level: 105-61, output CW: 61 WW: 0
+[00:04:18.633][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.633][silabs ][LIT] INFO: ColorTemp: 65000 Level: 106-61, output CW: 61 WW: 0
+[00:04:18.639][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.639][silabs ][LIT] INFO: ColorTemp: 65000 Level: 107-61, output CW: 61 WW: 0
+[00:04:18.644][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.644][silabs ][LIT] INFO: ColorTemp: 65000 Level: 108-62, output CW: 62 WW: 0
+[00:04:18.649][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.649][silabs ][LIT] INFO: ColorTemp: 65000 Level: 109-62, output CW: 62 WW: 0
+[00:04:18.655][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.655][silabs ][LIT] INFO: ColorTemp: 65000 Level: 110-62, output CW: 62 WW: 0
+[00:04:18.660][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.660][silabs ][LIT] INFO: ColorTemp: 65000 Level: 111-62, output CW: 62 WW: 0
+[00:04:18.665][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.665][silabs ][LIT] INFO: ColorTemp: 65000 Level: 112-63, output CW: 63 WW: 0
+[00:04:18.670][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.670][silabs ][LIT] INFO: ColorTemp: 65000 Level: 113-63, output CW: 63 WW: 0
+[00:04:18.676][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.676][silabs ][LIT] INFO: ColorTemp: 65000 Level: 114-63, output CW: 63 WW: 0
+[00:04:18.682][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.682][silabs ][LIT] INFO: ColorTemp: 65000 Level: 115-64, output CW: 64 WW: 0
+[00:04:18.688][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.688][silabs ][LIT] INFO: ColorTemp: 65000 Level: 116-64, output CW: 64 WW: 0
+[00:04:18.694][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.694][silabs ][LIT] INFO: ColorTemp: 65000 Level: 117-64, output CW: 64 WW: 0
+[00:04:18.700][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.700][silabs ][LIT] INFO: ColorTemp: 65000 Level: 118-64, output CW: 64 WW: 0
+[00:04:18.705][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.705][silabs ][LIT] INFO: ColorTemp: 65000 Level: 119-65, output CW: 65 WW: 0
+[00:04:18.710][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.710][silabs ][LIT] INFO: ColorTemp: 65000 Level: 120-65, output CW: 65 WW: 0
+[00:04:18.716][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.716][silabs ][LIT] INFO: ColorTemp: 65000 Level: 121-65, output CW: 65 WW: 0
+[00:04:18.721][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.721][silabs ][LIT] INFO: ColorTemp: 65000 Level: 122-65, output CW: 65 WW: 0
+[00:04:18.727][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.727][silabs ][LIT] INFO: ColorTemp: 65000 Level: 123-66, output CW: 66 WW: 0
+[00:04:18.732][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.732][silabs ][LIT] INFO: ColorTemp: 65000 Level: 124-66, output CW: 66 WW: 0
+[00:04:18.738][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.738][silabs ][LIT] INFO: ColorTemp: 65000 Level: 125-66, output CW: 66 WW: 0
+[00:04:18.743][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.743][silabs ][LIT] INFO: ColorTemp: 65000 Level: 126-66, output CW: 66 WW: 0
+[00:04:18.748][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.748][silabs ][LIT] INFO: ColorTemp: 65000 Level: 127-67, output CW: 67 WW: 0
+[00:04:18.753][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.753][silabs ][LIT] INFO: ColorTemp: 65000 Level: 128-67, output CW: 67 WW: 0
+[00:04:18.759][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.759][silabs ][LIT] INFO: ColorTemp: 65000 Level: 129-67, output CW: 67 WW: 0
+[00:04:18.765][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.765][silabs ][LIT] INFO: ColorTemp: 65000 Level: 130-68, output CW: 68 WW: 0
+[00:04:18.770][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.770][silabs ][LIT] INFO: ColorTemp: 65000 Level: 131-68, output CW: 68 WW: 0
+[00:04:18.776][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.776][silabs ][LIT] INFO: ColorTemp: 65000 Level: 132-68, output CW: 68 WW: 0
+[00:04:18.781][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.781][silabs ][LIT] INFO: ColorTemp: 65000 Level: 133-68, output CW: 68 WW: 0
+[00:04:18.786][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.786][silabs ][LIT] INFO: ColorTemp: 65000 Level: 134-69, output CW: 69 WW: 0
+[00:04:18.791][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.791][silabs ][LIT] INFO: ColorTemp: 65000 Level: 135-69, output CW: 69 WW: 0
+[00:04:18.796][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.796][silabs ][LIT] INFO: ColorTemp: 65000 Level: 136-69, output CW: 69 WW: 0
+[00:04:18.801][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.801][silabs ][LIT] INFO: ColorTemp: 65000 Level: 137-69, output CW: 69 WW: 0
+[00:04:18.807][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.807][silabs ][LIT] INFO: ColorTemp: 65000 Level: 138-70, output CW: 70 WW: 0
+[00:04:18.813][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.813][silabs ][LIT] INFO: ColorTemp: 65000 Level: 139-70, output CW: 70 WW: 0
+[00:04:18.819][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.819][silabs ][LIT] INFO: ColorTemp: 65000 Level: 140-70, output CW: 70 WW: 0
+[00:04:18.824][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.824][silabs ][LIT] INFO: ColorTemp: 65000 Level: 141-70, output CW: 70 WW: 0
+[00:04:18.829][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.829][silabs ][LIT] INFO: ColorTemp: 65000 Level: 142-71, output CW: 71 WW: 0
+[00:04:18.833][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.833][silabs ][LIT] INFO: ColorTemp: 65000 Level: 143-71, output CW: 71 WW: 0
+[00:04:18.838][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.838][silabs ][LIT] INFO: ColorTemp: 65000 Level: 144-71, output CW: 71 WW: 0
+[00:04:18.844][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.844][silabs ][LIT] INFO: ColorTemp: 65000 Level: 145-72, output CW: 72 WW: 0
+[00:04:18.849][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.849][silabs ][LIT] INFO: ColorTemp: 65000 Level: 146-72, output CW: 72 WW: 0
+[00:04:18.854][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.854][silabs ][LIT] INFO: ColorTemp: 65000 Level: 147-72, output CW: 72 WW: 0
+[00:04:18.860][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.860][silabs ][LIT] INFO: ColorTemp: 65000 Level: 148-72, output CW: 72 WW: 0
+[00:04:18.865][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.865][silabs ][LIT] INFO: ColorTemp: 65000 Level: 149-73, output CW: 73 WW: 0
+[00:04:18.869][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.869][silabs ][LIT] INFO: ColorTemp: 65000 Level: 150-73, output CW: 73 WW: 0
+[00:04:18.875][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.875][silabs ][LIT] INFO: ColorTemp: 65000 Level: 151-73, output CW: 73 WW: 0
+[00:04:18.881][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.881][silabs ][LIT] INFO: ColorTemp: 65000 Level: 152-73, output CW: 73 WW: 0
+[00:04:18.887][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.887][silabs ][LIT] INFO: ColorTemp: 65000 Level: 153-74, output CW: 74 WW: 0
+[00:04:18.893][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.893][silabs ][LIT] INFO: ColorTemp: 65000 Level: 154-74, output CW: 74 WW: 0
+[00:04:18.899][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.899][silabs ][LIT] INFO: ColorTemp: 65000 Level: 155-74, output CW: 74 WW: 0
+[00:04:18.905][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.905][silabs ][LIT] INFO: ColorTemp: 65000 Level: 156-74, output CW: 74 WW: 0
+[00:04:18.910][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.910][silabs ][LIT] INFO: ColorTemp: 65000 Level: 157-75, output CW: 75 WW: 0
+[00:04:18.915][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.915][silabs ][LIT] INFO: ColorTemp: 65000 Level: 158-75, output CW: 75 WW: 0
+[00:04:18.920][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.920][silabs ][LIT] INFO: ColorTemp: 65000 Level: 159-75, output CW: 75 WW: 0
+[00:04:18.926][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.926][silabs ][LIT] INFO: ColorTemp: 65000 Level: 160-76, output CW: 76 WW: 0
+[00:04:18.931][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.931][silabs ][LIT] INFO: ColorTemp: 65000 Level: 161-76, output CW: 76 WW: 0
+[00:04:18.936][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.936][silabs ][LIT] INFO: ColorTemp: 65000 Level: 162-76, output CW: 76 WW: 0
+[00:04:18.941][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.941][silabs ][LIT] INFO: ColorTemp: 65000 Level: 163-76, output CW: 76 WW: 0
+[00:04:18.947][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.947][silabs ][LIT] INFO: ColorTemp: 65000 Level: 164-77, output CW: 77 WW: 0
+[00:04:18.952][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.952][silabs ][LIT] INFO: ColorTemp: 65000 Level: 165-77, output CW: 77 WW: 0
+[00:04:18.958][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.958][silabs ][LIT] INFO: ColorTemp: 65000 Level: 166-77, output CW: 77 WW: 0
+[00:04:18.962][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.962][silabs ][LIT] INFO: ColorTemp: 65000 Level: 167-77, output CW: 77 WW: 0
+[00:04:18.968][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.968][silabs ][LIT] INFO: ColorTemp: 65000 Level: 168-78, output CW: 78 WW: 0
+[00:04:18.973][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.973][silabs ][LIT] INFO: ColorTemp: 65000 Level: 169-78, output CW: 78 WW: 0
+[00:04:18.979][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.979][silabs ][LIT] INFO: ColorTemp: 65000 Level: 170-78, output CW: 78 WW: 0
+[00:04:18.984][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.984][silabs ][LIT] INFO: ColorTemp: 65000 Level: 171-78, output CW: 78 WW: 0
+[00:04:18.990][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.990][silabs ][LIT] INFO: ColorTemp: 65000 Level: 172-79, output CW: 79 WW: 0
+[00:04:18.995][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:18.995][silabs ][LIT] INFO: ColorTemp: 65000 Level: 173-79, output CW: 79 WW: 0
+[00:04:19.000][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.000][silabs ][LIT] INFO: ColorTemp: 65000 Level: 174-79, output CW: 79 WW: 0
+[00:04:19.004][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.004][silabs ][LIT] INFO: ColorTemp: 65000 Level: 175-80, output CW: 80 WW: 0
+[00:04:19.010][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.010][silabs ][LIT] INFO: ColorTemp: 65000 Level: 176-80, output CW: 80 WW: 0
+[00:04:19.015][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.015][silabs ][LIT] INFO: ColorTemp: 65000 Level: 177-80, output CW: 80 WW: 0
+[00:04:19.021][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.021][silabs ][LIT] INFO: ColorTemp: 65000 Level: 178-80, output CW: 80 WW: 0
+[00:04:19.027][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.027][silabs ][LIT] INFO: ColorTemp: 65000 Level: 179-81, output CW: 81 WW: 0
+[00:04:19.032][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.032][silabs ][LIT] INFO: ColorTemp: 65000 Level: 180-81, output CW: 81 WW: 0
+[00:04:19.038][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.038][silabs ][LIT] INFO: ColorTemp: 65000 Level: 181-81, output CW: 81 WW: 0
+[00:04:19.042][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.042][silabs ][LIT] INFO: ColorTemp: 65000 Level: 182-81, output CW: 81 WW: 0
+[00:04:19.047][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.047][silabs ][LIT] INFO: ColorTemp: 65000 Level: 183-82, output CW: 82 WW: 0
+[00:04:19.053][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.053][silabs ][LIT] INFO: ColorTemp: 65000 Level: 184-82, output CW: 82 WW: 0
+[00:04:19.059][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.059][silabs ][LIT] INFO: ColorTemp: 65000 Level: 185-82, output CW: 82 WW: 0
+[00:04:19.064][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.064][silabs ][LIT] INFO: ColorTemp: 65000 Level: 186-82, output CW: 82 WW: 0
+[00:04:19.070][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.070][silabs ][LIT] INFO: ColorTemp: 65000 Level: 187-83, output CW: 83 WW: 0
+[00:04:19.075][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.075][silabs ][LIT] INFO: ColorTemp: 65000 Level: 188-83, output CW: 83 WW: 0
+[00:04:19.080][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.080][silabs ][LIT] INFO: ColorTemp: 65000 Level: 189-83, output CW: 83 WW: 0
+[00:04:19.085][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.085][silabs ][LIT] INFO: ColorTemp: 65000 Level: 190-84, output CW: 84 WW: 0
+[00:04:19.091][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.091][silabs ][LIT] INFO: ColorTemp: 65000 Level: 191-84, output CW: 84 WW: 0
+[00:04:19.097][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.097][silabs ][LIT] INFO: ColorTemp: 65000 Level: 192-84, output CW: 84 WW: 0
+[00:04:19.102][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.102][silabs ][LIT] INFO: ColorTemp: 65000 Level: 193-84, output CW: 84 WW: 0
+[00:04:19.108][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.108][silabs ][LIT] INFO: ColorTemp: 65000 Level: 194-85, output CW: 85 WW: 0
+[00:04:19.113][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.113][silabs ][LIT] INFO: ColorTemp: 65000 Level: 195-85, output CW: 85 WW: 0
+[00:04:19.118][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.118][silabs ][LIT] INFO: ColorTemp: 65000 Level: 196-85, output CW: 85 WW: 0
+[00:04:19.123][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.123][silabs ][LIT] INFO: ColorTemp: 65000 Level: 197-85, output CW: 85 WW: 0
+[00:04:19.128][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.128][silabs ][LIT] INFO: ColorTemp: 65000 Level: 198-86, output CW: 86 WW: 0
+[00:04:19.134][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.134][silabs ][LIT] INFO: ColorTemp: 65000 Level: 199-86, output CW: 86 WW: 0
+[00:04:19.140][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.140][silabs ][LIT] INFO: ColorTemp: 65000 Level: 200-86, output CW: 86 WW: 0
+[00:04:19.146][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.146][silabs ][LIT] INFO: ColorTemp: 65000 Level: 201-86, output CW: 86 WW: 0
+[00:04:19.151][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.151][silabs ][LIT] INFO: ColorTemp: 65000 Level: 202-87, output CW: 87 WW: 0
+[00:04:19.158][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.158][silabs ][LIT] INFO: ColorTemp: 65000 Level: 203-87, output CW: 87 WW: 0
+[00:04:19.163][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.163][silabs ][LIT] INFO: ColorTemp: 65000 Level: 204-87, output CW: 87 WW: 0
+[00:04:19.168][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.168][silabs ][LIT] INFO: ColorTemp: 65000 Level: 205-88, output CW: 88 WW: 0
+[00:04:19.174][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.174][silabs ][LIT] INFO: ColorTemp: 65000 Level: 206-88, output CW: 88 WW: 0
+[00:04:19.180][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.180][silabs ][LIT] INFO: ColorTemp: 65000 Level: 207-88, output CW: 88 WW: 0
+[00:04:19.186][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.186][silabs ][LIT] INFO: ColorTemp: 65000 Level: 208-88, output CW: 88 WW: 0
+[00:04:19.192][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.192][silabs ][LIT] INFO: ColorTemp: 65000 Level: 209-89, output CW: 89 WW: 0
+[00:04:19.197][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.197][silabs ][LIT] INFO: ColorTemp: 65000 Level: 210-89, output CW: 89 WW: 0
+[00:04:19.203][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.203][silabs ][LIT] INFO: ColorTemp: 65000 Level: 211-89, output CW: 89 WW: 0
+[00:04:19.208][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.208][silabs ][LIT] INFO: ColorTemp: 65000 Level: 212-89, output CW: 89 WW: 0
+[00:04:19.213][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.213][silabs ][LIT] INFO: ColorTemp: 65000 Level: 213-90, output CW: 90 WW: 0
+[00:04:19.219][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.219][silabs ][LIT] INFO: ColorTemp: 65000 Level: 214-90, output CW: 90 WW: 0
+[00:04:19.225][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.225][silabs ][LIT] INFO: ColorTemp: 65000 Level: 215-90, output CW: 90 WW: 0
+[00:04:19.230][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.230][silabs ][LIT] INFO: ColorTemp: 65000 Level: 216-90, output CW: 90 WW: 0
+[00:04:19.236][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.236][silabs ][LIT] INFO: ColorTemp: 65000 Level: 217-91, output CW: 91 WW: 0
+[00:04:19.241][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.241][silabs ][LIT] INFO: ColorTemp: 65000 Level: 218-91, output CW: 91 WW: 0
+[00:04:19.246][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.246][silabs ][LIT] INFO: ColorTemp: 65000 Level: 219-91, output CW: 91 WW: 0
+[00:04:19.250][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.250][silabs ][LIT] INFO: ColorTemp: 65000 Level: 220-92, output CW: 92 WW: 0
+[00:04:19.256][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.256][silabs ][LIT] INFO: ColorTemp: 65000 Level: 221-92, output CW: 92 WW: 0
+[00:04:19.262][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.262][silabs ][LIT] INFO: ColorTemp: 65000 Level: 222-92, output CW: 92 WW: 0
+[00:04:19.268][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.268][silabs ][LIT] INFO: ColorTemp: 65000 Level: 223-92, output CW: 92 WW: 0
+[00:04:19.274][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.274][silabs ][LIT] INFO: ColorTemp: 65000 Level: 224-93, output CW: 93 WW: 0
+[00:04:19.280][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.280][silabs ][LIT] INFO: ColorTemp: 65000 Level: 225-93, output CW: 93 WW: 0
+[00:04:19.286][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.286][silabs ][LIT] INFO: ColorTemp: 65000 Level: 226-93, output CW: 93 WW: 0
+[00:04:19.291][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.291][silabs ][LIT] INFO: ColorTemp: 65000 Level: 227-93, output CW: 93 WW: 0
+[00:04:19.296][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.296][silabs ][LIT] INFO: ColorTemp: 65000 Level: 228-94, output CW: 94 WW: 0
+[00:04:19.302][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.302][silabs ][LIT] INFO: ColorTemp: 65000 Level: 229-94, output CW: 94 WW: 0
+[00:04:19.307][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.307][silabs ][LIT] INFO: ColorTemp: 65000 Level: 230-94, output CW: 94 WW: 0
+[00:04:19.313][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.313][silabs ][LIT] INFO: ColorTemp: 65000 Level: 231-94, output CW: 94 WW: 0
+[00:04:19.319][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.319][silabs ][LIT] INFO: ColorTemp: 65000 Level: 232-95, output CW: 95 WW: 0
+[00:04:19.324][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.324][silabs ][LIT] INFO: ColorTemp: 65000 Level: 233-95, output CW: 95 WW: 0
+[00:04:19.329][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.329][silabs ][LIT] INFO: ColorTemp: 65000 Level: 234-95, output CW: 95 WW: 0
+[00:04:19.333][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.333][silabs ][LIT] INFO: ColorTemp: 65000 Level: 235-96, output CW: 96 WW: 0
+[00:04:19.339][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.339][silabs ][LIT] INFO: ColorTemp: 65000 Level: 236-96, output CW: 96 WW: 0
+[00:04:19.345][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.345][silabs ][LIT] INFO: ColorTemp: 65000 Level: 237-96, output CW: 96 WW: 0
+[00:04:19.351][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.351][silabs ][LIT] INFO: ColorTemp: 65000 Level: 238-96, output CW: 96 WW: 0
+[00:04:19.356][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.356][silabs ][LIT] INFO: ColorTemp: 65000 Level: 239-97, output CW: 97 WW: 0
+[00:04:19.362][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.362][silabs ][LIT] INFO: ColorTemp: 65000 Level: 240-97, output CW: 97 WW: 0
+[00:04:19.367][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.367][silabs ][LIT] INFO: ColorTemp: 65000 Level: 241-97, output CW: 97 WW: 0
+[00:04:19.372][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.372][silabs ][LIT] INFO: ColorTemp: 65000 Level: 242-97, output CW: 97 WW: 0
+[00:04:19.376][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.376][silabs ][LIT] INFO: ColorTemp: 65000 Level: 243-98, output CW: 98 WW: 0
+[00:04:19.382][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.382][silabs ][LIT] INFO: ColorTemp: 65000 Level: 244-98, output CW: 98 WW: 0
+[00:04:19.387][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.387][silabs ][LIT] INFO: ColorTemp: 65000 Level: 245-98, output CW: 98 WW: 0
+[00:04:19.393][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.393][silabs ][LIT] INFO: ColorTemp: 65000 Level: 246-98, output CW: 98 WW: 0
+[00:04:19.399][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.399][silabs ][LIT] INFO: ColorTemp: 65000 Level: 247-99, output CW: 99 WW: 0
+[00:04:19.405][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.405][silabs ][LIT] INFO: ColorTemp: 65000 Level: 248-99, output CW: 99 WW: 0
+[00:04:19.410][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.410][silabs ][LIT] INFO: ColorTemp: 65000 Level: 249-99, output CW: 99 WW: 0
+[00:04:19.415][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.415][silabs ][LIT] INFO: ColorTemp: 65000 Level: 250-100, output CW: 100 WW: 0
+[00:04:19.419][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.419][silabs ][LIT] INFO: ColorTemp: 65000 Level: 251-100, output CW: 100 WW: 0
+[00:04:19.424][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.424][silabs ][LIT] INFO: ColorTemp: 65000 Level: 252-100, output CW: 100 WW: 0
+[00:04:19.430][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.430][silabs ][LIT] INFO: ColorTemp: 65000 Level: 253-100, output CW: 100 WW: 0
+[00:04:19.435][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.435][silabs ][LIT] INFO: ColorTemp: 65000 Level: 254-101, output CW: 101 WW: 0
+[00:04:19.441][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.441][silabs ][LIT] INFO: ColorTemp: 65000 Level: 255-101, output CW: 101 WW: 0
+[00:04:19.446][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.446][silabs ][LIT] INFO: ColorTemp: 65000 Level: 256-101, output CW: 101 WW: 0
+[00:04:19.451][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.451][silabs ][LIT] INFO: ColorTemp: 65000 Level: 257-102, output CW: 102 WW: 0
+[00:04:19.456][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.456][silabs ][LIT] INFO: ColorTemp: 65000 Level: 258-102, output CW: 102 WW: 0
+[00:04:19.461][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.461][silabs ][LIT] INFO: ColorTemp: 65000 Level: 259-102, output CW: 102 WW: 0
+[00:04:19.467][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.467][silabs ][LIT] INFO: ColorTemp: 65000 Level: 260-103, output CW: 103 WW: 0
+[00:04:19.473][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.473][silabs ][LIT] INFO: ColorTemp: 65000 Level: 261-103, output CW: 103 WW: 0
+[00:04:19.479][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.479][silabs ][LIT] INFO: ColorTemp: 65000 Level: 262-103, output CW: 103 WW: 0
+[00:04:19.485][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.485][silabs ][LIT] INFO: ColorTemp: 65000 Level: 263-103, output CW: 103 WW: 0
+[00:04:19.490][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.490][silabs ][LIT] INFO: ColorTemp: 65000 Level: 264-104, output CW: 104 WW: 0
+[00:04:19.496][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.496][silabs ][LIT] INFO: ColorTemp: 65000 Level: 265-104, output CW: 104 WW: 0
+[00:04:19.500][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.500][silabs ][LIT] INFO: ColorTemp: 65000 Level: 266-104, output CW: 104 WW: 0
+[00:04:19.506][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.506][silabs ][LIT] INFO: ColorTemp: 65000 Level: 267-105, output CW: 105 WW: 0
+[00:04:19.512][silabs ][LIT] INFO: target_brightness: 268, step_brightness:1
+[00:04:19.512][silabs ][LIT] INFO: ColorTemp: 65000 Level: 268-105, output CW: 105 WW: 0
+[00:04:19.518][silabs ][LIT] INFO: operation completed, output CW: 105 WW: 0
+[00:05:03.821][silabs ][CLS] INFO: Callback: Unknown clusterId=0x002a attributeId=0x0002
+[00:05:03.877][error ][SWU] Received QueryImage failure response: 501
+[00:05:03.877][silabs ][CLS] INFO: Callback: Unknown clusterId=0x002a attributeId=0x0002
