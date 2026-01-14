@@ -13,7 +13,14 @@
 	/vscode-markdown-toc-config -->
 <!-- /vscode-markdown-toc -->
 
-[hrf](hrf.md)
+[hrf](hrf.md)  
+[blink-test-code](./files/ez/blink-test-code.md)  
+
+## 0. Serial Port
+```c
+//VCom,PA7-TX,PA8-RX
+Baudrate:961200
+```
 
 ##  1. <a name='Code'></a>Code
 ```c

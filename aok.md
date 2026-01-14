@@ -22,6 +22,14 @@ python3 gen_ota.py
   <img src="files/aok/HM-MT2401-SCH.png" width="1080">
 </div>
 
+# Serial Port
+```c
+//VCom,PA7-TX,PA8-RX
+Baudrate:961200
+//Custom,PB1-TX,PB2-RX
+Baudrate:9600
+```
+
 # Code
 ## Matter
 ```c

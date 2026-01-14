@@ -17,6 +17,13 @@ Post Code: 518052
 Tel: +86-755-82973805 / 4001-189-180
 Fax: +86-755-82973550
 ```
+# Working Time
+```c
+http://ai.hoperf.cn
+HP1239
+Er..1
+```
+
 # Tool
 [WCH-BLEAnalyzer](https://www.wch.cn/downloads/WCH_BLEAnalyzer_zip.html)
 

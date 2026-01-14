@@ -7,7 +7,7 @@
 |  |  |  |
 |20260116|||
 |20260115|||
-|20260114|||
+|20260114|EZ,app control bug(turn on but it off||
 |20260113|aok02_matter_ac, porting from aok02_matter_dc, MTD-FTD||
 |20260112|aok02_matter_dc,code commit. Start the AC project, check project privded by KL||
 |  |  |  |
