@@ -83,7 +83,7 @@ void AppTask::PdEventHandler(AppEvent * aEvent)
 }
 ```
 
-## GPIO
+## GPIO(PWM)
 ```c
 #include "sl_gpio.h"
 sl_gpio_t gpio;
@@ -104,7 +104,14 @@ EFR32MG24A420F1536IM40
 [2号:MT:K2CA0YDG150LSN6MC10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AK2CA0YDG150LSN6MC10)  
 [3号:MT:K2CA0AFT02KQ194RJ10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AK2CA0AFT02KQ194RJ10)  
 [4号:MT:K2CA04QO161KD754L10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AK2CA04QO161KD754L10)  
+[4号:MT:6FCJ142C00KA0648G00](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3A6FCJ142C00KA0648G00)  
 [5号:MT:K2CA0C0X17IIIZ3MY10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AK2CA0C0X17IIIZ3MY10)  
+
+## Customer Report Issue
+1、PWM信号频率改为16KHZ  
+2、最低占空比1%分辨率降低一半  
+3、断电时来电记忆亮灯爆闪  
+4、最小亮度时APP开灯和关断没有缓冲  
 
 ## Fade in&out
 ```c
@@ -228,41 +235,18 @@ This FW, brightness < 20%, it also blink. Compare with the 16KHz FW(<50%), it sh
 - 循环次数和i统一，每步都能输出CW/WW一个成对的PWM
 - 效果:从0到亮，两个灯珠从头到尾共进退一视觉渐亮同步
 
-
+## Commander CLI
 ```c
 C:\SiliconLabs\SimplicityStudio\v5>commander security unlock --command-key command_key.pem --unlock-param 1111 --device EFR32MG24A410F1536IM40 -s 602712820
 Unlocking with unlock payload:
 C:/Users/Administrator/AppData/Local/SiliconLabs/commander/SecurityStore/device_0000000000000000d44867fffe8997ee/challenge_e4e3184d31be0e7428a6d0367269b5f7/unlock_payload_0000000000111110.bin
 Secure debug successfully unlocked
 DONE
-
-C:\SiliconLabs\SimplicityStudio\v5>pause
-请按任意键继续. . .
 ```
-
 ```c
-C:\Si\ws\ez01_matter\release-fw\signfw\v0.0.13>commander flash ez01_matter-signed--v0.0.13-2d274330.s37 --device efr32mg24
-WARNING: DCI communication failed, trying again after reset...
-WARNING: Could not connect to target device
-ERROR: Debug access is locked. Could not connect to device
-DONE
-
-C:\Si\ws\ez01_matter\release-fw\signfw\v0.0.13>commander flash ez01_matter-signed--v0.0.13-2d274330.s37 --device efr32mg24
-WARNING: Could not connect to target device
-ERROR: Debug access is locked. Could not connect to device
-DONE
-
-C:\Si\ws\ez01_matter\release-fw\signfw\v0.0.13>commander flash ez01_matter-signed--v0.0.13-2d274330.s37 --device efr32mg24 --no-reset
-ERROR: The following options were not recognized: no-reset
-DONE
-
-C:\Si\ws\ez01_matter\release-fw\signfw\v0.0.13>commander flash ez01_matter-signed--v0.0.13-2d274330.s37 --device efr32mg24 --noreset
-ERROR: DP write failed
-WARNING: Could not get SE status
-WARNING: Could not connect to target device
-ERROR: Debug access is locked. Could not connect to device
-DONE
-
+commander flash ez01_matter-signed--v0.0.13-2d274330.s37 --device efr32mg24 --no-reset
+```
+```c
 C:\Si\ws\ez01_matter\release-fw\signfw\v0.0.13>commander security status --device efr32mg24
 WARNING: DP write failed
 DCI communication failed, retrying after reset and 10 ms delay...
@@ -278,27 +262,16 @@ Boot status           : 0x20 - OK
 Command key installed : True
 Sign key installed    : True
 DONE
+```
+## Timer Priority
+```c
+C:\Si\SDKs\simplicity_sdk_v2025.6.2\extension\matter_extension\third_party\matter_sdk\examples\platform\silabs\BaseApplication.cpp
+constexpr osThreadAttr_t appTaskAttr = { .name       = APP_TASK_NAME,
+                                         .attr_bits  = osThreadDetached,
+                                         .cb_mem     = &appTaskControlBlock,
+                                         .cb_size    = osThreadCbSize,
+                                         .stack_mem  = appStack,
+                                         .stack_size = APP_TASK_STACK_SIZE,
+                                         .priority   = osPriorityNormal };
 
-C:\Si\ws\ez01_matter\release-fw\signfw\v0.0.13>commander flash ez01_matter-signed--v0.0.13-2d274330.s37 --device efr32mg24 --noreset
-ERROR: DP write failed
-WARNING: Could not get SE status
-WARNING: Could not connect to target device
-ERROR: Debug access is locked. Could not connect to device
-DONE
-
-C:\Si\ws\ez01_matter\release-fw\signfw\v0.0.13>commander security status --device efr32mg24
-WARNING: DP write failed
-DCI communication failed, retrying after reset and 10 ms delay...
-Resetting device...
-SE Firmware version   : 2.2.5
-Serial number         : 0000000000000000d44867fffe8b63ab
-Debug lock            : Enabled
-Device erase          : Enabled
-Secure debug unlock   : Enabled
-Tamper status         : OK
-Secure boot           : Enabled
-Boot status           : 0x20 - OK
-Command key installed : True
-Sign key installed    : True
-DONE
 ```

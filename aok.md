@@ -1,7 +1,8 @@
 [hrf](hrf.md)  
 [vcom-log](./files/aok/vcom-log.md)  
-[aok-ac](aok-ac.md)  
-[aok-ryl](aok-ryl.md)  
+[aok-ota](./files/aok/aok-ota.md)  
+[aok-ac](./files/aok/aok-ac.md)  
+[aok-ryl](./files/aok/aok-ryl.md)  
 
 # FW Release
 ## File Signature
@@ -375,6 +376,8 @@ void BLEManagerImpl::HandleConnectParams(volatile sl_bt_msg_t * evt)
 CHIP_ERROR BLEChannelImpl::SetConnectionParams()
     CHIP_ERROR SideChannelSetConnectionParams(const Optional<uint8_t> & connectionHandle, uint32_t intervalMin,
                                               uint32_t intervalMax, uint16_t latency, uint16_t timeout)
+
+//BaseApplication.cpp                                              
 #if defined(SL_BLE_SIDE_CHANNEL_ENABLED) && SL_BLE_SIDE_CHANNEL_ENABLED
     ReturnErrorOnFailure(sBleSideChannel.Init());
     DeviceLayer::Internal::BLEMgrImpl().InjectSideChannel(&sBleSideChannel);
@@ -485,14 +488,12 @@ Notify      Make the side channel send a notify event for its tx characteristic 
 Indicate    Make the side channel send an indicate event for its tx characteristic (if the CCCD is set)
 Done
 ```
+
+# Matter log
+```c
+C:\Si\ws\aok02_matter_dc\config\sl_matter_config.h
+#define SL_MATTER_LOG_LEVEL SL_MATTER_LOG_DETAIL
+```
+
 # QR code
 [MT:SAGA442C00KA0648G00](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3ASAGA442C00KA0648G00)
-
-# To Do
-```c
-//Add include
-//Right Click on project->Properties->C/C++ Build->Setting->GNU ARM C++ Compiler->Includes
-"${StudioSdkPath}/extension/matter_extension/third_party/matter_sdk/examples/platform/silabs/shell/ble"
-//Add library
-//Right Click on project->Properties->C/C++ Build->Setting->GNU ARM C++ Linker->Miscellaneous
-${StudioSdkPath}/protocol/bluetooth/build/gcc/cortex-m33/ble_host/ble_bgapi/release/libble_bgapi_gatt_client.a
