@@ -94,17 +94,47 @@ gpio.port = SL_GPIO_PORT_A;
 gpio.pin  = 6;
 sl_gpio_set_pin_mode(&gpio, SL_GPIO_MODE_PUSH_PULL, 0);
 ```
+```c
+//Use TIMER0 for PWM
+static sl_led_pwm_t cold_light = {
+    .port     = gpioPortA,
+    .pin      = 6,
+    .level    = SL_SIMPLE_RGB_PWM_LED_LIGHT_RESOLUTION - 1,
+    .polarity = 1,
+    .channel  = 1,
+#if defined(SL_SIMPLE_RGB_PWM_LED_LIGHT_GREEN_LOC)
+    .location = SL_SIMPLE_RGB_PWM_LED_LIGHT_GREEN_LOC,
+#endif
+    .timer      = TIMER0,
+    .frequency  = SL_SIMPLE_RGB_PWM_LED_LIGHT_FREQUENCY * 2,
+    .resolution = SL_SIMPLE_RGB_PWM_LED_LIGHT_RESOLUTION,
+};
+
+static sl_led_pwm_t warm_light = {
+    .port     = gpioPortA,
+    .pin      = 5,
+    .level    = 0,
+    .polarity = 0,
+    .channel  = 0,
+#if defined(SL_SIMPLE_RGB_PWM_LED_LIGHT_BLUE_LOC)
+    .location = SL_SIMPLE_RGB_PWM_LED_LIGHT_BLUE_LOC,
+#endif
+    .timer      = TIMER0,
+    .frequency  = SL_SIMPLE_RGB_PWM_LED_LIGHT_FREQUENCY * 2,
+    .resolution = SL_SIMPLE_RGB_PWM_LED_LIGHT_RESOLUTION,
+};
+```
 ## Part No.
 ```c
 EFR32MG24A420F1536IM40
 ```
 
 ## QR
+[Default:MT:6FCJ142C00KA0648G00](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3A6FCJ142C00KA0648G00)  
 [1号:MT:K2CA0WSC00UOGZ72M10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AK2CA0WSC00UOGZ72M10)  
 [2号:MT:K2CA0YDG150LSN6MC10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AK2CA0YDG150LSN6MC10)  
 [3号:MT:K2CA0AFT02KQ194RJ10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AK2CA0AFT02KQ194RJ10)  
 [4号:MT:K2CA04QO161KD754L10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AK2CA04QO161KD754L10)  
-[4号:MT:6FCJ142C00KA0648G00](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3A6FCJ142C00KA0648G00)  
 [5号:MT:K2CA0C0X17IIIZ3MY10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AK2CA0C0X17IIIZ3MY10)  
 
 ## Customer Report Issue
@@ -235,34 +265,7 @@ This FW, brightness < 20%, it also blink. Compare with the 16KHz FW(<50%), it sh
 - 循环次数和i统一，每步都能输出CW/WW一个成对的PWM
 - 效果:从0到亮，两个灯珠从头到尾共进退一视觉渐亮同步
 
-## Commander CLI
-```c
-C:\SiliconLabs\SimplicityStudio\v5>commander security unlock --command-key command_key.pem --unlock-param 1111 --device EFR32MG24A410F1536IM40 -s 602712820
-Unlocking with unlock payload:
-C:/Users/Administrator/AppData/Local/SiliconLabs/commander/SecurityStore/device_0000000000000000d44867fffe8997ee/challenge_e4e3184d31be0e7428a6d0367269b5f7/unlock_payload_0000000000111110.bin
-Secure debug successfully unlocked
-DONE
-```
-```c
-commander flash ez01_matter-signed--v0.0.13-2d274330.s37 --device efr32mg24 --no-reset
-```
-```c
-C:\Si\ws\ez01_matter\release-fw\signfw\v0.0.13>commander security status --device efr32mg24
-WARNING: DP write failed
-DCI communication failed, retrying after reset and 10 ms delay...
-Resetting device...
-SE Firmware version   : 2.2.5
-Serial number         : 0000000000000000d44867fffe8b63ab
-Debug lock            : Enabled
-Device erase          : Enabled
-Secure debug unlock   : Enabled
-Tamper status         : OK
-Secure boot           : Enabled
-Boot status           : 0x20 - OK
-Command key installed : True
-Sign key installed    : True
-DONE
-```
+
 ## Timer Priority
 ```c
 C:\Si\SDKs\simplicity_sdk_v2025.6.2\extension\matter_extension\third_party\matter_sdk\examples\platform\silabs\BaseApplication.cpp
@@ -275,3 +278,65 @@ constexpr osThreadAttr_t appTaskAttr = { .name       = APP_TASK_NAME,
                                          .priority   = osPriorityNormal };
 
 ```
+
+## Curve
+```c
+static uint32_t calculate_curve_pwm(uint32_t brightness, const slsd_model_entry_t * model, uint8_t model_entry_count)
+{
+    uint32_t res = 0;
+
+    if (brightness >= model[0].brightness) {
+        // Return with max pwm if brightness is greater than the max brightness in the model.
+        res = model[0].pwm;
+    } else if (brightness <= model[model_entry_count - 1].brightness) {
+        // Return with min pwm if brightness is smaller than the min brightness in the model.
+        res = model[model_entry_count - 1].pwm;
+    } else {
+        uint8_t i;
+        // Otherwise find the 2 points in the model where the brightness level fits in between,
+        // and do linear interpolation to get the estimated pwm value.
+        for (i = 0; i < (model_entry_count - 1); i++) {
+            if ((brightness < model[i].brightness) && (brightness >= model[i + 1].brightness)) {
+                res = (brightness - model[i + 1].brightness) * (model[i].pwm - model[i + 1].pwm) /
+                    (model[i].brightness - model[i + 1].brightness);
+                res += model[i + 1].pwm;
+                break;
+            }
+        }
+    }
+
+    return res;
+}
+//model[i+1].brightness（区间下限亮度）
+//model[i].brightness（区间上限亮度）
+//model[i+1].pwm（区间下限PWM）
+//model[i].pwm（区间上限PWM）
+```
+```c
+    curve_brightness = calculate_curve_pwm(cur_brightness, slsd_entry_5s, sizeof(slsd_entry_5s) / sizeof(slsd_model_entry_t));
+    c_temp = static_cast<uint16_t>((curve_brightness * (cur_colortemp - min_colortemp)) / (max_colortemp - min_colortemp));
+    w_temp = static_cast<uint16_t>((curve_brightness * (max_colortemp - min_colortemp - (cur_colortemp - min_colortemp))) /
+                                   (max_colortemp - min_colortemp));
+//总亮度 = 冷光亮度 + 暖光亮度 = c_temp + w_temp = curve_brightness
+//色温比例计算
+cold_ratio = (cur_colortemp - min_colortemp) / (max_colortemp - min_colortemp)
+warm_ratio = 1 - cold_ratio
+```   
+```c
+//直接对应两个PWM通道
+_light_ll_set_level(c_temp, w_temp);
+```                                
+
+## PWM
+### Not in Matter Net
+It does not blink.
+
+<div align="center">
+  <img src="files/ez/pwm-no-net.png" width="1080">
+</div>
+
+Control by app or press RC, it do blink.
+
+<div align="center">
+  <img src="files/ez/pwm-app-operate.png" width="1080">
+</div>

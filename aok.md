@@ -3,6 +3,7 @@
 [aok-ota](./files/aok/aok-ota.md)  
 [aok-ac](./files/aok/aok-ac.md)  
 [aok-ryl](./files/aok/aok-ryl.md)  
+[side-channel](./files/aok/side-channel.md)  
 
 # FW Release
 ## File Signature
@@ -18,6 +19,16 @@ python3 gen_ota.py
 .\config\app_properties_config.h
 #define SL_APPLICATION_VERSION                 17
 ```
+## Product Type
+```c
+static ble_product_type_t _ble_dev_type = kBLEProduct_A;
+typedef enum
+{
+    kBLEProduct_A = 0, /* Product A-OK */
+    kBLEProduct_P = 1, /* Product Pergolux */
+} ble_product_type_t;
+```
+
 # HW
 <div align="center">
   <img src="files/aok/HM-MT2401-SCH.png" width="1080">
@@ -74,6 +85,30 @@ git push --set-upstream origin feature-multi-adv-config
 // aok02_bootloader
 $ git clone git@hoperf-matter:matter/customerproject/aok02_bootloader.git
 ```
+
+## SDK Patch
+```c
+Administrator@USER-20251222OC MINGW64 /c/Si/SDKs/simplicity_sdk_v2025.6.2 (branch_tag)
+$ grep -rin "AOK02_MATTER_PROJECT"
+extension/matter_extension/third_party/matter_sdk/src/app/SpecificationDefinedRevisions.h:34:#if defined(AOK02_MATTER_PROJECT)
+extension/matter_extension/third_party/matter_sdk/src/app/SpecificationDefinedRevisions.h:48:#if defined(AOK02_MATTER_PROJECT)
+extension/matter_extension/third_party/matter_sdk/src/app/SpecificationDefinedRevisions.h:61:#if defined(AOK02_MATTER_PROJECT)
+extension/matter_extension/third_party/matter_sdk/src/app/util/attribute-storage.cpp:82:#if defined(AOK02_MATTER_PROJECT)
+extension/matter_extension/third_party/matter_sdk/src/app/util/attribute-storage.cpp:229:#if defined(AOK02_MATTER_PROJECT)
+extension/matter_extension/third_party/matter_sdk/src/platform/silabs/efr32/BLEManagerImpl.cpp:65:#if defined(AOK02_MATTER_PROJECT)
+extension/matter_extension/third_party/matter_sdk/src/platform/silabs/efr32/BLEManagerImpl.cpp:550:#if defined(AOK02_MATTER_PROJECT)
+extension/matter_extension/third_party/matter_sdk/src/platform/silabs/efr32/BLEManagerImpl.cpp:564:#if defined(AOK02_MATTER_PROJECT)
+extension/matter_extension/third_party/matter_sdk/src/platform/silabs/efr32/BLEManagerImpl.cpp:588:#if defined(AOK02_MATTER_PROJECT)
+extension/matter_extension/third_party/matter_sdk/src/platform/silabs/efr32/BLEManagerImpl.cpp:704:#if defined(AOK02_MATTER_PROJECT)
+extension/matter_extension/third_party/matter_sdk/src/platform/silabs/efr32/BLEManagerImpl.cpp:1333:#if defined(AOK02_MATTER_PROJECT)
+extension/matter_extension/third_party/matter_sdk/src/platform/silabs/efr32/BLEManagerImpl.cpp:1340:#if defined(AOK02_MATTER_PROJECT)
+extension/matter_extension/third_party/matter_sdk/src/platform/silabs/efr32/BLEManagerImpl.cpp:1368:#if defined(AOK02_MATTER_PROJECT)
+extension/matter_extension/third_party/matter_sdk/src/platform/silabs/efr32/BLEManagerImpl.cpp:1409:#if defined(AOK02_MATTER_PROJECT)
+extension/matter_extension/third_party/matter_sdk/src/platform/silabs/efr32/BLEManagerImpl.cpp:1416:#if defined(AOK02_MATTER_PROJECT)
+extension/matter_extension/third_party/matter_sdk/src/platform/silabs/efr32/BLEManagerImpl.cpp:1422:#if defined(AOK02_MATTER_PROJECT)
+extension/matter_extension/third_party/matter_sdk/src/platform/silabs/efr32/BLEManagerImpl.cpp:1458:#if defined(AOK02_MATTER_PROJECT)
+```
+
 # Matter BLE
 | Service     | UUID                                 | characteristic  | UUID                                 |
 | ----------- | ------------------------------------ | --------------- | ------------------------------------ |
@@ -372,20 +407,7 @@ void BLEManagerImpl::HandleConnectParams(volatile sl_bt_msg_t * evt)
     //...
 }
 ```
-```c
-CHIP_ERROR BLEChannelImpl::SetConnectionParams()
-    CHIP_ERROR SideChannelSetConnectionParams(const Optional<uint8_t> & connectionHandle, uint32_t intervalMin,
-                                              uint32_t intervalMax, uint16_t latency, uint16_t timeout)
 
-//BaseApplication.cpp                                              
-#if defined(SL_BLE_SIDE_CHANNEL_ENABLED) && SL_BLE_SIDE_CHANNEL_ENABLED
-    ReturnErrorOnFailure(sBleSideChannel.Init());
-    DeviceLayer::Internal::BLEMgrImpl().InjectSideChannel(&sBleSideChannel);
-
-    DeviceLayer::Internal::BLEMgrImpl().SideChannelConfigureAdvertisingDefaultData();
-    DeviceLayer::Internal::BLEMgrImpl().SideChannelStartAdvertising();
-#endif
-```
 ```c
     case sl_bt_evt_connection_opened_id:
     case sl_bt_evt_connection_parameters_id: 
@@ -476,17 +498,6 @@ main()-main.c
                         app_ble_mgr_open_rc_join() //need to remove,since it not use Matter BLE handle
                         app_nwk_open_basic_commissioning_window()
                             chip::Server::GetInstance().GetCommissioningWindowManager().OpenBasicCommissioningWindow()
-```
-# Silabs Support
-```c
-matterCli> ble-side
-
-help        Output the BLE Commands help menu
-AdvStart    Start BLE Side Channel advertising with default parameters
-AdvStop     Stop BLE Side Channel advertising
-Notify      Make the side channel send a notify event for its tx characteristic (if the CCCD is set)
-Indicate    Make the side channel send an indicate event for its tx characteristic (if the CCCD is set)
-Done
 ```
 
 # Matter log

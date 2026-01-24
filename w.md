@@ -2,7 +2,12 @@
 
 |Date | Job | Remark | 
 | ---- | ---- | ---- |
-|20260119|||
+|20260124|EZ, fine tuning||
+|20260123|SSv6 testing||
+|20260122|aok02_matter_dc,get ready for OTA release;EZ,code retrim and commit||
+|20260121|EZ,blink(Power and MBF)||
+|20260120|aok02_matter_dc,remove adv after connected for product AOK;EZ,blink||
+|20260119|EZ,blink;aok02_matter_dc,remove adv after connected for product AOK||
 |  |  |  |
 |  |  |  |
 |20260116|EZ,blink||
@@ -20,7 +25,7 @@
 |20260104|aok02_matter_dc,RC use a new BLE instance.EZ, power on Blink issue||
 |  |  |  |
 |  |  |  |
-| |  |  |
+|  |  |  |
 |20251231|aok02_matter_dc,change parameter||
 |20251230|aok02_matter_dc,modify according to Silabs feedback||
 |20251229|aok02_matter_dc,environment setup, modify according to Silabs feedback||
