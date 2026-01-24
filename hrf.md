@@ -46,12 +46,12 @@ git fetch --tags
 git checkout tags/v2.8.0 -f
 ```
 ```c
-git reset --hard HEAD   # 永久删除未提交的更改
-git switch -            # 返回上一个分支
-git checkout -          # 返回上一个分支
-git branch -r           # 查看远程分支
-git branch -a           # 查看所有分支（本地+远程）
-git remote -v           # 显示所有远程仓库的名称和URL
+git reset --hard HEAD   # Remove all uncommitted changes
+git switch -            # Return to the previous branch
+git checkout -          # Return to the previous branch
+git branch -r           # Check remote branches
+git branch -a           # Check all branches (local + remote)
+git remote -v           # Show all remote repositories' names and URLs
 ```
 ## git account
 ```c
