@@ -1,6 +1,42 @@
 [hrf](../../hrf.md)  
 [aok](../../aok.md)  
+[SSv6 side channel](sideChannelTestLog.md)
+## File
+```c
+matter_2.7.0/third_party/matter_sdk/src/platform/silabs/efr32/BLEChannelImpl.cpp
+STUDIO_SDK_LOC\extension\matter_extension\third_party\matter_sdk\src\platform\silabs\efr32\BLEChannelImpl.cpp
+C:\Si\SDKs\simplicity_sdk_v2025.6.2\extension\matter_extension\third_party\matter_sdk\src\platform\silabs\efr32\BLEChannelImpl.cpp
+```
+```c
+/aok02_matter_dc_si_ch/matter_2.7.0/third_party/matter_sdk/src/platform/silabs/efr32/BLEChannelImpl.h
+STUDIO_SDK_LOC\extension\matter_extension\third_party\matter_sdk\src\platform\silabs\efr32\BLEChannelImpl.h
+C:\Si\SDKs\simplicity_sdk_v2025.6.2\extension\matter_extension\third_party\matter_sdk\src\platform\silabs\efr32\BLEChannelImpl.h
+```
+```c
+matter_2.7.0/third_party/matter_sdk/examples/platform/silabs/shell/ble/BLEShellCommands.cpp
+STUDIO_SDK_LOC\extension\matter_extension\third_party\matter_sdk\examples\platform\silabs\shell\ble
+C:\Si\SDKs\simplicity_sdk_v2025.6.2\extension\matter_extension\third_party\matter_sdk\examples\platform\silabs\shell\ble\BLEShellCommands.cpp
+```
+```c
+matter_2.7.0/third_party/matter_sdk/examples/platform/silabs/shell/ble/BLEShellCommands.h
+STUDIO_SDK_LOC\extension\matter_extension\third_party\matter_sdk\examples\platform\silabs\shell\ble
+C:\Si\SDKs\simplicity_sdk_v2025.6.2\extension\matter_extension\third_party\matter_sdk\examples\platform\silabs\shell\ble\BLEShellCommands.h
+```
+```c
+simplicity_sdk_2025.6.2/protocol/bluetooth/build/gcc/cortex-m33/ble_host/ble_bgapi/release/libble_bgapi_gatt_client.a
+STUDIO_SDK_LOC\protocol\bluetooth\build\gcc\cortex-m33\ble_host\ble_bgapi\release\libble_bgapi_gatt_client.a
+C:\Si\SDKs\simplicity_sdk_v2025.6.2\protocol\bluetooth\build\gcc\cortex-m33\ble_host\ble_bgapi\release\libble_bgapi_gatt_client.a
+```
+### SSv6
+```c
+//source
+    "${SDK_PATH}/../../matte66ea43dc8d7de/p/third_party/matter_sdk/src/platform/silabs/efr32/BLEChannelImpl.cpp"
+    "${SDK_PATH}/../../matte66ea43dc8d7de/p/third_party/matter_sdk/examples/platform/silabs/shell/ble/BLEShellCommands.cpp"
 
+//include
+    "${SDK_PATH}/../../matte66ea43dc8d7de/p/third_party/matter_sdk/src/platform/silabs/efr32"
+    "${SDK_PATH}/../../matte66ea43dc8d7de/p/third_party/matter_sdk/examples/platform/silabs/shell/ble"    
+```
 ## Cli
 ```c
 matterCli> ble-side
@@ -169,5 +205,26 @@ CHIP_ERROR BLEChannelImpl::StartAdvertising(void)
     ChipLogProgress(DeviceLayer, "BLE Advertising started successfully");
 
     return CHIP_NO_ERROR;
+}
+```
+## ble on
+```c
+extern "C" void sl_bt_on_event(sl_bt_msg_t * evt)
+{
+    [[maybe_unused]] chip::DeviceLayer::Internal::BLEManagerImpl::EventFilter eventFilter;
+    eventFilter = chip::DeviceLayer::Internal::BLEMgrImpl().ParseEvent(evt);
+
+#if SL_BLE_SIDE_CHANNEL_ENABLED
+    if (chip::DeviceLayer::Internal::BLEMgrImpl().GetSideChannel() != nullptr &&
+        eventFilter != chip::DeviceLayer::Internal::BLEManagerImpl::EventFilter::MatterReservedEvent)
+    {
+        // The side channel may process events directly.
+        chip::DeviceLayer::Internal::BLEMgrImpl().GetSideChannel()->ParseEvent(evt);
+    }
+#endif
+
+#ifdef SL_CATALOG_MATTER_BLE_DMP_TEST_PRESENT
+    zigbee_bt_on_event(evt);
+#endif // SL_CATALOG_MATTER_BLE_DMP_TEST_PRESENT
 }
 ```

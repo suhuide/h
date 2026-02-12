@@ -14,6 +14,7 @@
 <!-- /vscode-markdown-toc -->
 
 [hrf](hrf.md)  
+[reset](./files/ez/reset.md)  
 [blink-test-code](./files/ez/blink-test-code.md)  
 
 ## 0. Serial Port
@@ -328,6 +329,10 @@ _light_ll_set_level(c_temp, w_temp);
 ```                                
 
 ## PWM
+### Adjust
+```c
+app_light_mgr_move_cw_with_time()
+```
 ### Not in Matter Net
 It does not blink.
 
@@ -340,3 +345,35 @@ Control by app or press RC, it do blink.
 <div align="center">
   <img src="files/ez/pwm-app-operate.png" width="1080">
 </div>
+
+### CW
+```c
+//gpio_communicate_protocol_mainloop()
+[11:05:59.411]  [00:07:38.811][silabs ][RCT] INFO: GC_RCV_DATA: RemoteControlID=00000 CODE=07
+//_process_rc_key_move_ct()
+[11:05:59.412]  [00:07:38.811][silabs ][RCT] INFO: CT 430, STEP 55
+//MatterPostAttributeChangeCallback()
+[11:05:59.413]  [00:07:38.812][silabs ][CLS] INFO: Callback: ColorControl ColorTemperature=430 current_level=77
+//app_light_mgr_move_cw_with_time()
+[11:05:59.414]  [00:07:38.812][silabs ][LIT] INFO: CT 23126->43000(100) BR 746->746(2)
+//_slsd_timer_event_handler()
+[11:06:00.519]  [00:07:39.919][silabs ][LIT] INFO: operation completed, output CW: 163 WW: 109
+
+[11:06:24.149]  [00:08:03.547][silabs ][RCT] INFO: GC_RCV_DATA: RemoteControlID=00000 CODE=07
+[11:06:24.150]  [00:08:03.547][silabs ][RCT] INFO: CT 485, STEP 55
+[11:06:24.150]  [00:08:03.548][silabs ][CLS] INFO: Callback: ColorControl ColorTemperature=485 current_level=77
+[11:06:24.151]  [00:08:03.548][silabs ][LIT] INFO: CT 43000->48500(28) BR 746->746(2)
+[11:06:25.252]  [00:08:04.652][silabs ][LIT] INFO: operation completed, output CW: 191 WW: 81
+```
+```mermaid
+graph TD
+    A[gpio_communicate_protocol_mainloop] --> |then| B[_process_rc_key_move_ct]
+	B --> |then| C[MatterPostAttributeChangeCallback]
+    C --> |then| D[app_light_mgr_move_cw_with_time]
+	D --> |then| E[_slsd_timer_event_handler]
+	style A fill:#f9f,stroke:#333,stroke-width:2px
+	style B fill:#09f,stroke:#333,stroke-width:2px
+	style C fill:#4f0,stroke:#333,stroke-width:2px
+	style D fill:#87f,stroke:#333,stroke-width:2px
+	style E fill:#9f0,stroke:#333,stroke-width:2px
+```

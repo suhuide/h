@@ -4,7 +4,13 @@
 [aok-ac](./files/aok/aok-ac.md)  
 [aok-ryl](./files/aok/aok-ryl.md)  
 [side-channel](./files/aok/side-channel.md)  
-
+[chip-tool](./files/aok/chip-tool-pair.md)  
+[commission-by-apple](./files/aok/commission-by-apple.md)  
+[commission-by-sumsung](./files/aok/commission-by-sumsung.md)  
+[commission-by-raspi](./files/aok/commission-by-raspi.md)  
+[commission-by-raspi-chiptool](./files/aok/commission-by-raspi-chiptool.md)  
+[thread-ctl-msg-link](./files/aok/thread-ctl-msg-link.md)  
+[rgb-serial-data](./files/aok/rgb-serial-data.md)  
 # FW Release
 ## File Signature
 ```c
@@ -40,6 +46,61 @@ typedef enum
 Baudrate:961200
 //Custom,PB1-TX,PB2-RX
 Baudrate:9600
+```
+# Boot Log
+```c
+[00:00:00.067][info  ][DL] Starting scheduler
+[00:00:00.067][info  ][DL] ==================================================
+[00:00:00.067][info  ][DL]  starting
+[00:00:00.067][info  ][DL] ==================================================
+[00:00:00.068][info  ][DL] Init CHIP Stack
+[00:00:00.069][info  ][DL] Provision mode disabled
+[00:00:00.069][info  ][DL] Initializing OpenThread stack
+[00:00:00.070][info  ][DL] OpenThread started: OK
+[00:00:00.070][info  ][DL] Setting OpenThread device type to SLEEPY END DEVICE
+[00:00:00.119][info  ][DL] Bluetooth stack booted: v11.0.0-b0
+[00:00:00.119][info  ][DL] RAIL version:, v3.0.0-b0
+[00:00:00.120][info  ][DL] _OnPlatformEvent default:  event->Type = 32779
+[00:00:00.121][info  ][SVR] Current Software Version String: 1
+[00:00:00.121][info  ][SVR] Current Software Version: 1
+[00:00:00.121][info  ][DL] Device Configuration:
+[00:00:00.121][info  ][DL]   Serial Number: 38398FFFFE520BF5
+[00:00:00.122][info  ][DL]   Vendor Id: 65521 (0xFFF1)
+[00:00:00.122][info  ][DL]   Product Id: 32784 (0x8010)
+[00:00:00.122][info  ][DL]   Product Name: SL_Sample
+
+Missed Logs: 1
+[00:00:00.122][info  ][DL]   Hardware Version: 1
+
+Missed Logs: 1
+[00:00:00.123][info  ][DL]   Setup Pin Code (0 for UNKNOWN/ERROR): 0
+[00:00:00.123][info  ][DL]   Setup Discriminator (0xFFFF for UNKNOWN/ERROR): 3840 (0xF00)
+[00:00:00.123][info  ][DL]   Manufacturing Date: (not set)
+[00:00:00.123][info  ][DL]   Device Type: 65535 (0xFFFF)
+[00:00:00.124][info  ][SVR] SetupQRCode: [MT:SAGA442C00KA0648G00]
+[00:00:00.124][info  ][SVR] Copy/paste the below URL in a browser to see the QR Code:
+[00:00:00.124][info  ][SVR] https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3ASAGA442C00KA0648G00
+[00:00:00.125][silabs ]Ver: 1 Btl: 0x03020000 Time:Feb  3 2026 15:37:04
+[00:00:00.125][silabs ]Reset Reason: 0x00000000
+[00:00:00.126][silabs ]BLE: advertiser start
+[00:00:00.128][silabs ]COM: Init done
+[00:00:00.128][silabs ]NWK: open basic commissioning window time 300 sec
+[00:00:00.130][info  ][DIS] Updating services using commissioning mode 1
+
+Missed Logs: 1
+[00:00:00.130][error ][DIS] Failed to remove advertised services: 3
+[00:00:00.131][info  ][DIS] Advertise commission parameter vendorID=65521 productID=32784 discriminator=3840/15 cm=1 cp=0 jf=0
+[00:00:00.131][error ][DIS] Failed to advertise commissionable node: 3
+[00:00:00.131][error ][DIS] Failed to finalize service update: 3
+[00:00:00.132][info  ][DL] Starting advertising with interval_min=32, intverval_max=96 (units of 625us)
+[00:00:00.133][info  ][DL] _OnPlatformEvent default:  event->Type = 32781
+[00:00:00.133][silabs ]NWK: platform event type 800d
+[00:00:00.134][silabs ]COM: notify network [Leave]
+[00:00:00.134][silabs ]App Task started
+[00:00:00.135][silabs ] MATTER TX: : 55 aa 02 00 00 02 00 01 00 04 
+matterCli> 
+[00:00:00.236][silabs ] MATTER TX: : 55 aa 02 00 01 04 00 08 12 02 00 04 00 00 00 00 26 
+[00:00:00.236][silabs ]COM: CMD: 0x04, SN: 1, LEN: 17
 ```
 
 # Code
@@ -507,4 +568,36 @@ C:\Si\ws\aok02_matter_dc\config\sl_matter_config.h
 ```
 
 # QR code
-[MT:SAGA442C00KA0648G00](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3ASAGA442C00KA0648G00)
+[MT:SAGA442C00KA0648G00](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3ASAGA442C00KA0648G00)  
+[MT:GYFB5KY61495TG11V10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AGYFB5KY61495TG11V10)  
+# Chip-tool
+```c
+sudo ot-ctl dataset active -x
+0e080000000000010000000300001835060004001fffe002084c579a3a07ca63460708fdf932b502298114051045595f06b2527f449aea00b5e951f986030f4f70656e5468726561642d636464320102cdd20410b0e3317425a943ad8267f8b9abbde4d20c0402a0f7f8
+Done
+
+sudo ./chip-tool payload parse-setup-payload MT:SAGA442C00KA0648G00
+[1770349320.167] [20645:20645] [DL] ChipLinuxStorage::Init: Using KVS config file: /tmp/chip_tool_kvs
+[1770349320.167] [20645:20645] [SPL] Parsing base38Representation: MT:SAGA442C00KA0648G00
+[1770349320.168] [20645:20645] [SPL] Version:             0
+[1770349320.168] [20645:20645] [SPL] VendorID:            65521
+[1770349320.168] [20645:20645] [SPL] ProductID:           32784
+[1770349320.168] [20645:20645] [SPL] Custom flow:         0    (STANDARD)
+[1770349320.168] [20645:20645] [SPL] Discovery Bitmask:   0x02 (BLE)
+[1770349320.168] [20645:20645] [SPL] Long discriminator:  3840   (0xf00)
+[1770349320.168] [20645:20645] [SPL] Passcode:            20202021
+
+sudo rm -rf /tmp/chip_*
+sudo ./chip-tool pairing ble-thread 2250 hex:0e080000000000010000000300001835060004001fffe002084c579a3a07ca63460708fdf932b502298114051045595f06b2527f449aea00b5e951f986030f4f70656e5468726561642d636464320102cdd20410b0e3317425a943ad8267f8b9abbde4d20c0402a0f7f8 20202021 3840 --paa-trust-store-path ~/paa-root-certs
+
+sudo ./chip-tool onoff on 2250 3
+sudo ./chip-tool onoff off 2250 3
+sudo ./chip-tool levelcontrol move-to-level 128 0 0 0 2250 3
+sudo ./chip-tool levelcontrol read min-level 2250 3
+sudo ./chip-tool levelcontrol read max-level 2250 3
+sudo ./chip-tool levelcontrol read current-level 2250 3
+sudo ./chip-tool levelcontrol read all 2250 3
+
+sudo ./chip-tool basicinformation read software-version 2250 3
+sudo ./chip-tool basicinformation read software-version-string 2250 3
+```

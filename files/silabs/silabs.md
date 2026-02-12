@@ -6,6 +6,12 @@
 ### SiliconLabsSoftware
 [Matter Extension](https://github.com/SiliconLabsSoftware/matter_extension/tags)  
 [Matter Extension v2.8.0-1.5](https://github.com/SiliconLabsSoftware/matter_extension/pull/297)  
+```c
+//SSv6 SDK ME
+C:\Users\Administrator\.silabs\slt\installs\conan\p\matte66ea43dc8d7de\p\third_party\matter_sdk
+C:\Users\Administrator\.silabs\slt\installs\conan\p\matte66ea43dc8d7de\p\third_party\matter_sdk\src\platform\silabs\efr32\BLEManagerImpl.cpp
+C:\Users\Administrator\.silabs\slt\installs\conan\p\matte66ea43dc8d7de\p\third_party\matter_sdk\src\platform\silabs\efr32\BLEManagerImpl.h
+```
 ## Radio
 ```c
 // Radio interrupts.
@@ -77,4 +83,37 @@ typedef enum
 
     OT_PLAT_RESET_REASON_COUNT,
 } otPlatResetReason;
+```
+## SSv6 log
+```c
+[00:00:00.092][info  ][DL] ==================================================
+[00:00:00.092][info  ][DL] SL-Window starting
+[00:00:00.092][info  ][DL] ==================================================
+[00:00:00.092][info  ][DL] Init CHIP Stack
+[00:00:00.091][info  ][DL] Starting scheduler
+
+Missed Logs: 9
+[00:00:00.095][info  ][DL] Setting device name to : "SL-Window"
+
+Missed Logs: 2
+[00:00:00.095][info  ][DL] Provision mode disabled
+[00:00:00.095][info  ][DL] Initializing OpenThread stack
+[00:00:00.097][info  ][DL] OpenThread started: OK
+[00:00:00.165][info  ][DL] Bluetooth stack booted: v11.0.0-b0
+[00:00:00.165][info  ][DL] RAIL version:, v3.0.0-b0
+[00:00:00.166][info  ][DL] Starting advertising with interval_min=32, intverval_max=96 (units of 625us)
+[00:00:00.169][info  ][DL] _OnPlatformEvent default:  event->Type = 32781
+[00:00:00.172][info  ][DL] _OnPlatformEvent default:  event->Type = 32779
+[00:00:00.171][info  ][SVR] Current Software Version String: 1
+[00:00:00.412][info  ][SVR] SetupQRCode: [MT:SAGA442C00KA0648G00]
+[00:00:00.413][info  ][SVR] Copy/paste the below URL in a browser to see the QR Code:
+[00:00:00.413][info  ][SVR] https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3ASAGA442C00KA0648G00
+[00:00:00.416][silabs ]App Task started
+```
+```c
+ParseEvent
+    ->sl_bt_evt_system_boot_id
+        ->DriveBLEState
+            ->StartAdvertising
+        ->RAIL_GetVersion
 ```

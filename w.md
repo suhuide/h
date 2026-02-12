@@ -2,8 +2,20 @@
 
 |Date | Job | Remark | 
 | ---- | ---- | ---- |
-|20260124|EZ, fine tuning||
-|20260123|SSv6 testing||
+|20260205|AOK,SSv6 Side Channel porting ||
+|20260204|AOK,SSv6 Side Channel porting ||
+|20260203|AOK,SSv6 Side Channel porting ||
+|20260202|BK,uart protocol,meeting&&update||
+|  |  |  |
+|  |  |  |
+|20260130|BK,uart protocol||
+|20260129|AOK,SSv6 Side Channel testing,BK,uart protocol||
+|20260128|AOK,SSv6 Side Channel porting||
+|20260127|EZ, testing||
+|20260126|EZ, fine tuning,remove minimun brightness table||
+|  |  |  |
+|20260124|EZ, fine tuning base on 2 table||
+|20260123|AOK,SSv6 testing||
 |20260122|aok02_matter_dc,get ready for OTA release;EZ,code retrim and commit||
 |20260121|EZ,blink(Power and MBF)||
 |20260120|aok02_matter_dc,remove adv after connected for product AOK;EZ,blink||

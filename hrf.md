@@ -6,8 +6,25 @@
 # project
 | 1 | 2 | 3 | 4 | 5 | 6 |
 | ---- | ---- | ---- | ---- | ---- | ---- |
-|[aok](aok.md)|[ez](ez.md)|[pte9](pte9.md)|
+|[aok](aok.md)|[ez](ez.md)|[pte9](pte9.md)|[bk](bk.md)|
 
+# Module
+## HM-MT2401B
+| Pin | Name | Definition | Function |
+| ---- | ---- | ---- | ---- |
+|PB1|UART0_TX|UART0_TX|Serial Tx|
+|PB2|UART0_RX|UART0_RX|Serial Rx|
+|PA0|SPI_CS|SPI_CS|SPI Flash|
+|PC0|SPI_CLK|SPI_CLK|SPI Flash|
+|PC1|SPI_MISO|SPI_MISO|SPI Flash|
+|PC2|SPI_MOSI|SPI_MOSI|SPI Flash|
+|PA1|SWCLK|SWCLK||
+|PA2|SWDIO|SWDIO||
+|PA7|UART1_TX|UART1_TX||
+|PA8|UART1_RX|UART1_RX||
+|RST|Reset|Reset||
+|VCC|VCC|VCC||
+|GND|GND|GND||
 # Info
 ```c
 Shenzhen Hope Microelectronics Co., Ltd.
@@ -30,6 +47,11 @@ Er..1
 # Compare Filter
 ```c
 *.cpp;*.c;*.h;-.git\;-.pdm\;-.settings\;-.uceditor\;-.vscode\;-GNU ARM v12.2.1 - Default\
+```
+# VScode Filter
+## Exclude
+```c
+.json,.cmake*,.ninja,.rsp,.map
 ```
 # git
 ```c
@@ -57,6 +79,16 @@ git remote -v           # Show all remote repositories' names and URLs
 ```c
 suhuide@hoperf.com
 HoefL89736*
+```
+# VPN
+[Router](http://192.168.100.1/)
+```c
+admin/admin
+Externsoin
+  ->ShadowSocks
+      ->SS endpoint
+          -> On/Off
+              -> Apply
 ```
 
 # Board
@@ -142,4 +174,10 @@ AOK02-MT2401B-v0.1.7-DC\mfg_config.json
 ```
 <div align="center">
   <img src="files/mfg.png" width="1080">
+</div>
+
+# Module
+
+<div align="center">
+  <img src="files/hm-mt2401-v1.png" width="1080">
 </div>
