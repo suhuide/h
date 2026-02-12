@@ -67,58 +67,6 @@ MatterPostAttributeChangeCallback
 
 ```
 
-
-
-[00:02:37.515][silabs ]LAM: EP[3] Attr OnOff [On]
-[00:02:37.515][silabs ] MATTER TX: : 55 aa 02 00 07 04 00 05 07 01 00 01 11 2b 
-[00:02:37.517][silabs ]COM: CMD: 0x04, SN: 7, LEN: 14
-
-[00:02:37.517][silabs ]LAM: EP[3] Attr CurrentLevel 0x01 dev_level 19
-[00:02:37.518][silabs ] MATTER TX: : 55 aa 02 00 08 04 00 08 0d 02 00 04 01 fe fe fe 23 
-[00:02:37.518][silabs ]COM: CMD: 0x04, SN: 8, LEN: 17
-
-[00:02:37.519][silabs ]LAM: EP[3] Attr CurrentLevel 0xfe dev_level 5000
-[00:02:37.520][silabs ] MATTER TX: : 55 aa 02 00 09 04 00 08 0d 02 00 04 01 fe fe fe 24 
-[00:02:37.520][silabs ]COM: CMD: 0x04, SN: 9, LEN: 17
-
-[00:02:37.568][silabs ] MATTER RX: : 55 aa 02 00 2a 05 00 05 07 01 00 01 11 4f 
-[00:02:37.569][silabs ]COM: device report ID: 0x07 TYPE: 1 LEN: 1 [passive]
-[00:02:37.569][silabs ]LAM: report passive onoff, skip
-
-[00:02:37.718][silabs ]LAM: EP[3] Attr CurrentLevel 0x80 dev_level 2519
-[00:02:37.718][silabs ] MATTER TX: : 55 aa 02 00 0a 04 00 08 0d 02 00 04 01 80 80 80 ab 
-[00:02:37.720][silabs ]COM: CMD: 0x04, SN: 10, LEN: 17
-
-[00:02:37.739][silabs ] MATTER RX: : 55 aa 02 00 2b 05 00 08 0d 02 00 04 01 fe fe fe 47 
-[00:02:37.740][silabs ]COM: device report ID: 0x0d TYPE: 2 LEN: 4 [passive]
-[00:02:37.740][silabs ]LAM: report passive rgb, skip
-
-[00:02:37.913][silabs ] MATTER RX: : 55 aa 02 00 2c 05 00 08 0d 02 00 04 01 80 80 80 ce 
-[00:02:37.913][silabs ]COM: device report ID: 0x0d TYPE: 2 LEN: 4 [passive]
-[00:02:37.914][silabs ]LAM: report passive rgb, skip
-
-[00:02:38.097][silabs ]BLE: mcu2host type=0xA9 len=22
-[00:02:38.098][silabs ]COM: mcu2host: 01 09 cd ff ff 80 80 80 13 88 ff ff ff ff ff ff ff ff ff ff ff ff 
-[00:02:38.255][silabs ]BLE: mcu2host type=0xA2 len=5
-[00:02:38.256][silabs ]COM: mcu2host: 00 00 00 00 65 
-[00:02:38.607][silabs ]BLE: mcu2host type=0x5C len=4
-[00:02:38.607][silabs ]COM: mcu2host: 02 65 06 00 
-[00:02:38.793][silabs ] MATTER RX: : 55 aa 02 00 2d 06 00 08 04 02 00 04 00 00 00 64 aa 
-[00:02:38.793][silabs ]COM: device report ID: 0x04 TYPE: 2 LEN: 4 [active]
-[00:02:38.794][silabs ]PWR: report battery percent 100
-
-[00:02:38.960][silabs ]BLE: mcu2host type=0xA2 len=5
-[00:02:38.960][silabs ]COM: mcu2host: 00 00 00 00 64 
-[00:02:39.665][silabs ]BLE: mcu2host type=0x5C len=4
-[00:02:39.665][silabs ]COM: mcu2host: 02 64 06 62 
-[00:02:39.850][silabs ] MATTER RX: : 55 aa 02 00 2e 06 00 08 04 02 00 04 00 00 00 63 aa 
-[00:02:39.850][silabs ]COM: device report ID: 0x04 TYPE: 2 LEN: 4 [active]
-[00:02:39.851][silabs ]PWR: report battery percent 99
-
-[00:02:40.018][silabs ]BLE: mcu2host type=0xA2 len=5
-[00:02:40.018][silabs ]COM: mcu2host: 00 00 00 00 63 
-
-
 ## LED on/off Control
 ```c
 [14:52:03.534][silabs ] MATTER TX: : 55 aa 02 02 ac 
@@ -165,6 +113,7 @@ d9
 [14:52:10.379][silabs ]COM: device report ID: 0x0d TYPE: 2 LEN: 4 [passive]
 [14:52:10.563][silabs ]COM: mcu2host: 03 13 74 ff ff 0a fe 00 13 88 ff ff ff ff ff ff ff ff ff ff ff ff 
 
+//Battery
 [14:52:11.258][silabs ] MATTER RX: : 55 aa 02 08 1c 
 06 00 08 
 04 02 

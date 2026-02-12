@@ -1,3 +1,27 @@
+# Raspi
+```c
+ln -s ~/connectedhomeip/out/standalone/chip-tool ~/chip-tool
+ln -s ~/connectedhomeip/out/ota-provider/chip-ota-provider-app ~/chip-ota-provider-app
+ln -s ~/ot-br-posix/build/otbr/third_party/openthread/repo/src/posix/ot-ctl ~/ot-ctl
+```
+```c
+cat /etc/default/otbr-agent
+# Default settings for otbr-agent. This file is sourced by systemd
+
+# Options to pass to otbr-agent
+# OTBR_AGENT_OPTS="-I wpan0 -B eth0 spinel+hdlc+uart:///dev/ttyUSB0?uart-baudrate=460800&uart-flow-control trel://eth0"
+OTBR_AGENT_OPTS="-I wpan0 -B eth0 spinel+hdlc+uart:///dev/ttyUSB0?uart-baudrate=460800 trel://eth0"
+OTBR_NO_AUTO_ATTACH=0
+
+sudo gedit /etc/default/otbr-agent
+```
+```c
+sudo systemctl daemon-reload
+sudo systemctl restart otbr-agent.service
+```
+```c
+ubuntu:$y$j9T$hjmlkoibe.0MGn/58.0dJ1$myNLRHr/VQ6gF8BNnDY31m./sDxiHA55Mu.gGA2bt52:20476:0:99999:7:::
+```
 # PWM
 ## Resolution(分辨率)  
 占空比可以设置的最小步进数量  
