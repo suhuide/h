@@ -601,3 +601,19 @@ sudo ./chip-tool levelcontrol read all 2250 3
 sudo ./chip-tool basicinformation read software-version 2250 3
 sudo ./chip-tool basicinformation read software-version-string 2250 3
 ```
+2. 新起一个 独立的SSH窗口(不能关闭，也不要这个独立窗口执行其他命令), 使用chip-ota-provider-app工具加载打包固件
+./chip-ota-provider-app --KVS /tmp/chip_kvs_provider -f pte9_wired_matter-v65.00.FF-signed_0xFFF1_0x8004.ota
+
+3.入网和配置chip-ota-provider-app （只需要运行一次即可，后续OTA升级不需要运行 ）
+sudo ./chip-tool pairing onnetwork 1 20202021 
+sudo ./chip-tool accesscontrol write acl '[{"fabricIndex": 1, "privilege": 5, "authMode": 2, "subjects": [112233], "targets": null}, {"fabricIndex": 1, "privilege": 3, "authMode": 2, "subjects": null, "targets": null}]' 1 0 
+
+4. 触发OTA升级; 启动升级后，设备白灯闪烁，升级的时间大约要2分钟
+sudo ./chip-tool otasoftwareupdaterequestor announce-otaprovider 1 0 0 0 2252 0 
+
+5. 升级成功后，设备重启，通过查看启动日志确认升级是否成功。
+matter固件版本号：[TOO]   SoftwareVersionString: 
+
+NOTE:
+ps -ef | grep "ota" //查看进程
+killall -9 sudo chip-ota-provider-app //杀掉进程的命令
