@@ -12,9 +12,18 @@
 ```c
 广东省东莞市樟木头镇文裕路8号，东莞保康电子科技有限公司，吴长春，13620049295
 ```
+### PartNo.
 ```c
 HM-MT2401B-HPBK01
+EFR32MG24A410F1536IM40
 ```
+### Ones
+[保康Matter窗帘电机](https://ones.cn/wiki/#/team/VocipTXV/space/7jKfDSiJ/page/UAgVbQvf)  
+
+<div align="left">
+  <img src="files/bk/bk.png" width="2160">
+</div>
+
 ## MCU DFU
 ```mermaid
 sequenceDiagram
