@@ -67,3 +67,127 @@ sequenceDiagram
         Note over Matter模块, MCU: 流程结束
     end
 ```    
+## Covering app iOS bug
+```c
+config\common\window-app.zap
+            {
+              "name": "TargetPositionLiftPercent100ths",
+              "code": 11,
+              "mfgCode": null,
+              "side": "server",
+              "type": "percent100ths",
+              "included": 1,
+              "storageOption": "RAM",
+              "singleton": 0,
+              "bounded": 0,
+              "defaultValue": null,
+              "reportable": 1,
+              "minInterval": 0,
+              "maxInterval": 65344,
+              "reportableChange": 0
+            },
+```        
+```c
+"defaultValue": null,
+    |
+    V
+"defaultValue": 0,
+```
+<div align="left">
+  <img src="files/bk/bk_w.png" width="1080">
+</div>
+
+## Code
+```c
+main()-main.c
+    app_init()-main.cpp
+        SilabsMatterConfig::AppInit()-MatterConfig.cpp
+            ApplicationStart()-MatterConfig.cpp
+                AppTask::GetAppTask().StartAppTask()
+                    BaseApplication::StartAppTask(AppTaskMain)
+                        AppTask::AppTaskMain(void * pvParameter)
+                            AppTask::AppInit()-AppTask.cpp
+                                app_nwk_mgr_init()-app_nwk_mgr.cpp
+                                    app_nwk_open_basic_commissioning_window()
+                                        chip::Server::GetInstance().GetCommissioningWindowManager().OpenBasicCommissioningWindow()
+```
+### Boot Log
+```c
+[11:44:47.239]  [00:00:00.067][info  ][DL] Starting scheduler
+[11:44:47.239]  [00:00:00.067][info  ][DL] ==================================================
+[11:44:47.240]  [00:00:00.067][info  ][DL] SL-Window starting
+[11:44:47.240]  [00:00:00.068][info  ][DL] ==================================================
+[11:44:47.241]  [00:00:00.068][info  ][DL] Init CHIP Stack
+[11:44:47.241]  [00:00:00.069][info  ][DL] Setting device name to : "SL-Window"
+[11:44:47.242]  [00:00:00.070][info  ][DL] Provision mode disabled
+[11:44:47.242]  [00:00:00.070][info  ][DL] Initializing OpenThread stack
+[11:44:47.244]  [00:00:00.070][info  ][DL] OpenThread started: OK
+[11:44:47.246]  [00:00:00.112][info  ][DL] Bluetooth stack booted: v11.0.0-b0
+[11:44:47.246]  [00:00:00.112][info  ][DL] RAIL version:, v3.0.0-b0
+[11:44:47.247]  [00:00:00.113][info  ][DL] Starting advertising with interval_min=32, intverval_max=96 (units of 625us)
+[11:44:47.249]  [00:00:00.115][info  ][DL] _OnPlatformEvent default:  event->Type = 32781
+[11:44:47.250]  [00:00:00.115][info  ][DL] _OnPlatformEvent default:  event->Type = 32779
+[11:44:47.251]  [00:00:00.116][info  ][SVR] Current Software Version String: 0.0.1
+[11:44:47.251]  [00:00:00.116][info  ][SVR] Current Software Version: 1
+[11:44:47.252]  [00:00:00.117][info  ][DL] Device Configuration:
+[11:44:47.252]  [00:00:00.117][info  ][DL]   Serial Number: 38398FFFFE520BF5
+[11:44:47.253]  [00:00:00.118][info  ][DL]   Vendor Id: 65521 (0xFFF1)
+[11:44:47.253]  [00:00:00.118][info  ][DL]   Product Id: 32784 (0x8010)
+[11:44:47.254]  [00:00:00.118][info  ][DL]   Product Name: SL_Sample
+[11:44:47.254]  [00:00:00.118][info  ][DL]   Hardware Version: 1
+[11:44:47.255]  [00:00:00.118][info  ][DL]   Setup Pin Code (0 for UNKNOWN/ERROR): 0
+[11:44:47.256]  [00:00:00.119][info  ][DL]   Setup Discriminator (0xFFFF for UNKNOWN/ERROR): 3840 (0xF00)
+[11:44:47.257]  [00:00:00.119][info  ][DL]   Manufacturing Date: (not set)
+[11:44:47.257]  [00:00:00.119][info  ][DL]   Device Type: 65535 (0xFFFF)
+[11:44:47.258]  [00:00:00.120][info  ][SVR] SetupQRCode: [MT:SAGA442C00KA0648G00]
+[11:44:47.259]  [00:00:00.120][info  ][SVR] Copy/paste the below URL in a browser to see the QR Code:
+[11:44:47.260]  [00:00:00.120][info  ][SVR] https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3ASAGA442C00KA0648G00
+[11:44:47.264]  [00:00:00.130][silabs ]App Task started
+[11:44:47.264]  [00:00:00.130][info  ][ZCL] ConfigStatus 0x7B Operational=1 OnlineReserved=1
+[11:44:47.266]  [00:00:00.130][info  ][ZCL] Lift(PA=1 Encoder=1 Reversed=0) Tilt(PA=1 Encoder=1)
+[11:44:47.267]  [00:00:00.131][info  ][ZCL] ConfigStatus 0x7B Operational=1 OnlineReserved=1
+[11:44:47.268]  [00:00:00.131][info  ][ZCL] Lift(PA=1 Encoder=1 Reversed=0) Tilt(PA=1 Encoder=1)
+[11:44:47.269]  [00:00:00.131][info  ][ZCL] Mode 0x08 MotorDirReversed=0 LedFeedback=1 Maintenance=0 Calibration=0
+[11:44:47.270]  [00:00:00.132][info  ][ZCL] ConfigStatus 0x7B Operational=1 OnlineReserved=1
+[11:44:47.271]  [00:00:00.132][info  ][ZCL] Lift(PA=1 Encoder=1 Reversed=0) Tilt(PA=1 Encoder=1)
+[11:44:47.271]  [00:00:00.132][info  ][ZCL] ConfigStatus 0x7B Operational=1 OnlineReserved=1
+[11:44:47.272]  [00:00:00.132][info  ][ZCL] Lift(PA=1 Encoder=1 Reversed=0) Tilt(PA=1 Encoder=1)
+[11:44:47.274]  [00:00:00.133][info  ][ZCL] Mode 0x08 MotorDirReversed=0 LedFeedback=1 Maintenance=0 Calibration=0
+[11:44:47.274]  matterCli> [00:00:30.114][info  ][DL] Starting advertising with interval_min=240, intverval_max=1920 (units of 625us)
+[11:59:47.262]  [00:15:00.099][info  ][SVR] Closing pairing window
+[11:59:47.262]  [00:15:00.099][info  ][DIS] Updating services using commissioning mode 0
+[11:59:47.262]  [00:15:00.099][error ][DIS] Failed to remove advertised services: 3
+[11:59:47.264]  [00:15:00.099][error ][DIS] Failed to finalize service update: 3
+[11:59:47.264]  [00:15:00.100][error ][DL] Failed to stop BledAdv timeout timer
+[11:59:47.266]  [00:15:00.100][info  ][DL] _OnPlatformEvent default:  event->Type = 32781
+
+```
+## Serial
+### TX
+```mermaid
+graph TD
+    A[MatterPostAttributeChangeCallback] --> |then| B[app_wdc_mgr_attr_change_event_handler]
+	B --> |then| C[AppWdcDev::AttributeChangedEventHandler]
+    C --> |then| D[app_comm_send_ctrl_cmd]
+	D --> |then| E[spp_instance.send_ctrl_cmd]
+    E --> |then| F[send_cmd]
+	style A fill:#f9f,stroke:#333,stroke-width:2px
+	style B fill:#09f,stroke:#333,stroke-width:2px
+	style C fill:#4f0,stroke:#333,stroke-width:2px
+	style D fill:#87f,stroke:#333,stroke-width:2px
+	style E fill:#9f0,stroke:#333,stroke-width:2px
+    style F fill:#ef0,stroke:#333,stroke-width:2px
+```
+### RX
+```mermaid
+graph TD
+    A[SPProtocol::decode] --> |then| B[recv_frame_cb]
+	B --> |then| C[_spp_recv_frame_callback]
+    C --> |then| D[spp_app_event_handler]
+	D --> |then| E[process_dev_report]
+	style A fill:#f9f,stroke:#333,stroke-width:2px
+	style B fill:#09f,stroke:#333,stroke-width:2px
+	style C fill:#4f0,stroke:#333,stroke-width:2px
+	style D fill:#87f,stroke:#333,stroke-width:2px
+	style E fill:#9f0,stroke:#333,stroke-width:2px
+```

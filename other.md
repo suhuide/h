@@ -22,6 +22,16 @@ sudo systemctl restart otbr-agent.service
 ```c
 ubuntu:$y$j9T$hjmlkoibe.0MGn/58.0dJ1$myNLRHr/VQ6gF8BNnDY31m./sDxiHA55Mu.gGA2bt52:20476:0:99999:7:::
 ```
+# Beyond Compare
+Remove CacheID under HKEY_CURRENT_USER\Software\Scooter Software\Beyond Compare 4 can make you happy.
+```c
+cmd
+regedit
+
+HKEY_CURRENT_USER\Software\Scooter Software\Beyond Compare 4
+                                                    CacheID
+```
+
 # PWM
 ## Resolution(分辨率)  
 占空比可以设置的最小步进数量  

@@ -68,11 +68,7 @@ Baudrate:9600
 [00:00:00.122][info  ][DL]   Vendor Id: 65521 (0xFFF1)
 [00:00:00.122][info  ][DL]   Product Id: 32784 (0x8010)
 [00:00:00.122][info  ][DL]   Product Name: SL_Sample
-
-Missed Logs: 1
 [00:00:00.122][info  ][DL]   Hardware Version: 1
-
-Missed Logs: 1
 [00:00:00.123][info  ][DL]   Setup Pin Code (0 for UNKNOWN/ERROR): 0
 [00:00:00.123][info  ][DL]   Setup Discriminator (0xFFFF for UNKNOWN/ERROR): 3840 (0xF00)
 [00:00:00.123][info  ][DL]   Manufacturing Date: (not set)
@@ -551,14 +547,17 @@ main()-main.c
     app_init()-main.cpp
         SilabsMatterConfig::AppInit()-MatterConfig.cpp
             ApplicationStart()-MatterConfig.cpp
-                AppTask::AppInit()-AppTask.cpp
-                    app_ble_mgr_init()-app_ble_mgr.cpp
-                        _create_second_adv()
-                        _create_rc_adv()
-                    app_nwk_mgr_init()-app_nwk_mgr.cpp
-                        app_ble_mgr_open_rc_join() //need to remove,since it not use Matter BLE handle
-                        app_nwk_open_basic_commissioning_window()
-                            chip::Server::GetInstance().GetCommissioningWindowManager().OpenBasicCommissioningWindow()
+                AppTask::GetAppTask().StartAppTask()
+                    BaseApplication::StartAppTask(AppTaskMain)
+                        AppTask::AppTaskMain(void * pvParameter)
+                            AppTask::AppInit()-AppTask.cpp
+                                app_ble_mgr_init()-app_ble_mgr.cpp
+                                    _create_second_adv()
+                                    _create_rc_adv()
+                                app_nwk_mgr_init()-app_nwk_mgr.cpp
+                                    app_ble_mgr_open_rc_join() //need to remove,since it not use Matter BLE handle
+                                    app_nwk_open_basic_commissioning_window()
+                                        chip::Server::GetInstance().GetCommissioningWindowManager().OpenBasicCommissioningWindow()
 ```
 
 # Matter log
