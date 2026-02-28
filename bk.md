@@ -67,7 +67,8 @@ sequenceDiagram
         Note over Matter模块, MCU: 流程结束
     end
 ```    
-## Covering app iOS bug
+## ZAP
+### Covering app iOS bug
 ```c
 config\common\window-app.zap
             {
@@ -96,6 +97,133 @@ config\common\window-app.zap
 <div align="left">
   <img src="files/bk/bk_w.png" width="1080">
 </div>
+
+### Battery indicate on App
+```c
+        {
+          "name": "Power Source",
+          "code": 47,
+          "mfgCode": null,
+          "define": "POWER_SOURCE_CLUSTER",
+          "side": "server",
+          "enabled": 1,
+          "attributes": [
+            ...
+                        {
+              "name": "FeatureMap",
+              "code": 65532,
+              "mfgCode": null,
+              "side": "server",
+              "type": "bitmap32",
+              "included": 1,
+              "storageOption": "RAM",
+              "singleton": 0,
+              "bounded": 0,
+              "defaultValue": "0",
+              "reportable": 1,
+              "minInterval": 1,
+              "maxInterval": 65534,
+              "reportableChange": 0
+            },
+            ...
+
+```
+```c
+"defaultValue": "0",
+    |
+    V
+"defaultValue": "6",
+```
+#### Reference
+```c
+23-27349-009_Matter-1.5-Core-Specification.pdf
+    11.7. Power Source Cluster
+        11.7.4. Features
+```
+|Bit |Code |Feature |Conformance |Summary|
+| ---- | ---- | ---- | ---- | ---- |
+|0 |WIRED |Wired |O.a |A wired power source|
+|1 |BAT |Battery |O.a |A battery power source|
+|2 |RECHG |Rechargeable |[BAT] |A rechargeable battery power source|
+|3 |REPLC |Replaceable |[BAT] |A replaceable bat­tery power source|
+
+### Battery Percent Remaining 
+```c
+        uint8_t dev_battery = fdata[0] * 2;
+
+        LOG_MSG_INFO(TAG_PWR, "report battery percent %u\n", fdata[0]);
+
+        PlatformMgr().LockChipStack();
+        matter_attr_lock();
+        PowerSource::Attributes::BatPercentRemaining::Set(0, dev_battery);
+        matter_attr_unlock();
+        PlatformMgr().UnlockChipStack();
+```        
+#### Reference
+```c
+23-27349-009_Matter-1.5-Core-Specification.pdf
+    11.7. Power Source Cluster
+        11.7.7. Attributes
+            11.7.7.13. BatPercentRemaining Attribute
+                This attribute SHALL indicate the estimated percentage of battery charge remaining until the bat­
+                qtery will no longer be able to provide power to the Node. Values are expressed in half percent units,
+                ranging from 0 to 200. E.g. a value of 48 is equivalent to 24%. A value of NULL SHALL indicate the
+                Node is currently unable to assess the value.
+```
+### Battery Charge Level
+```c
+        uint8_t dev_battery_Charge_Level = fdata[0];
+
+        LOG_MSG_INFO(TAG_PWR, "report battery Charge Level %u\n", fdata[0]);
+
+        PlatformMgr().LockChipStack();
+        matter_attr_lock();
+        PowerSource::Attributes::BatChargeLevel::Set(0, dev_battery_Charge_Level);
+        matter_attr_unlock();
+        PlatformMgr().UnlockChipStack();
+```
+#### Reference
+```c
+23-27349-009_Matter-1.5-Core-Specification.pdf
+    11.7. Power Source Cluster
+        11.7.6. Data Types
+            11.7.6.6. BatChargeLevelEnum Type
+        11.7.7. Attributes
+            ID: 0x000E Name: BatCharge Level
+```
+|Value |Name |Summary |Conformance|
+| ---- | ---- | ---- | ---- |
+|0 |OK |Charge level is nominal |M|
+|1 |Warning |Charge level is low,intervention may soon be required.|M|
+|2 |Critical |Charge level is critical,immediate intervention is required|M|
+
+### Battery Charge Status
+```c
+        uint8_t dev_battery_Charge_Status = fdata[0];
+
+        LOG_MSG_INFO(TAG_PWR, "report battery Charge Status %u\n", fdata[0]);
+
+        PlatformMgr().LockChipStack();
+        matter_attr_lock();
+        PowerSource::Attributes::BatChargeState::Set(0, dev_battery_Charge_Status);
+        matter_attr_unlock();
+        PlatformMgr().UnlockChipStack();
+```
+#### Reference
+```c
+23-27349-009_Matter-1.5-Core-Specification.pdf
+    11.7. Power Source Cluster
+        11.7.6. Data Types
+            11.7.6.10. BatChargeStateEnum Type
+        11.7.7. Attributes
+            ID: 0x001A Name: BatCharge State
+```
+|Value |Name |Summary |Conformance|
+| ---- | ---- | ---- | ---- |
+|0 |Unknown |Unable to determine the charging state|M|
+|1 |IsCharging |The battery is charging |M|
+|2 |IsAtFullCharge |The battery is at full charge|M|
+|3 |IsNotCharging |The battery is not charging|M|
 
 ## Code
 ```c
