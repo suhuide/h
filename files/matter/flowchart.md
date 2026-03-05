@@ -3,42 +3,40 @@ sequenceDiagram
     participant Commissioner
     participant Commissionee
 
-    Note over Commissioner, Commissionee: Step 0: Preparation
+    Note over Commissioner, Commissionee: Phase 0: Preparation(Spec. Steps 1)
 
-    Commissioner->>Commissioner: 初始化，加载/创建 Fabric
-    Note left of Commissioner: [CTL] Generating RCAC/ICAC/NOC<br/>[FP] Added new fabric at index: 0x1<br/>[FP] Assigned compressed fabric ID: 0x4B6873C4587CC6ED, node ID: 0x000000000001B669
+    Commissioner->>Commissioner: 1.初始化，加载/创建 Fabric
+    Note left of Commissioner: [CTL] Generating RCAC/ICAC/NOC<br/>[FP] Added new fabric at index: 0x1, Assigned compressed fabric and node ID
 
-    Commissionee->>Commissionee: 设备启动，初始化Matter堆栈
-    Note right of Commissionee: [DL] Init CHIP Stack<br/>[DL] Setting device name to : "SL-Window"
+    Commissionee->>Commissionee: 1.设备启动，初始化Matter堆栈
+    Note right of Commissionee: [DL] Init CHIP Stack, Setting device name to : "SL-Window"
 
     Commissionee->>Commissionee: 打开 commissioning 窗口 (BLE广播)
-    Note right of Commissionee: [DL] Starting advertising...<br/>[SVR] SetupQRCode: [MT:...]
+    Note right of Commissionee: [DL] Starting advertising... [SVR] SetupQRCode: [MT:...]
 
+    Note over Commissioner, Commissionee: Phase 1: Device discovery and establish commissioning channel(Spec. Steps 2)
 
-    Note over Commissioner, Commissionee: Step 1: Device discovery and establish commissioning channel(Spec. Steps 1,2)
+    Commissioner->>Commissioner: BLE scan, search for target devcie
 
-    Commissioner->>Commissioner: BLE扫描，寻找设备
-    Note left of Commissioner: [BLE] BLE initiating scan<br/>[BLE] ChipDeviceScanner has started scanning!
-
-    Commissioner->>+Commissionee: 1. BLE扫描发现设备 (Discriminator匹配)
+    Commissioner->>+Commissionee: BLE discovery(Discriminator match. Attempting to connect)
     Note left of Commissioner: [BLE] Device discriminator match. Attempting to connect.
 
-    Commissionee-->>Commissioner: BLE连接建立
-    Note right of Commissionee: [DL] sl_bt_evt_connection_opened_id<br/>[DL] Connect Event for CHIPoBLE on handle : 1
-
-    Commissioner->>Commissioner: 连接完成，准备发现服务
+    Commissionee-->>Commissioner: BLE connection establish
+    Note right of Commissionee: [DL] sl_bt_evt_connection_opened_id
     Note left of Commissioner: [BLE] New device connected: CC:C0:BF:C1:8D:CE
 
-    Commissioner->>Commissionee: 发现并订阅Matter服务与特征值
-    Note left of Commissioner: [DL] CHIP service found<br/>[DL] Valid C1/C2 characteristic found
+    Commissioner->>Commissioner: 连接完成，准备发现服务
 
-    Commissionee-->>Commissioner: 2. 订阅成功确认
-    Note right of Commissionee: [DL] CHIPoBLE subscribe received<br/>[DL] _OnPlatformEvent kCHIPoBLESubscribe
+    Commissioner->>Commissionee: 2.发现并订阅Matter服务与特征值
+    Note left of Commissioner: [DL] CHIP service found, Valid C1/C2 characteristic found
 
-    Note over Commissioner, Commissionee: **BLE配网通道建立 (Commissioning channel established)**
+    Commissionee-->>Commissioner: 2.订阅成功确认
+    Note right of Commissionee: [DL] CHIPoBLE subscribe received, _OnPlatformEvent kCHIPoBLESubscribe(BLEManagerImpl.cpp)
+
+    Note over Commissioner, Commissionee: **BLE Commissioning channel established**
 
 
-    Note over Commissioner, Commissionee: Step 2: Security setup using PASE(Spec. Steps 3,4,5,6,7,8)
+    Note over Commissioner, Commissionee: Phase 2: Security setup using PASE(Spec. Steps 3,4,5,6,7,8)
 
     Commissioner->>Commissionee: 3. PBKDFParamRequest (请求安全参数)
     Note left of Commissioner: [EM] Msg TX ... Type 0000:20 (SecureChannel:PBKDFParamRequest)
@@ -64,10 +62,10 @@ sequenceDiagram
     Commissioner->>Commissioner: PASE 建立成功
     Note left of Commissioner: [TOO] Pairing Success<br/>[TOO] PASE establishment successful
 
-    Note over Commissioner, Commissionee: **PASE安全通道已建立，所有消息使用PASE派生密钥加密<br/>(All messages encrypted with PASE-derived encryption keys)**
+    Note over Commissioner, Commissionee: **PASE secure channel have established，All messages encrypted with PASE-derived encryption keys**
 
 
-    Note over Commissioner, Commissionee: Step 3: Configure information(Spec. Steps 9,10)
+    Note over Commissioner, Commissionee: Phase 3: Configure information(Spec. Steps 9,10)
 
     Commissioner->>Commissionee: 9. ReadRequest (请求基本信息)
     Note left of Commissioner: [CTL] Commissioning stage next step: 'SecurePairing' -> 'ReadCommissioningInfo'<br/>[DMG] SendReadRequest ... Sending Read Request
@@ -78,20 +76,20 @@ sequenceDiagram
     Commissioner->>Commissioner: 解析设备基本信息
     Note left of Commissioner: [DMG] (解析VendorID/ProductID等)<br/>[SVR] OnReadCommissioningInfo - vendorId=0xFFF1 productId=0x8010
 
-    Commissioner->>Commissionee: 10. InvokeCommandRequest (ArmFailSafe, 开启60s fail-safe)
+    Commissioner->>Commissionee: 10. InvokeCommandRequest (ArmFailSafe, 开启60s fail-safe) 7?
     Note left of Commissioner: [CTL] Commissioning stage next step: 'ReadCommissioningInfo' -> 'ArmFailSafe'<br/>[CTL] Arming failsafe (60 seconds)
 
     Commissionee-->>Commissioner: InvokeCommandResponse (成功)
     Note right of Commissionee: [EM] >>> Msg RX ... Type 0001:08 (IM:InvokeCommandRequest)<br/>[FS] GeneralCommissioning: Received ArmFailSafe (60s)<br/>[EM] <<< Msg TX ... Type 0001:09 (IM:InvokeCommandResponse)
 
-    Commissioner->>Commissionee: InvokeCommandRequest (SetRegulatoryConfig, 设置区域配置)
+    Commissioner->>Commissionee: InvokeCommandRequest (SetRegulatoryConfig, 设置区域配置) 8?
     Note left of Commissioner: [CTL] Commissioning stage next step: 'ArmFailSafe' -> 'ConfigRegulatory'<br/>[CTL] Setting Regulatory Config
 
     Commissionee-->>Commissioner: InvokeCommandResponse (成功)
     Note right of Commissionee: [EM] >>> Msg RX ... Type 0001:08 (IM:InvokeCommandRequest)<br/>[EM] <<< Msg TX ... Type 0001:09 (IM:InvokeCommandResponse)
 
 
-    Note over Commissioner, Commissionee: Step 4: Commissionee Attestation(Spec. Step 11)
+    Note over Commissioner, Commissionee: Phase 4: Commissionee Attestation(Spec. Step 10)
 
     Commissioner->>Commissionee: 11a. InvokeCommandRequest (CertificateChainRequest, 请求PAI证书)
     Note left of Commissioner: [CTL] Commissioning stage next step: 'ConfigRegulatory' -> 'SendPAICertificateRequest'<br/>[CTL] Sending request for PAI certificate
@@ -118,9 +116,9 @@ sequenceDiagram
     Note left of Commissioner: [CTL] Verifying Device Attestation information...<br/>[-] (打印DAC/PAI/PAA证书详情)<br/>[CTL] Successfully validated 'Attestation Information' command
 
 
-    Note over Commissioner, Commissionee: Step 5: Operational CSR exchange/Generate Operational Certificate(Spec. Steps 12,13)
+    Note over Commissioner, Commissionee: Phase 5: Operational CSR exchange/Generate Operational Certificate(Spec. Steps 12,13) 11?
 
-    Commissioner->>Commissionee: 12. InvokeCommandRequest (CSRRequest, 请求证书签名请求)
+    Commissioner->>Commissionee: 12. InvokeCommandRequest (CSRRequest, 请求证书签名请求) 11?
     Note left of Commissioner: [CTL] Commissioning stage next step: 'AttestationRevocationCheck' -> 'SendOpCertSigningRequest'<br/>[CTL] Sending CSR request to device
 
     Commissionee->>Commissionee: 生成NOCSR并用DAC私钥签名
@@ -150,7 +148,7 @@ sequenceDiagram
     Note over Commissioner, Commissionee: **运营身份(Operational Identity)已安装<br/>(Configure information: Operational Certificate)**
 
 
-    Note over Commissioner, Commissionee: Step 6: Configure/Join operational network(Spec. Steps 14,15,16,17)
+    Note over Commissioner, Commissionee: Phase 6: Configure/Join operational network(Spec. Steps 14,15,16,17)
 
     Commissioner->>Commissionee: 14-15. InvokeCommandRequest (AddOrUpdateThreadNetwork, 添加Thread网络凭据)
     Note left of Commissioner: [CTL] Commissioning stage next step: 'SendNOC' -> 'ThreadNetworkSetup'<br/>[CTL] Configure information: operational network
@@ -176,13 +174,13 @@ sequenceDiagram
     Note over Commissioner, Commissionee: **设备加入运营网络 (Device joined operational network)**
 
 
-    Note over Commissioner, Commissionee: Step 7: Commissioning channel terminated(Spec. Step 18)
+    Note over Commissioner, Commissionee: Phase 7: Commissioning channel terminated(Spec. Step 18)
 
     Note over Commissioner, Commissionee: 18. BLE配网通道关闭 (BLE connection closed)
     Note right of Commissionee: [DL] Disconnect Event for CHIPoBLE on handle : 1<br/>(连接将在稍后关闭)
 
 
-    Note over Commissioner, Commissionee: Step 8: Operational discovery / Security setup using CASE(Spec. Steps 19,20)
+    Note over Commissioner, Commissionee: Phase 8: Operational discovery / Security setup using CASE(Spec. Steps 19,20)
 
     Commissioner->>Commissioner: 清除旧的PASE会话
     Note left of Commissioner: [CTL] Commissioning stage next step: 'ThreadNetworkEnable' -> 'kEvictPreviousCaseSessions'<br/>[IN] Expiring all sessions for node
@@ -211,7 +209,7 @@ sequenceDiagram
     Note over Commissioner, Commissionee: **CASE安全通道已建立，所有消息使用CASE派生密钥加密<br/>(All messages encrypted with CASE-derived encryption keys)**
 
 
-    Note over Commissioner, Commissionee: Step 9: Commissioning complete(Spec. Step 21)
+    Note over Commissioner, Commissionee: Phase 9: Commissioning complete(Spec. Step 21)
 
     Commissioner->>Commissionee: 21. InvokeCommandRequest (CommissioningComplete, 通知设备配网完成)
     Note left of Commissioner: [CTL] Commissioning stage next step: 'kFindOperationalForCommissioningComplete' -> 'SendComplete'<br/>[EM] Msg TX ... Type 0001:08 (IM:InvokeCommandRequest)

@@ -12,6 +12,23 @@ C:\Users\Administrator\.silabs\slt\installs\conan\p\matte66ea43dc8d7de\p\third_p
 C:\Users\Administrator\.silabs\slt\installs\conan\p\matte66ea43dc8d7de\p\third_party\matter_sdk\src\platform\silabs\efr32\BLEManagerImpl.cpp
 C:\Users\Administrator\.silabs\slt\installs\conan\p\matte66ea43dc8d7de\p\third_party\matter_sdk\src\platform\silabs\efr32\BLEManagerImpl.h
 ```
+## [Commander](commander.md)  
+## Serial Config
+```c
+//Lunch Console -> Admin
+Usage: serial vcom config [--nostore] [handshake <rts/cts/rtscts/disable/auto>] [speed <9600,921600>]
+WSTK> ----- Virtual COM port -----
+Stored port speed  : 921600
+Active port speed  : 923076
+Stored handshake   : disabled
+Actual handshake   : disabled
+
+serial vcom config
+serial vcom config speed 9600
+serial vcom config speed 115200
+serial vcom config speed 921600
+serial vcom config handshake disable
+```
 ## Radio
 ```c
 // Radio interrupts.

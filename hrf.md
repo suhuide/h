@@ -53,33 +53,8 @@ Er..1
 ```c
 .json,.cmake*,.ninja,.rsp,.map
 ```
-# git
-```c
-$ git config --global user.name "suhuide"
-$ git config --global user.email suhuide@hoperf.com
-```
-```c
-git config --global alias.diffx 'diff -- ":!.project" ":!.cproject" ":!*.slps" ":!*.pintool" ":!*.html" ":!*.pdm*" ":!*.zap"'
-git diff ':!.cproject' ':!*.slps' ':!*.pintool' ':!*.html'
-```
-```c
-git tag
-git fetch --tags
-git checkout tags/v2.8.0 -f
-```
-```c
-git reset --hard HEAD   # Remove all uncommitted changes
-git switch -            # Return to the previous branch
-git checkout -          # Return to the previous branch
-git branch -r           # Check remote branches
-git branch -a           # Check all branches (local + remote)
-git remote -v           # Show all remote repositories' names and URLs
-```
-## git account
-```c
-suhuide@hoperf.com
-Shd**475967
-```
+# [git](./files/other/git.md)
+
 # VPN
 [Router](http://192.168.100.1/)
 ```c
@@ -91,7 +66,7 @@ Externsoin
               -> Apply
 ```
 
-# Board
+# My Board
 ```c
 WSTK Mainboard (ID: 000440045640)
 ```
@@ -99,65 +74,12 @@ WSTK Mainboard (ID: 000440045640)
 ```c
 https://hoperf-matter/gitlab/matter
 ```
-```c
-git remote add origin https://github.com/user/repo.git
-```
+
 # samba
 ```c
 samba: \\hoperf-matter
 username: suhuide
 password: HA39838M*12
-```
-## Commander CLI
-```c
-C:\SiliconLabs\SimplicityStudio\v5>commander security unlock --command-key command_key.pem --unlock-param 1111 --device EFR32MG24A410F1536IM40 -s 602712820
-Unlocking with unlock payload:
-C:/Users/Administrator/AppData/Local/SiliconLabs/commander/SecurityStore/device_0000000000000000d44867fffe8997ee/challenge_e4e3184d31be0e7428a6d0367269b5f7/unlock_payload_0000000000111110.bin
-Secure debug successfully unlocked
-DONE
-```
-```c
-commander flash ez01_matter-signed--v0.0.13-2d274330.s37 --device efr32mg24 --no-reset
-```
-```c
-C:\Si\ws\ez01_matter\release-fw\signfw\v0.0.13>commander security status --device efr32mg24
-WARNING: DP write failed
-DCI communication failed, retrying after reset and 10 ms delay...
-Resetting device...
-SE Firmware version   : 2.2.5
-Serial number         : 0000000000000000d44867fffe8b63ab
-Debug lock            : Enabled
-Device erase          : Enabled
-Secure debug unlock   : Enabled
-Tamper status         : OK
-Secure boot           : Enabled
-Boot status           : 0x20 - OK
-Command key installed : True
-Sign key installed    : True
-DONE
-```
-```c
-//Lunch Console -> Admin
-serial vcom config
-serial vcom config speed 9600
-serial vcom config speed 115200
-serial vcom config speed 921600
-```
-
-
-
-### Debug lock
-```c
-commander device lock --device EFR32MG24B020F1536IM40
-```
-
-### Flash
-```c
-commander readmem --range 0x817e000:0x8180000 --device EFR32MG24A410F1536IM40 --outfile last_page.s37
-```
-```c
-commander nvm3 read -o aaa_empty.s37 --device efr32mg24 --range 0x8174000:0x817e000
-commander nvm3 parse aaa_empty.s37
 ```
 
 # NFC
