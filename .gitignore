@@ -6,6 +6,7 @@
 *.map
 *.out
 *.obj
+*.pdf
 
 # Trash
 *.bak

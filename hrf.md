@@ -1,7 +1,7 @@
 # Link
 | 1 | 2 | 3 | 4 | 5 | 6 |
 | ---- | ---- | ---- | ---- | ---- | ---- |
-| [memo](../../l/l/memo.md) |[silabs](./files/silabs/silabs.md)| [w](w.md) |[other](other.md) |[commissioning](commissioning.md)|
+| [memo](../../l/l/memo.md) |[silabs](./files/silabs/silabs.md)| [w](w.md) |[other](other.md) |[matter](matter.md)|
 
 # project
 | 1 | 2 | 3 | 4 | 5 | 6 |
