@@ -616,3 +616,35 @@ matter固件版本号：[TOO]   SoftwareVersionString:
 NOTE:
 ps -ef | grep "ota" //查看进程
 killall -9 sudo chip-ota-provider-app //杀掉进程的命令
+
+# Issue
+```c
+#if 0//defined(AOK02_MATTER_PROJECT)
+        emberAfEndpointConfigureCallback(emAfEndpoints, ep);
+#else
+        emAfEndpoints[ep].bitmask.Set(EmberAfEndpointOptions::isEnabled);
+#endif
+#if 0//defined(AOK02_MATTER_PROJECT)
+__WEAK void emberAfEndpointConfigureCallback(EmberAfDefinedEndpoint* emAfEndpoints, uint16_t ep)
+{
+    emAfEndpoints[ep].bitmask.Set(EmberAfEndpointOptions::isEnabled);
+}
+#endif
+void emberAfEndpointConfigureCallback(EmberAfDefinedEndpoint * emAfEndpoints, uint16_t ep)
+{
+    bool ep_enable = false;
+    app_endpoint_mgr_is_ep_enabled(ep, &ep_enable);
+    if (!ep_enable) {
+        LOG_MSG_INFO(TAG_EP, " == Endpoint 0x%02x disabled, clear isEnabled bitmask. ==\n", ep);
+        emAfEndpoints[ep].bitmask.Clear(EmberAfEndpointOptions::isEnabled);
+    } else {
+        //LOG_MSG_INFO(TAG_EP, " == Endpoint 0x%02x enabled", ep);
+        emAfEndpoints[ep].bitmask.Set(EmberAfEndpointOptions::isEnabled);
+        
+        for (const EmberAfDeviceType t : emAfEndpoints[ep].deviceTypeList) {
+            LOG_MSG_INFO(TAG_EP, "Endpoint: %u deviceType: 0x%04x", ep, t.deviceTypeId);
+            app_spm_mgr_endpoint_enabled(ep, t.deviceTypeId);
+        }
+    }
+}
+```
