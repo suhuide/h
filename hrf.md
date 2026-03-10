@@ -53,7 +53,8 @@ Er..1
 ```c
 .json,.cmake*,.ninja,.rsp,.map
 ```
-# [git](./files/other/git.md)
+# [git](./files/other/git.md)  
+# [Chip-tool](./files/other/chip-tool.md)  
 
 # VPN
 [Router](http://192.168.100.1/)
