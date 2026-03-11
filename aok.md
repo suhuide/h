@@ -35,10 +35,8 @@ typedef enum
 } ble_product_type_t;
 ```
 
-# HW
-<div align="center">
-  <img src="files/aok/HM-MT2401-SCH.png" width="1080">
-</div>
+# [HM-MT2401B](./files/other/module.md)
+
 
 # Serial Port
 ```c
@@ -236,10 +234,6 @@ UUID: 00000000-0000-1000-8000-C0FFEE000001
 |7	|Manufacturer Specific Data(0xFF)	|0x38398F520BF5|
 
 # Issue
-## PartNo.
-```c
-EFR32MG24A410F1536IM40
-```
 
 ## 1
 No such linker script file.

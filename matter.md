@@ -131,12 +131,17 @@ Matter配网流程的标准化和安全性，依赖于一系列精确定义的�
 
 这一套精密的流程设计，确保了Matter设备从开箱到日常使用的整个过程，既对用户友好易用，又在底层拥有银行级的安全性。
 
-# 5 Flowchart on Spec
+## 6 Flowchart on Spec
 <div align="center">
   <img src="files/matter/commissioning-flow-diagram.png" width="1080">
 </div>  
 
-# 6 [Flowchart](./files/matter/flowchart.md)  
-## [commissioning-mcu](./files/matter/commissioning-mcu.md)
-## [commissioning-raspi](./files/matter/commissioning-raspi.md)
-## [commissioning-log-parse](./files/matter/commissioning-log-parse.md)
+## 7 [Flowchart](./files/matter/flowchart.md)  
+### [commissioning-mcu](./files/matter/commissioning-mcu.md)
+### [commissioning-raspi](./files/matter/commissioning-raspi.md)
+### [commissioning-log-parse](./files/matter/commissioning-log-parse.md)
+
+# OTA
+### [ota-chip-tool-202603111828](./files/matter/ota-chip-tool-202603111828.md)
+### [ota-chip-ota-provider-app-202603111845](./files/matter/ota-chip-ota-provider-app-202603111845.md)
+### [ota-matter-device-202603111847](./files/matter/ota-matter-device-202603111847.md)
