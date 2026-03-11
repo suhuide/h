@@ -53,6 +53,13 @@ sudo ./chip-tool basicinformation read specification-version 2250 0
 //inline constexpr uint32_t kSpecificationVersion = 0x01040000;
 //inline constexpr uint32_t kSpecificationVersion = 0x01050000;
 ```
+|Bits |Name |Summary|
+| -- | -- | -- |
+|31 .. 24 |Major | Major version of specification.|
+|23 .. 16 |Minor | Minor version of specification.|
+|15 .. 8 |Dot | Dot version of the specification.|
+|7 .. 0 |Reserved1 | Future reserved version field 1,set to 0 until defined.|
+
 ```c
 sudo ./chip-tool descriptor read parts-list 2250 0
 [1773133102.269] [2893471:2893473] [TOO]   PartsList: 6 entries

@@ -1,16 +1,16 @@
 # [DAC](./files/matter/dac.md)  
-# Commissioning
-## 1. 概述：什么是 Matter 配网？
+# 1 Commissioning
+## 1.1 概述：什么是 Matter 配网？
 
 在Matter协议中，**配网（Commissioning）** 是将一个新的智能设备（如灯泡、插座、传感器）添加到用户智能家居网络（Fabric）中的全过程。它的核心价值在于提供了一种**标准化、安全且跨平台**的设备添加体验。
 
 简单来说，无论用户使用苹果、谷歌、亚马逊还是小米的生态，添加任何经过Matter认证的设备，其核心流程和用户体验都是一致的。用户只需一次配置，新设备就能被家中所有支持Matter的控制器和APP发现和控制。
 
-## 2. 配网第一步：获取设备身份凭证 (Onboarding Payload)
+## 1.2 配网第一步：获取设备身份凭证 (Onboarding Payload)
 
 在开始配网之前，控制端（如手机APP）需要先获取设备的“身份证+开锁密码”，这个信息载体被称为**配网载荷（Onboarding Payload）**。
 
-### 2.1 载荷的三种形式
+### 1.2.1 载荷的三种形式
 
 为了让用户在不同场景下都能方便地开始配网，Matter定义了三种常见的载荷形式：
 
@@ -20,7 +20,7 @@
 | **手动配对码 (Manual Pairing Code)** | 一串11位或21位的数字，作为二维码的备选方案。 | 设备二维码磨损或位于难以扫码的角落时，手动输入数字。 |
 | **NFC 标签** | 设备内置或外贴NFC标签。 | 将支持NFC的手机贴近设备，碰一碰即可读取信息，无需手动操作。 |
 
-### 2.2 载荷中包含的关键信息
+### 1.2.2 载荷中包含的关键信息
 
 无论哪种形式，配网载荷都包含了以下核心信息，它们是后续安全配网的基础：
 
@@ -32,7 +32,7 @@
 | **密码 (Passcode)** | 一个8位数字的“入网密码”。 | **核心安全凭证**，用于后续的PASE阶段，验证用户对设备的所有权。Matter协议禁止使用如`00000000`、`12345678`等弱密码。 |
 | **支持连接方式** | 指示设备支持哪些通信协议进行配网（如BLE、Wi-Fi）。 | 让控制端选择最快、最合适的通信方式与设备建立连接。 |
 
-## 3. 用户视角的四种配网场景
+## 1.3 用户视角的四种配网场景
 
 Matter设计了灵活的配网方式，以适应不同用户的使用习惯和物理环境：
 
@@ -52,11 +52,11 @@ Matter设计了灵活的配网方式，以适应不同用户的使用习惯和�
    - **场景**：设备本身有屏幕和交互界面，如智能电视、带屏智能音箱。
    - **操作**：在设备上进入“网络设置” -> 选择“连接智能家居” -> 设备自动搜索周围的Matter控制器 -> 在设备上选择要连接的控制器并显示配对码 -> 在控制器APP上输入该配对码，完成连接。
 
-## 4. 底层核心技术揭秘
+## 1.4 底层核心技术揭秘
 
 Matter配网流程的标准化和安全性，依赖于一系列精确定义的底层协议和机制。其中，**PASE、ArmFailSafe和CASE**构成了配网的“安全三角”。
 
-### 4.1 PASE_Pake 阶段：建立临时安全通道
+### 1.4.1 PASE_Pake 阶段：建立临时安全通道
 
 - **所处阶段**：配网初期，设备发现和通信连接建立之后。
 - **协议定义**：4.14.1 Passcode-Authenticated Session Establishment (PASE)
@@ -78,7 +78,7 @@ Matter配网流程的标准化和安全性，依赖于一系列精确定义的�
      - 整个PASE握手必须在**60秒内**完成，否则会话终止。
   4. **后续衔接**：PASE通道建立后，控制器会立即激活故障安全机制（`ArmFailSafe`），所有后续消息均通过此通道加密传输。
 
-### 4.2 ArmFailSafe 阶段：保障配置过程的可靠性
+###  1.4.2 ArmFailSafe 阶段：保障配置过程的可靠性
 
 - **所处阶段**：PASE通道建立后，贯穿整个网络配置和设备认证过程。
 - **协议定义**：11.10.7.2 ArmFailSafe (General Commissioning Cluster)
@@ -93,7 +93,7 @@ Matter配网流程的标准化和安全性，依赖于一系列精确定义的�
   3. **关键约束**：
      - 在网络配置等关键步骤前，必须重新激活`ArmFailSafe`，确保操作的可回滚性。
 
-### 4.3 CASE_Sigma 阶段：建立长期运行安全通道
+### 1.4.3 CASE_Sigma 阶段：建立长期运行安全通道
 
 - **所处阶段**：设备成功加入操作网络（如Wi-Fi）之后，配网流程的尾声。
 - **协议定义**：4.14.2 Certificate-Authenticated Session Establishment (CASE)
@@ -117,7 +117,7 @@ Matter配网流程的标准化和安全性，依赖于一系列精确定义的�
      | **依赖条件** | Onboarding Payload 中的 Passcode | NOC证书、Fabric信息、操作网络地址 |
      | **核心目标** | 验证所有权，保障配网安全 | 验证身份，保障运行安全 |
 
-## 5. 总结：Matter配网流程全景图
+## 1.5. 总结：Matter配网流程全景图
 
 一个完整的Matter配网流程，是上述概念和协议的有机结合：
 
@@ -131,17 +131,23 @@ Matter配网流程的标准化和安全性，依赖于一系列精确定义的�
 
 这一套精密的流程设计，确保了Matter设备从开箱到日常使用的整个过程，既对用户友好易用，又在底层拥有银行级的安全性。
 
-## 6 Flowchart on Spec
+## 1.6 Flowchart on Spec
 <div align="center">
   <img src="files/matter/commissioning-flow-diagram.png" width="1080">
 </div>  
 
-## 7 [Flowchart](./files/matter/flowchart.md)  
+## 1.7 [Flowchart](./files/matter/flowchart.md)  
 ### [commissioning-mcu](./files/matter/commissioning-mcu.md)
 ### [commissioning-raspi](./files/matter/commissioning-raspi.md)
 ### [commissioning-log-parse](./files/matter/commissioning-log-parse.md)
 
-# OTA
+# 2 OTA
 ### [ota-chip-tool-202603111828](./files/matter/ota-chip-tool-202603111828.md)
 ### [ota-chip-ota-provider-app-202603111845](./files/matter/ota-chip-ota-provider-app-202603111845.md)
 ### [ota-matter-device-202603111847](./files/matter/ota-matter-device-202603111847.md)
+## 2.1 Flowchart on Spec
+<div align="center">
+  <img src="files/matter/ota-workflow.png" width="1080">
+</div>  
+
+## 2.2 [ota-flow](./files/matter/ota-flow.md)
