@@ -39,3 +39,5 @@ sudo ./chip-tool basicinformation read software-version-string 2250 0
 ## [log-chip-tool](log-chip-tool.md)
 ## [log-ota-provider](log-ota-provider.md)
 ## [log-ota-requestor](log-ota-requestor.md)
+
+# 4 [ota-issue](ota-issue.md)

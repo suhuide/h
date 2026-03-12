@@ -12,6 +12,7 @@
 # [MFG](./files/other/mfg.md)
 # [git](./files/other/git.md)  
 # [Chip-tool](./files/other/chip-tool.md)  
+# [bt-verion-bqb](./files/other/bt-verion-bqb.md)  
 
 # Info
 ```c
@@ -67,6 +68,11 @@ https://hoperf-matter/gitlab/matter
 samba: \\hoperf-matter
 username: suhuide
 password: HA39838M*12
+```
+# Bluetooth SIG
+```c
+Email: suhuide@hoperf.com
+password: #Eric.57
 ```
 
 # NFC
