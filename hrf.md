@@ -12,7 +12,7 @@
 # [MFG](./files/other/mfg.md)
 # [git](./files/other/git.md)  
 # [Chip-tool](./files/other/chip-tool.md)  
-# [bt-verion-bqb](./files/other/bt-verion-bqb.md)  
+# [bt-version-bqb](./files/other/bt-version-bqb.md)  
 
 # Info
 ```c

@@ -69,10 +69,10 @@ Silicon Labs is a leading vendor in Bluetooth hardware and software technologies
 # BQB DN/QDID
 Got information from [bluetooth-qualification](https://docs.silabs.com/bluetooth/latest/bluetooth-qualification/02-bluetooth-qualification#scenario-a-product-listing-using-existing-core-layer-designs)  
 
-|Bluetooth SDK Version and Hardware Part (if any)|Core-Host Configuration Design or Core-Controller Configuration Design|DN|
+|Bluetooth SDK Version|Component|DN/QDID|
 | -- | -- | -- |
-|V11.0.0 and above|Core-Host Configuration Design (Bluetooth 6.1)|Qualified Design details: [Q375690](https://qualification.bluetooth.com/ListingDetails/316168)|
-|V9.0.0.0 and above with xG27 / xG29|Core-Controller Configuration Design (Bluetooth 6.0)|Qualified Design details: [Q375771](https://qualification.bluetooth.com/ListingDetails/316281)|
+|V11.0.0 and above|Channel Sounding, Link Layer (Bluetooth 6.1) and Host stack (Bluetooth 6.1)|Qualified Design details: [Q366996](https://qualification.bluetooth.com/ListingDetails/303046)|
+|V9.0.0.0 and above|Channel Sounding, Link Layer (Bluetooth 6.0) and Host stack (Bluetooth 6.0)|Qualified Design details: [Q317849](https://qualification.bluetooth.com/ListingDetails/240988)|
 
 |SoCs, Modules, Dev. Kits boards	|RFPHY Design #	|Other Controller Layers and Host Design #	|BLE SDK version and SiSDK	|
 | -- | -- | -- | -- |
