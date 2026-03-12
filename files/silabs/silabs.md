@@ -12,6 +12,21 @@ C:\Users\Administrator\.silabs\slt\installs\conan\p\matte66ea43dc8d7de\p\third_p
 C:\Users\Administrator\.silabs\slt\installs\conan\p\matte66ea43dc8d7de\p\third_party\matter_sdk\src\platform\silabs\efr32\BLEManagerImpl.cpp
 C:\Users\Administrator\.silabs\slt\installs\conan\p\matte66ea43dc8d7de\p\third_party\matter_sdk\src\platform\silabs\efr32\BLEManagerImpl.h
 ```
+## Matter Log Level
+```c
+config\sl_matter_config.h
+// <o SL_MATTER_LOG_LEVEL> Log Level
+// <SL_MATTER_LOG_NONE=> None
+// <SL_MATTER_LOG_ERROR=> Error
+// <SL_MATTER_LOG_PROGRESS=> Progress
+// <SL_MATTER_LOG_DETAIL=> Detailed log (debug)
+// <SL_MATTER_LOG_AUTOMATION=> Automation
+// <i> Default: SL_MATTER_LOG_PROGRESS
+// <i> Sets the verbosity of Matter stack logging output
+#ifndef SL_MATTER_LOG_LEVEL
+#define SL_MATTER_LOG_LEVEL SL_MATTER_LOG_PROGRESS
+#endif
+```
 ## [Commander](commander.md)  
 ## Serial Config
 ```c

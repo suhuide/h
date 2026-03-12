@@ -1,49 +1,8 @@
 ```c
-ubuntu@ubuntu:~$ sudo ./chip-ota-provider-app --KVS /tmp/chip_kvs_provider -f bk01_matter_0x149A_0x3215-v0.0.2-signed-cebe2e75.ota tool otasoftwareupdaterequestor announce-otaprovider 1 0 0 0 2250 0 
-
-
-accesscontrol write acl '[{"fabricIndex": 1, "privilege": 5, "authMode": 2, "subjects": [112233], "targets": null}, {"fabricIndex": 1, "privilege": 3, "authMode": 2, "subjects": null, "targets": null}]' 1 0 pairing onnetwork 1 20202021
-
-
-
-ble-thread 2250 hex:0e080000000000010000000300001835060004001fffe002084c579a3a07ca63460708fdf932b502298114051045595f06b2527f449aea00b5e951f986030f4f70656e5468726561642d636464320102cdd20410b0e3317425a943ad8267f8b9abbde4d20c0402a0f7f8 85956333 1884 --paa-trust-store-path ~/paa-root-certsrm -rf /tmp/chip_*
-
-
-
-
-
-
-ps -ef | grep "ota"
-sudo ./chip-tool basicinformation read software-version-string 2250 0
-ps -ef | grep "ota"
-
-ubuntu   3956696 3950442  0 11:03 pts/0    00:00:00 grep --color=auto ota
-ubuntu@ubuntu:~$ ps -ef | grep "ota"
-sudo ./chip-ota-provider-app --KVS /tmp/chip_kvs_provider -f bk01_matter_0x149A_0x3215-v0.0.2-signed-cebe2e75.ota tool otasoftwareupdaterequestor announce-otaprovider 1 0 0 0 2250 0 
-
-
-accesscontrol write acl '[{"fabricIndex": 1, "privilege": 5, "authMode": 2, "subjects": [112233], "targets": null}, {"fabricIndex": 1, "privilege": 3, "authMode": 2, "subjects": null, "targets": null}]' 1 0 pairing onnetwork 1 20202021
-
-
-
-ble-thread 2250 hex:0e080000000000010000000300001835060004001fffe002084c579a3a07ca63460708fdf932b502298114051045595f06b2527f449aea00b5e951f986030f4f70656e5468726561642d636464320102cdd20410b0e3317425a943ad8267f8b9abbde4d20c0402a0f7f8 85956333 1884 --paa-trust-store-path ~/paa-root-certsrm -rf /tmp/chip_*
-
-
-
-
-
-
 
 ubuntu@ubuntu:~$ sudo rm -rf /tmp/chip_*
-ps -ef | grep "ota"
-sudo ./chip-ota-provider-app --KVS /tmp/chip_kvs_provider -f bk01_matter_0x149A_0x3215-v0.0.2-signed-cebe2e75.ota tool otasoftwareupdaterequestor announce-otaprovider 1 0 0 0 2250 0 
 
-
-accesscontrol write acl '[{"fabricIndex": 1, "privilege": 5, "authMode": 2, "subjects": [112233], "targets": null}, {"fabricIndex": 1, "privilege": 3, "authMode": 2, "subjects": null, "targets": null}]' 1 0 pairing onnetwork 1 20202021
-
-
-
-ble-thread 2250 hex:0e080000000000010000000300001835060004001fffe002084c579a3a07ca63460708fdf932b502298114051045595f06b2527f449aea00b5e951f986030f4f70656e5468726561642d636464320102cdd20410b0e3317425a943ad8267f8b9abbde4d20c0402a0f7f8 85956333 1884 --paa-trust-store-path ~/paa-root-certs
+ubuntu@ubuntu:~$ sudo ./chip-tool pairing ble-thread 2250 hex:0e080000000000010000000300001835060004001fffe002084c579a3a07ca63460708fdf932b502298114051045595f06b2527f449aea00b5e951f986030f4f70656e5468726561642d636464320102cdd20410b0e3317425a943ad8267f8b9abbde4d20c0402a0f7f8 85956333 1884 --paa-trust-store-path ~/paa-root-certs
 
 [1773227052.183] [3957580:3957580] [DL] ChipLinuxStorage::Init: Using KVS config file: /tmp/chip_tool_kvs
 [1773227052.191] [3957580:3957580] [DL] Wrote settings to /tmp/chip_tool_kvs
