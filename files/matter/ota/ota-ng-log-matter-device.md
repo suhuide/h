@@ -1,228 +1,4 @@
-
 ```c
-[18:26:30.046]  [00:00:15.967][info  ][DL] Connect Event for CHIPoBLE on handle : 1
-[18:26:30.046]  [00:00:15.968][info  ][DL] Connection Parameters Event for handle : 1
-[18:26:30.047]  [00:00:15.968][info  ][DL] Connection parameter ID received - i:39, l:0, t:42, sm:0
-[18:26:30.047]  [00:00:15.968][info  ][DL] Renegotiate BLE connection parameters to minInterval:16, maxInterval:80, timeout:100
-[18:26:30.049]  [00:00:15.969][info  ][DL] Connection phy status ID received - phy:1
-[18:26:30.154]  [00:00:16.073][info  ][DL] Connection data length ID received - txL:251, txT:2120, rxL:251, rxL:2120
-[18:26:30.493]  [00:00:16.415][info  ][DL] Connection Parameters Event for handle : 1
-[18:26:30.493]  [00:00:16.415][info  ][DL] Connection parameter ID received - i:78, l:0, t:100, sm:0
-[18:26:33.633]  [00:00:19.555][info  ][DL] Char Write Req, char : 23
-[18:26:33.633]  [00:00:19.555][info  ][DL] _OnPlatformEvent kCHIPoBLEWriteReceived
-[18:26:33.633]  [00:00:19.556][info  ][BLE] local and remote recv window sizes = 5
-[18:26:33.635]  [00:00:19.556][info  ][BLE] selected BTP version 4
-[18:26:33.635]  [00:00:19.556][info  ][BLE] using BTP fragment sizes rx 244 / tx 244.
-[18:26:33.829]  [00:00:19.750][info  ][DL] HandleTXcharCCCDWrite - Config Flags value : 2
-[18:26:33.829]  [00:00:19.750][info  ][DL] CHIPoBLE subscribe received
-[18:26:33.830]  [00:00:19.750][info  ][DL] _OnPlatformEvent kCHIPoBLESubscribe
-[18:26:33.830]  [00:00:19.751][info  ][DL] _OnPlatformEvent default:  event->Type = 32774
-[18:26:33.832]  [00:00:19.751][silabs ]NWK: kCHIPoBLEConnectionEstablished,32774
-[18:26:33.832]  [00:00:19.751][silabs ]COM: notify network [Joining]
-[18:26:33.833]  [00:00:19.752][silabs ]MATTER TX: 55 AA 01 00 02 02 01 03 08 
-[18:26:33.833]  [00:00:19.752][silabs ]COM: CMD: 0x02, SN: 0x0002, LEN: 9
-[18:26:33.833]  
-[18:26:33.836]  [00:00:19.752][silabs ]SPP: ack_timeout_ms 500
-[18:26:34.024]  [00:00:19.945][info  ][DL] Tx Confirmation received
-[18:26:34.024]  [00:00:19.945][info  ][DL]  stop soft timer
-[18:26:34.024]  [00:00:19.946][info  ][DL] _OnPlatformEvent kCHIPoBLEIndicateConfirm
-[18:26:34.025]  [00:00:19.947][info  ][DL] Char Write Req, char : 23
-[18:26:34.025]  [00:00:19.947][info  ][DL] _OnPlatformEvent kCHIPoBLEWriteReceived
-[18:26:34.026]  [00:00:19.948][info  ][EM] >>> [E:41026r S:0 M:61323357] (U) Msg RX from 0:C54ACC76083FDCA0 [0000] to 0000000000000000 --- Type 0000:20 (SecureChannel:PBKDFParamRequest) (B:98)
-[18:26:34.028]  [00:00:19.951][info  ][EM] <<< [E:41026r S:0 M:156745214] (U) Msg TX from 0000000000000000 to 0:C54ACC76083FDCA0 [0000] [BLE] --- Type 0000:21 (SecureChannel:PBKDFParamResponse) (B:153)
-[18:26:34.034]  [00:00:19.951][info  ][SVR] Commissioning session establishment step started
-[18:26:34.218]  [00:00:20.140][info  ][DL] Tx Confirmation received
-[18:26:34.218]  [00:00:20.140][info  ][DL]  stop soft timer
-[18:26:34.218]  [00:00:20.140][info  ][DL] _OnPlatformEvent kCHIPoBLEIndicateConfirm
-[18:26:34.220]  [00:00:20.142][info  ][DL] Char Write Req, char : 23
-[18:26:34.220]  [00:00:20.142][info  ][DL] _OnPlatformEvent kCHIPoBLEWriteReceived
-[18:26:34.221]  [00:00:20.143][info  ][EM] >>> [E:41026r S:0 M:61323358] (U) Msg RX from 0:C54ACC76083FDCA0 [0000] to 0000000000000000 --- Type 0000:22 (SecureChannel:PASE_Pake1) (B:92)
-[18:26:34.280]  [00:00:20.202][info  ][EM] <<< [E:41026r S:0 M:156745215] (U) Msg TX from 0000000000000000 to 0:C54ACC76083FDCA0 [0000] [BLE] --- Type 0000:23 (SecureChannel:PASE_Pake2) (B:127)
-[18:26:34.332]  [00:00:20.253][silabs ]SPP: re-sent count 1, ack_timeout_ms 500
-[18:26:34.332]  [00:00:20.253][silabs ]MATTER TX: 55 AA 01 00 02 02 01 03 08 
-[18:26:34.334]  [00:00:20.253][silabs ]COM: CMD: 0x02, SN: 0x0002, LEN: 9
-[18:26:34.339]  
-[18:26:34.413]  [00:00:20.335][info  ][DL] Tx Confirmation received
-[18:26:34.413]  [00:00:20.335][info  ][DL]  stop soft timer
-[18:26:34.413]  [00:00:20.335][info  ][DL] _OnPlatformEvent kCHIPoBLEIndicateConfirm
-[18:26:34.416]  [00:00:20.336][info  ][DL] Char Write Req, char : 23
-[18:26:34.416]  [00:00:20.336][info  ][DL] _OnPlatformEvent kCHIPoBLEWriteReceived
-[18:26:34.417]  [00:00:20.337][info  ][EM] >>> [E:41026r S:0 M:61323359] (U) Msg RX from 0:C54ACC76083FDCA0 [0000] to 0000000000000000 --- Type 0000:24 (SecureChannel:PASE_Pake3) (B:59)
-[18:26:34.418]  [00:00:20.338][info  ][EM] <<< [E:41026r S:0 M:156745216] (U) Msg TX from 0000000000000000 to 0:C54ACC76083FDCA0 [0000] [BLE] --- Type 0000:40 (SecureChannel:StatusReport) (B:30)
-[18:26:34.421]  [00:00:20.343][info  ][SC] SecureSession[0x20006e28, LSID:1630]: State change 'kEstablishing' --> 'kActive'
-[18:26:34.421]  [00:00:20.343][info  ][SVR] Commissioning completed session establishment step
-[18:26:34.423]  [00:00:20.343][info  ][DIS] Updating services using commissioning mode 0
-[18:26:34.424]  [00:00:20.344][error ][DIS] Failed to remove advertised services: 3
-[18:26:34.424]  [00:00:20.344][error ][DIS] Failed to finalize service update: 3
-[18:26:34.425]  [00:00:20.344][info  ][SVR] Device completed Rendezvous process
-[18:26:34.425]  [00:00:20.344][info  ][DL] _OnPlatformEvent default:  event->Type = 32792
-[18:26:34.426]  [00:00:20.344][silabs ]NWK: platform event type 32792
-[18:26:34.426]  [00:00:20.345][info  ][DL] _OnPlatformEvent default:  event->Type = 32781
-[18:26:34.430]  [00:00:20.345][silabs ]NWK: kCHIPoBLEAdvertisingChange,32781
-[18:26:34.608]  [00:00:20.530][info  ][DL] Tx Confirmation received
-[18:26:34.608]  [00:00:20.530][info  ][DL]  stop soft timer
-[18:26:34.608]  [00:00:20.531][info  ][DL] _OnPlatformEvent kCHIPoBLEIndicateConfirm
-[18:26:34.610]  [00:00:20.532][info  ][DL] Char Write Req, char : 23
-[18:26:34.610]  [00:00:20.533][info  ][DL] _OnPlatformEvent kCHIPoBLEWriteReceived
-[18:26:34.613]  [00:00:20.535][info  ][EM] >>> [E:41027r S:1630 M:231642307] (S) Msg RX from 0:FFFFFFFB00000000 [0000] to 0000000000000000 --- Type 0001:02 (IM:ReadRequest) (B:136)
-[18:26:34.621]  [00:00:20.542][error ][DMG] Fail to retrieve data, roll back and encode status on clusterId: 0x0000_0030, attributeId: 0x0000_000Cerr = 586
-[18:26:34.628]  [00:00:20.549][info  ][EM] <<< [E:41027r S:1630 M:118042712] (S) Msg TX from 0000000000000000 to 0:FFFFFFFB00000000 [0000] [BLE] --- Type 0001:05 (IM:ReportData) (B:253)
-[18:26:34.804]  [00:00:20.725][info  ][DL] Tx Confirmation received
-[18:26:34.804]  [00:00:20.725][info  ][DL]  stop soft timer
-[18:26:34.804]  [00:00:20.726][info  ][DL] _OnPlatformEvent kCHIPoBLEIndicateConfirm
-[18:26:34.832]  [00:00:20.754][silabs ]SPP: re-sent count 2, ack_timeout_ms 500
-[18:26:34.832]  [00:00:20.754][silabs ]MATTER TX: 55 AA 01 00 02 02 01 03 08 
-[18:26:34.835]  [00:00:20.754][silabs ]COM: CMD: 0x02, SN: 0x0002, LEN: 9
-[18:26:34.839]  
-[18:26:34.998]  [00:00:20.920][info  ][DL] Tx Confirmation received
-[18:26:34.998]  [00:00:20.920][info  ][DL]  stop soft timer
-[18:26:34.998]  [00:00:20.920][info  ][DL] _OnPlatformEvent kCHIPoBLEIndicateConfirm
-[18:26:35.000]  [00:00:20.921][info  ][DL] Char Write Req, char : 23
-[18:26:35.000]  [00:00:20.922][info  ][DL] _OnPlatformEvent kCHIPoBLEWriteReceived
-[18:26:35.002]  [00:00:20.924][info  ][EM] >>> [E:41028r S:1630 M:231642308] (S) Msg RX from 0:FFFFFFFB00000000 [0000] to 0000000000000000 --- Type 0001:02 (IM:ReadRequest) (B:112)
-[18:26:35.010]  [00:00:20.932][error ][DMG] Fail to retrieve data, roll back and encode status on clusterId: 0x0000_0046, attributeId: 0x0000_0007err = 586
-[18:26:35.012]  [00:00:20.933][error ][DMG] Fail to retrieve data, roll back and encode status on clusterId: 0x0000_0046, attributeId: 0x0000_0006err = 586
-[18:26:35.017]  [00:00:20.938][info  ][EM] <<< [E:41028r S:1630 M:118042713] (S) Msg TX from 0000000000000000 to 0:FFFFFFFB00000000 [0000] [BLE] --- Type 0001:05 (IM:ReportData) (B:218)
-[18:26:35.194]  [00:00:21.115][info  ][DL] Tx Confirmation received
-[18:26:35.194]  [00:00:21.115][info  ][DL]  stop soft timer
-[18:26:35.194]  [00:00:21.116][info  ][DL] _OnPlatformEvent kCHIPoBLEIndicateConfirm
-[18:26:35.195]  [00:00:21.117][info  ][DL] Char Write Req, char : 23
-[18:26:35.195]  [00:00:21.117][info  ][DL] _OnPlatformEvent kCHIPoBLEWriteReceived
-[18:26:35.197]  [00:00:21.119][info  ][EM] >>> [E:41029r S:1630 M:231642309] (S) Msg RX from 0:FFFFFFFB00000000 [0000] to 0000000000000000 --- Type 0001:08 (IM:InvokeCommandRequest) (B:65)
-[18:26:35.199]  [00:00:21.121][info  ][FS] GeneralCommissioning: Received ArmFailSafe (60s)
-[18:26:35.201]  [00:00:21.123][info  ][EM] <<< [E:41029r S:1630 M:118042714] (S) Msg TX from 0000000000000000 to 0:FFFFFFFB00000000 [0000] [BLE] --- Type 0001:09 (IM:InvokeCommandResponse) (B:66)
-[18:26:35.335]  [00:00:21.255][silabs ]SPP: re-sent reach to max
-[18:26:35.486]  [00:00:21.408][info  ][DL] Tx Confirmation received
-[18:26:35.486]  [00:00:21.408][info  ][DL]  stop soft timer
-[18:26:35.486]  [00:00:21.408][info  ][DL] _OnPlatformEvent kCHIPoBLEIndicateConfirm
-[18:26:35.487]  [00:00:21.409][info  ][DL] Char Write Req, char : 23
-[18:26:35.487]  [00:00:21.410][info  ][DL] _OnPlatformEvent kCHIPoBLEWriteReceived
-[18:26:35.489]  [00:00:21.412][info  ][EM] >>> [E:41030r S:1630 M:231642310] (S) Msg RX from 0:FFFFFFFB00000000 [0000] to 0000000000000000 --- Type 0001:08 (IM:InvokeCommandRequest) (B:70)
-[18:26:35.492]  [00:00:21.415][info  ][EM] <<< [E:41030r S:1630 M:118042715] (S) Msg TX from 0000000000000000 to 0:FFFFFFFB00000000 [0000] [BLE] --- Type 0001:09 (IM:InvokeCommandResponse) (B:66)
-[18:26:35.681]  [00:00:21.602][info  ][DL] Tx Confirmation received
-[18:26:35.681]  [00:00:21.603][info  ][DL]  stop soft timer
-[18:26:35.681]  [00:00:21.603][info  ][DL] _OnPlatformEvent kCHIPoBLEIndicateConfirm
-[18:26:35.683]  [00:00:21.604][info  ][DL] Char Write Req, char : 23
-[18:26:35.683]  [00:00:21.604][info  ][DL] _OnPlatformEvent kCHIPoBLEWriteReceived
-[18:26:35.685]  [00:00:21.607][info  ][EM] >>> [E:41031r S:1630 M:231642311] (S) Msg RX from 0:FFFFFFFB00000000 [0000] to 0000000000000000 --- Type 0001:08 (IM:InvokeCommandRequest) (B:62)
-[18:26:35.686]  [00:00:21.608][info  ][ZCL] OpCreds: Certificate Chain request received for PAI
-[18:26:35.687]  [00:00:21.608][info  ][DL] GetProductAttestationIntermediateCert, addr:0x817e000+4608, size:470
-[18:26:35.689]  [00:00:21.611][info  ][EM] <<< [E:41031r S:1630 M:118042716] (S) Msg TX from 0000000000000000 to 0:FFFFFFFB00000000 [0000] [BLE] --- Type 0001:09 (IM:InvokeCommandResponse) (B:534)
-[18:26:35.876]  [00:00:21.797][info  ][DL] Tx Confirmation received
-[18:26:35.876]  [00:00:21.798][info  ][DL]  stop soft timer
-[18:26:35.876]  [00:00:21.798][info  ][DL] _OnPlatformEvent kCHIPoBLEIndicateConfirm
-[18:26:36.169]  [00:00:22.090][info  ][DL] Tx Confirmation received
-[18:26:36.169]  [00:00:22.090][info  ][DL]  stop soft timer
-[18:26:36.169]  [00:00:22.090][info  ][DL] _OnPlatformEvent kCHIPoBLEIndicateConfirm
-[18:26:36.364]  [00:00:22.285][info  ][DL] Tx Confirmation received
-[18:26:36.364]  [00:00:22.286][info  ][DL]  stop soft timer
-[18:26:36.364]  [00:00:22.286][info  ][DL] _OnPlatformEvent kCHIPoBLEIndicateConfirm
-[18:26:36.365]  [00:00:22.287][info  ][DL] Char Write Req, char : 23
-[18:26:36.365]  [00:00:22.287][info  ][DL] _OnPlatformEvent kCHIPoBLEWriteReceived
-[18:26:36.367]  [00:00:22.289][info  ][EM] >>> [E:41032r S:1630 M:231642312] (S) Msg RX from 0:FFFFFFFB00000000 [0000] to 0000000000000000 --- Type 0001:08 (IM:InvokeCommandRequest) (B:62)
-[18:26:36.368]  [00:00:22.291][info  ][ZCL] OpCreds: Certificate Chain request received for DAC
-[18:26:36.370]  [00:00:22.291][info  ][DL] GetDeviceAttestationCert, addr:0x817e000+4096, size:480
-[18:26:36.370]  [00:00:22.293][info  ][EM] <<< [E:41032r S:1630 M:118042717] (S) Msg TX from 0000000000000000 to 0:FFFFFFFB00000000 [0000] [BLE] --- Type 0001:09 (IM:InvokeCommandResponse) (B:544)
-[18:26:36.558]  [00:00:22.480][info  ][DL] Tx Confirmation received
-[18:26:36.558]  [00:00:22.480][info  ][DL]  stop soft timer
-[18:26:36.558]  [00:00:22.481][info  ][DL] _OnPlatformEvent kCHIPoBLEIndicateConfirm
-[18:26:36.754]  [00:00:22.675][info  ][DL] Tx Confirmation received
-[18:26:36.754]  [00:00:22.675][info  ][DL]  stop soft timer
-[18:26:36.754]  [00:00:22.675][info  ][DL] _OnPlatformEvent kCHIPoBLEIndicateConfirm
-[18:26:36.948]  [00:00:22.870][info  ][DL] Tx Confirmation received
-[18:26:36.948]  [00:00:22.871][info  ][DL]  stop soft timer
-[18:26:36.948]  [00:00:22.871][info  ][DL] _OnPlatformEvent kCHIPoBLEIndicateConfirm
-[18:26:36.950]  [00:00:22.872][info  ][DL] Char Write Req, char : 23
-[18:26:36.950]  [00:00:22.873][info  ][DL] _OnPlatformEvent kCHIPoBLEWriteReceived
-[18:26:36.952]  [00:00:22.875][info  ][EM] >>> [E:41033r S:1630 M:231642313] (S) Msg RX from 0:FFFFFFFB00000000 [0000] to 0000000000000000 --- Type 0001:08 (IM:InvokeCommandRequest) (B:94)
-[18:26:36.953]  [00:00:22.875][info  ][ZCL] OpCreds: Received an AttestationRequest command
-[18:26:36.959]  [00:00:22.875][info  ][DL] GetCertificationDeclaration, addr:0x817e000+5120, size:245
-[18:26:36.961]  [00:00:22.882][info  ][DL] SignWithDeviceAttestationKey, kid:2, msg_size:304, sig_size:64, err:0x00
-[18:26:36.961]  [00:00:22.883][info  ][ZCL] OpCreds: AttestationRequest successful.
-[18:26:36.963]  [00:00:22.885][info  ][EM] <<< [E:41033r S:1630 M:118042718] (S) Msg TX from 0000000000000000 to 0:FFFFFFFB00000000 [0000] [BLE] --- Type 0001:09 (IM:InvokeCommandResponse) (B:419)
-[18:26:37.144]  [00:00:23.065][info  ][DL] Tx Confirmation received
-[18:26:37.144]  [00:00:23.066][info  ][DL]  stop soft timer
-[18:26:37.144]  [00:00:23.066][info  ][DL] _OnPlatformEvent kCHIPoBLEIndicateConfirm
-[18:26:37.339]  [00:00:23.260][info  ][DL] Tx Confirmation received
-[18:26:37.339]  [00:00:23.260][info  ][DL]  stop soft timer
-[18:26:37.339]  [00:00:23.260][info  ][DL] _OnPlatformEvent kCHIPoBLEIndicateConfirm
-[18:26:37.340]  [00:00:23.261][info  ][DL] Char Write Req, char : 23
-[18:26:37.340]  [00:00:23.262][info  ][DL] _OnPlatformEvent kCHIPoBLEWriteReceived
-[18:26:37.343]  [00:00:23.264][info  ][EM] >>> [E:41034r S:1630 M:231642314] (S) Msg RX from 0:FFFFFFFB00000000 [0000] to 0000000000000000 --- Type 0001:08 (IM:InvokeCommandRequest) (B:94)
-[18:26:37.344]  [00:00:23.265][info  ][ZCL] OpCreds: Received a CSRRequest command
-[18:26:37.348]  [00:00:23.266][error ][CR] WARNING: PSA key recycled: 0 / 17408
-[18:26:37.360]  [00:00:23.280][info  ][ZCL] OpCreds: AllocatePendingOperationalKey succeeded
-[18:26:37.364]  [00:00:23.286][info  ][DL] SignWithDeviceAttestationKey, kid:2, msg_size:278, sig_size:64, err:0x00
-[18:26:37.364]  [00:00:23.286][info  ][ZCL] OpCreds: CSRRequest successful.
-[18:26:37.366]  [00:00:23.288][info  ][EM] <<< [E:41034r S:1630 M:118042719] (S) Msg TX from 0000000000000000 to 0:FFFFFFFB00000000 [0000] [BLE] --- Type 0001:09 (IM:InvokeCommandResponse) (B:393)
-[18:26:37.534]  [00:00:23.456][info  ][DL] Tx Confirmation received
-[18:26:37.534]  [00:00:23.456][info  ][DL]  stop soft timer
-[18:26:37.534]  [00:00:23.456][info  ][DL] _OnPlatformEvent kCHIPoBLEIndicateConfirm
-[18:26:37.728]  [00:00:23.650][info  ][DL] Tx Confirmation received
-[18:26:37.728]  [00:00:23.650][info  ][DL]  stop soft timer
-[18:26:37.728]  [00:00:23.651][info  ][DL] _OnPlatformEvent kCHIPoBLEIndicateConfirm
-[18:26:37.730]  [00:00:23.653][info  ][DL] Char Write Req, char : 23
-[18:26:37.730]  [00:00:23.653][info  ][DL] _OnPlatformEvent kCHIPoBLEWriteReceived
-[18:26:37.926]  [00:00:23.846][info  ][DL] Char Write Req, char : 23
-[18:26:37.926]  [00:00:23.846][info  ][DL] _OnPlatformEvent kCHIPoBLEWriteReceived
-[18:26:37.926]  [00:00:23.848][info  ][EM] >>> [E:41035r S:1630 M:231642315] (S) Msg RX from 0:FFFFFFFB00000000 [0000] to 0000000000000000 --- Type 0001:08 (IM:InvokeCommandRequest) (B:293)
-[18:26:37.931]  [00:00:23.849][info  ][ZCL] OpCreds: Received an AddTrustedRootCertificate command
-[18:26:37.942]  [00:00:23.863][info  ][ZCL] OpCreds: AddTrustedRootCertificate successful.
-[18:26:37.942]  [00:00:23.865][info  ][EM] <<< [E:41035r S:1630 M:118042720] (S) Msg TX from 0000000000000000 to 0:FFFFFFFB00000000 [0000] [BLE] --- Type 0001:09 (IM:InvokeCommandResponse) (B:63)
-[18:26:38.118]  [00:00:24.040][info  ][DL] Tx Confirmation received
-[18:26:38.118]  [00:00:24.041][info  ][DL]  stop soft timer
-[18:26:38.118]  [00:00:24.041][info  ][DL] _OnPlatformEvent kCHIPoBLEIndicateConfirm
-[18:26:38.122]  [00:00:24.042][info  ][DL] Char Write Req, char : 23
-[18:26:38.122]  [00:00:24.043][info  ][DL] _OnPlatformEvent kCHIPoBLEWriteReceived
-[18:26:38.319]  [00:00:24.238][info  ][DL] Char Write Req, char : 23
-[18:26:38.319]  [00:00:24.238][info  ][DL] _OnPlatformEvent kCHIPoBLEWriteReceived
-[18:26:38.510]  [00:00:24.431][info  ][DL] Char Write Req, char : 23
-[18:26:38.510]  [00:00:24.431][info  ][DL] _OnPlatformEvent kCHIPoBLEWriteReceived
-[18:26:38.510]  [00:00:24.433][info  ][EM] >>> [E:41036r S:1630 M:231642316] (S) Msg RX from 0:FFFFFFFB00000000 [0000] to 0000000000000000 --- Type 0001:08 (IM:InvokeCommandRequest) (B:567)
-[18:26:38.514]  [00:00:24.435][info  ][ZCL] OpCreds: Received an AddNOC command
-[18:26:38.514]  [00:00:24.437][info  ][FP] Validating NOC chain
-[18:26:38.544]  [00:00:24.465][info  ][FP] NOC chain validation successful
-[18:26:38.544]  [00:00:24.465][info  ][FP] Added new fabric at index: 0x1
-[18:26:38.544]  [00:00:24.465][info  ][FP] Assigned compressed fabric ID: 0x0FCE5DA14975F0EB, node ID: 0x00000000000008CA
-[18:26:38.545]  [00:00:24.465][info  ][TS] Last Known Good Time: 2023-10-10T16:28:52
-[18:26:38.546]  [00:00:24.466][info  ][TS] New proposed Last Known Good Time: 2021-01-01T00:00:00
-[18:26:38.546]  [00:00:24.466][info  ][TS] Retaining current Last Known Good Time
-[18:26:38.556]  [00:00:24.478][info  ][ZCL] OpCreds: ACL entry created for Fabric index 0x1 CASE Admin Subject 0x000000000001B669
-[18:26:38.556]  [00:00:24.478][info  ][DIS] Advertise operational node 0FCE5DA14975F0EB-00000000000008CA
-[18:26:38.557]  [00:00:24.478][error ][SVR] Operational advertising failed: 3
-[18:26:38.558]  [00:00:24.478][info  ][ZCL] OpCreds: successfully created fabric index 0x1 via AddNOC
-[18:26:38.558]  [00:00:24.481][info  ][EM] <<< [E:41036r S:1630 M:118042721] (S) Msg TX from 0000000000000000 to 1:FFFFFFFB00000000 [F0EB] [BLE] --- Type 0001:09 (IM:InvokeCommandResponse) (B:66)
-[18:26:38.703]  [00:00:24.625][info  ][DL] Tx Confirmation received
-[18:26:38.703]  [00:00:24.625][info  ][DL]  stop soft timer
-[18:26:38.703]  [00:00:24.625][info  ][DL] _OnPlatformEvent kCHIPoBLEIndicateConfirm
-[18:26:38.706]  [00:00:24.627][info  ][DL] Char Write Req, char : 23
-[18:26:38.706]  [00:00:24.627][info  ][DL] _OnPlatformEvent kCHIPoBLEWriteReceived
-[18:26:38.708]  [00:00:24.629][info  ][EM] >>> [E:41037r S:1630 M:231642317] (S) Msg RX from 1:FFFFFFFB00000000 [F0EB] to 0000000000000000 --- Type 0001:08 (IM:InvokeCommandRequest) (B:171)
-[18:26:38.713]  [00:00:24.634][info  ][EM] <<< [E:41037r S:1630 M:118042722] (S) Msg TX from 0000000000000000 to 1:FFFFFFFB00000000 [F0EB] [BLE] --- Type 0001:09 (IM:InvokeCommandResponse) (B:66)
-[18:26:38.996]  [00:00:24.917][info  ][DL] Tx Confirmation received
-[18:26:38.996]  [00:00:24.917][info  ][DL]  stop soft timer
-[18:26:38.996]  [00:00:24.918][info  ][DL] _OnPlatformEvent kCHIPoBLEIndicateConfirm
-[18:26:38.997]  [00:00:24.919][info  ][DL] Char Write Req, char : 23
-[18:26:38.997]  [00:00:24.919][info  ][DL] _OnPlatformEvent kCHIPoBLEWriteReceived
-[18:26:38.999]  [00:00:24.921][info  ][EM] >>> [E:41038r S:1630 M:231642318] (S) Msg RX from 1:FFFFFFFB00000000 [F0EB] to 0000000000000000 --- Type 0001:08 (IM:InvokeCommandRequest) (B:65)
-[18:26:39.002]  [00:00:24.922][info  ][FS] GeneralCommissioning: Received ArmFailSafe (108s)
-[18:26:39.003]  [00:00:24.925][info  ][EM] <<< [E:41038r S:1630 M:118042723] (S) Msg TX from 0000000000000000 to 1:FFFFFFFB00000000 [F0EB] [BLE] --- Type 0001:09 (IM:InvokeCommandResponse) (B:66)
-[18:26:39.288]  [00:00:25.210][info  ][DL] Tx Confirmation received
-[18:26:39.288]  [00:00:25.210][info  ][DL]  stop soft timer
-[18:26:39.288]  [00:00:25.210][info  ][DL] _OnPlatformEvent kCHIPoBLEIndicateConfirm
-[18:26:39.289]  [00:00:25.211][info  ][DL] Char Write Req, char : 23
-[18:26:39.289]  [00:00:25.212][info  ][DL] _OnPlatformEvent kCHIPoBLEWriteReceived
-[18:26:39.292]  [00:00:25.214][info  ][EM] >>> [E:41039r S:1630 M:231642319] (S) Msg RX from 1:FFFFFFFB00000000 [F0EB] to 0000000000000000 --- Type 0001:08 (IM:InvokeCommandRequest) (B:73)
-[18:26:39.303]  [00:00:25.224][info  ][DL] _OnPlatformEvent default:  event->Type = 32772
-[18:26:39.303]  [00:00:25.225][silabs ]NWK: platform event type 32772
-[18:26:39.304]  [00:00:25.225][info  ][DL] _OnPlatformEvent default:  event->Type = 32779
-[18:26:39.304]  [00:00:25.226][silabs ]NWK: platform event type 32779
-[18:26:40.787]  [00:00:26.708][info  ][DL] SRP Client was started, detected server: fdf9:32b5:0229:8114:6099:a3c9:ee56:68a9
-[18:26:40.787]  [00:00:26.708][info  ][DL] _OnPlatformEvent default:  event->Type = 32779
-[18:26:40.789]  [00:00:26.708][info  ][ZCL] ThreadDiagnosticsDelegate: OnConnectionStatusChanged
-[18:26:40.790]  [00:00:26.709][silabs ]NWK: platform event type 32779
-[18:26:40.790]  [00:00:26.710][info  ][DL] _OnPlatformEvent default:  event->Type = 32769
-[18:26:40.791]  [00:00:26.710][silabs ]NWK: kThreadConnectivityChange,32769
 [18:26:40.791]  [00:00:26.710][silabs ]NWK: Thread Established
 [18:26:40.791]  [00:00:26.710][silabs ]COM: notify network [Joined]
 [18:26:40.792]  [00:00:26.710][info  ][SVR] Scheduling OTA Requestor initialization
@@ -234,10 +10,6 @@
 [18:26:40.798]  [00:00:26.715][silabs ]NWK: platform event type 32785
 [18:26:40.798]  [00:00:26.715][info  ][DL] _OnPlatformEvent default:  event->Type = 32779
 [18:26:40.800]  [00:00:26.716][silabs ]NWK: platform event type 32779
-[18:26:40.800]  [00:00:26.717][silabs ]MATTER TX: 55 AA 01 00 03 02 01 01 07 
-[18:26:40.801]  [00:00:26.717][silabs ]COM: CMD: 0x02, SN: 0x0003, LEN: 9
-[18:26:40.801]  
-[18:26:40.801]  [00:00:26.717][silabs ]SPP: ack_timeout_ms 500
 [18:26:40.947]  [00:00:26.868][info  ][DL] Tx Confirmation received
 [18:26:40.947]  [00:00:26.868][info  ][DL]  stop soft timer
 [18:26:40.947]  [00:00:26.869][info  ][DL] _OnPlatformEvent kCHIPoBLEIndicateConfirm
@@ -251,15 +23,6 @@
 [18:26:41.229]  [00:00:27.147][info  ][DL] _OnPlatformEvent default:  event->Type = 32790
 [18:26:41.229]  [00:00:27.148][silabs ]NWK: platform event type 32790
 [18:26:41.239]  [00:00:27.158][info  ][IM] No subscriptions to resume
-[18:26:41.296]  [00:00:27.218][silabs ]SPP: re-sent count 1, ack_timeout_ms 500
-[18:26:41.296]  [00:00:27.218][silabs ]MATTER TX: 55 AA 01 00 03 02 01 01 07 
-[18:26:41.300]  [00:00:27.218][silabs ]COM: CMD: 0x02, SN: 0x0003, LEN: 9
-[18:26:41.304]  
-[18:26:41.797]  [00:00:27.719][silabs ]SPP: re-sent count 2, ack_timeout_ms 500
-[18:26:41.797]  [00:00:27.719][silabs ]MATTER TX: 55 AA 01 00 03 02 01 01 07 
-[18:26:41.800]  [00:00:27.719][silabs ]COM: CMD: 0x02, SN: 0x0003, LEN: 9
-[18:26:41.804]  
-[18:26:42.300]  [00:00:28.220][silabs ]SPP: re-sent reach to max
 [18:26:43.228]  [00:00:29.150][info  ][EM] >>> [E:41040r S:0 M:61323360] (U) Msg RX from 0:95101FF690DB3684 [0000] to 0000000000000000 --- Type 0000:30 (SecureChannel:CASE_Sigma1) (B:196)
 [18:26:43.230]  [00:00:29.151][info  ][IN] CASE Server received Sigma1 message . Starting handshake. EC 0x200087a8
 [18:26:43.231]  [00:00:29.151][info  ][EM] <<< [E:41040r S:0 M:156745217 (Ack:61323360)] (U) Msg TX from 0000000000000000 to 0:95101FF690DB3684 [0000] [UDP:[fd53:6f42:3a33:4efe:8aa2:9eff:fe1d:c2c2]:48131] --- Type 0000:10 (SecureChannel:StandaloneAck) (B:26)
@@ -290,8 +53,6 @@
 [18:26:44.526]  [00:00:30.447][info  ][FS] Fail-safe cleanly disarmed
 [18:26:44.528]  [00:00:30.449][info  ][EM] <<< [E:41041r S:1629 M:93077980 (Ack:138337965)] (S) Msg TX from 00000000000008CA to 1:000000000001B669 [F0EB] [UDP:[fd53:6f42:3a33:4efe:8aa2:9eff:fe1d:c2c2]:48131] --- Type 0001:09 (IM:InvokeCommandResponse) (B:70)
 [18:26:44.530]  [00:00:30.450][info  ][EM] ??1 [E:41041r S:1629 M:93077980] (S) Msg Retransmission to 1:000000000001B669 scheduled for 3398ms from now [State:Active II:500 AI:300 AT:4000]
-[18:26:44.531]  
-[18:26:44.531]  Missed Logs: 2
 [18:26:44.531]  [00:00:30.450][info  ][DL] _OnPlatformEvent default:  event->Type = 32783
 [18:26:44.533]  [00:00:30.451][info  ][SWU] Device commissioned, schedule a default provider query
 [18:26:44.534]  [00:00:30.451][info  ][SVR] Commissioning completed successfully
@@ -302,21 +63,11 @@
 [18:26:44.538]  [00:00:30.452][info  ][DL] Closing BLE GATT connection (con 1)
 [18:26:44.538]  [00:00:30.452][silabs ]NWK: kCommissioningComplete,32783
 [18:26:44.540]  [00:00:30.453][silabs ]COM: notify network [Joined]
-[18:26:44.540]  [00:00:30.454][silabs ]SPP: ack_timeout_ms 500
 [18:26:44.541]  [00:00:30.458][info  ][EM] >>> [E:41040r S:0 M:61323362 (Ack:156745220)] (U) Msg RX from 0:95101FF690DB3684 [0000] to 0000000000000000 --- Type 0000:10 (SecureChannel:StandaloneAck) (B:26)
 [18:26:44.651]  [00:00:30.573][info  ][DL] Disconnect Event for CHIPoBLE on handle : 1
 [18:26:44.651]  [00:00:30.573][info  ][DL] BLE GATT connection closed (con 1, reason 4118)
 [18:26:44.654]  [00:00:30.573][info  ][DL] _OnPlatformEvent kCHIPoBLEConnectionError
-[18:26:45.033]  [00:00:30.955][silabs ]SPP: re-sent count 1, ack_timeout_ms 500
-[18:26:45.033]  [00:00:30.955][silabs ]MATTER TX: 55 AA 01 00 04 02 01 01 08 
-[18:26:45.035]  [00:00:30.955][silabs ]COM: CMD: 0x02, SN: 0x0004, LEN: 9
-[18:26:45.039]  
 [18:26:45.532]  [00:00:31.454][info  ][EM] >>> [E:41041r S:1629 M:138337966 (Ack:93077980)] (S) Msg RX from 1:000000000001B669 [F0EB] to 00000000000008CA --- Type 0000:10 (SecureChannel:StandaloneAck) (B:34)
-[18:26:45.533]  [00:00:31.455][silabs ]SPP: re-sent count 2, ack_timeout_ms 500
-[18:26:45.539]  [00:00:31.455][silabs ]MATTER TX: 55 AA 01 00 04 02 01 01 08 
-[18:26:45.539]  [00:00:31.455][silabs ]COM: CMD: 0x02, SN: 0x0004, LEN: 9
-[18:26:45.539]  
-[18:26:46.035]  [00:00:31.955][silabs ]SPP: re-sent reach to max
 [18:27:14.532]  [00:01:00.451][error ][SWU] No suitable OTA Provider candidate found
 [18:27:14.532]  [00:01:00.451][info  ][SWU] No provider available
 [18:28:06.642]  [00:01:52.566][info  ][EM] >>> [E:44720r S:0 M:103119992] (U) Msg RX from 0:AAE0E5A4B5F8F66B [0000] to 0000000000000000 --- Type 0000:30 (SecureChannel:CASE_Sigma1) (B:196)
