@@ -2,8 +2,8 @@
 sequenceDiagram
     participant Requestor as OTA Requestor(Matter Device)
     participant Provider as OTA Provider(Raspi,provider app)
-    participant Selector as OTA Image Selection Logic(Raspi,chip-tool app)
-    participant Vendor as Vendor Server(Raspi,chip-tool app)
+    participant Selector as OTA Image Selection Logic
+    participant Vendor as Vendor Server
 
     Provider-->>Requestor: Step 10: AnnounceOTAProvider Command (Optional,trigger from chip-tool)
     Note over Requestor: [SWU] OTA Requestor received AnnounceOTAProvider
