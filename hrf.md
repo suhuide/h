@@ -1,7 +1,7 @@
 # Link
 | 1 | 2 | 3 | 4 | 5 | 6 |
 | ---- | ---- | ---- | ---- | ---- | ---- |
-| [memo](../../l/l/memo.md) |[silabs](./files/silabs/silabs.md)| [w](w.md) |[other](other.md) |[matter](matter.md)|
+| [memo](../../l/l/memo.md) |[silabs](./files/silabs/silabs.md)| [w](w.md) |[other](other.md) |[ble](ble.md)|[matter](matter.md)|
 
 # project
 | 1 | 2 | 3 | 4 | 5 | 6 |
@@ -68,6 +68,19 @@ https://hoperf-matter/gitlab/matter
 samba: \\hoperf-matter
 username: suhuide
 password: HA39838M*12
+```
+# Raspi
+```c
+raspi4-p
+192.168.100.4
+Rasberrypi
+
+raspi4-e
+192.168.100.20
+...e
+raspi4-h
+192.168.100.21
+...h
 ```
 # Bluetooth SIG
 ```c

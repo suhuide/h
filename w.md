@@ -15,20 +15,20 @@
 |20260321| ||
 |20260320| ||
 |20260319| ||
-|20260318| ||
-|20260317| ||
-|20260316| ||
+|20260318|AOK Side Channel ||
+|20260317|LL01 PIR ||
+|20260316|LL01 PIR ||
 |20260315| ||
 |20260314| ||
-|20260313| ||
-|20260312| ||
-|20260311| ||
-|20260310| ||
-|20260309| ||
+|20260313|BK01 OTA, LL01 PIR demo||
+|20260312|BK01 OTA,Bluetooth spec version and BQB DN ||
+|20260311|BK01 OTA ||
+|20260310|AOK AC Signed FW pair  ||
+|20260309|AOK AC plugin Function  ||
 |20260308| ||
 |20260307| ||
-|20260306| ||
-|20260305| ||
+|20260306|AOK AC plugin endpoint ||
+|20260305|AOK AC ||
 |20260304|AOK02 DC program ||
 |20260303|BK01 cmd resend,AOK02 commissioning issue debug ||
 |20260302|BK01 Battery and curtain open/close||

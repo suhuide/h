@@ -1,3 +1,10 @@
+# Tip
+```c
+给我一个完整的、可直接复制粘贴的 Markdown 源码,
+严格按照这次的标准来：使用标题、列表、段落等 Markdown 语法，
+所有代码块均采用四个空格缩进的方式，避免使用 ``` 符号，
+确保文档在任何平台上都能正确显示且不会中断。
+```
 # Raspi
 ```c
 ln -s ~/connectedhomeip/out/standalone/chip-tool ~/chip-tool

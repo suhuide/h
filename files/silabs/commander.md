@@ -48,5 +48,6 @@ commander nvm3 parse nvm3.s37
 ```
 ### Ctune
 ```c
+commander ctune get --device efr32mg24
 commander ctune set --value 0x47 --device efr32mg24
 ```
