@@ -41,7 +41,7 @@ sequenceDiagram
         Provider-->>Requestor: [BDX] ReceiveAccept
         Note over Requestor:[EM] Msg RX... Type 0002:05 (BDX:ReceiveAccept) 
 
-        loop Block Transfer (total ~540 blocks, from block 0 to 539)
+        loop Block Transfer (total ~n(540) blocks, from block 0 to (n-1(539)))
             
             Note over Requestor: [EM] Msg TX ... Type 0002:10 ([BDX]BlockQuery) [Block 0]<br/>Each subsequent block has corresponding BlockQuery
             Requestor->>Provider: [BDX] BlockQuery
@@ -50,7 +50,7 @@ sequenceDiagram
             Provider-->>Requestor: [BDX] Block (Image Data)
         end
 
-        Note over Provider: [ATM] Block Counter: 540 [EM] Msg TX ... Type 0002:12 (BDX:BlockEOF)
+        Note over Provider: [ATM] Block Counter: n(540) [EM] Msg TX ... Type 0002:12 (BDX:BlockEOF)
         Provider-->>Requestor: [BDX] BlockEOF (Final Block)
 
         Note over Requestor: [EM] Msg RX... Type 0002:12 (BDX:BlockEOF) [EM] Msg TX ... Type 0002:14 (BDX:BlockAckEOF)

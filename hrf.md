@@ -13,6 +13,7 @@
 # [git](./files/other/git.md)  
 # [Chip-tool](./files/other/chip-tool.md)  
 # [bt-version-bqb](./files/other/bt-version-bqb.md)  
+# [Commander](./files/silabs/commander.md)  
 
 # Info
 ```c
