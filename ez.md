@@ -127,8 +127,18 @@ static sl_led_pwm_t warm_light = {
 ```
 ## Part No.
 ```c
+HPTSB01
+```
+```c
 EFR32MG24A420F1536IM40
 ```
+## HW
+Hi7011 VDD 5.8V(-0.3~7.0V)
+Hi7011 Pin2 PWM in
+Hi7011 Pin5&6 LED Control -
+
+R10 -> Hi7011 pin2  
+R16 -> Hi7011 pin2  
 
 ## QR
 [Default:MT:6FCJ142C00KA0648G00](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3A6FCJ142C00KA0648G00)  

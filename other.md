@@ -5,6 +5,11 @@
 所有代码块均采用四个空格缩进的方式，避免使用 ``` 符号，
 确保文档在任何平台上都能正确显示且不会中断。
 ```
+# VPN
+网址一: https://fbweb02.flyingbird.la
+网址二: https://fbweb03.flyingbird.id
+网址三: https://www.fbweb.cc
+
 # Raspi
 ```c
 ln -s ~/connectedhomeip/out/standalone/chip-tool ~/chip-tool

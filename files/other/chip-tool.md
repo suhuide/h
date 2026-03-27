@@ -90,3 +90,13 @@ sudo ./chip-tool descriptor read server-list 2250 6
 [1773134113.437] [2959503:2959505] [TOO]     [5]: 98 (ScenesManagement)
 
 ```
+
+```c
+sudo ./chip-tool levelcontrol move-to-level 128 0 0 0 2250 1
+sudo ./chip-tool colorcontrol move-to-color-temperature 4000 0 0 0 2250 1
+```
+
+```c
+sudo ./chip-tool interactive start
+any subscribe-by-id 0xffffffff 0xffffffff 0 1 2250 0xffff
+```

@@ -1,7 +1,17 @@
 ```c
 username: suhuide
 password: +mTvwceVZk
+```c
+//AOK
+vendor id: 5274
+product_id: 12821
 product code: 9323718166
+```
+```c
+//HRF
+vendor id: 5232
+product_id: 0xFF01
+product code: 4420141878
 ```
 ```c
 matter_mfg_tool_2.5.9\mfg_tool.exe

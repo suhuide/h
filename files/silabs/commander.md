@@ -33,7 +33,14 @@ commander device lock --device EFR32MG24B020F1536IM40
 
 ### Flash
 ```c
+//AOK
 commander readmem --range 0x817e000:0x8180000 --device EFR32MG24A410F1536IM40 --outfile last_page.s37
+commander readmem --range 0x8000000:0x80FC000 --device EFR32MG24A410F1536IM40 --outfile hex.s37
+```
+```c
+//EZ
+commander readmem --range 0x817e000:0x8180000 --device EFR32MG24A420F1536IM40 --outfile last_page.s37
+commander readmem --range 0x8000000:0x80FC000 --device EFR32MG24A420F1536IM40 --outfile hex.s37
 ```
 ```c
 commander flash ez01_matter-signed--v0.0.13-2d274330.s37 --device efr32mg24 --no-reset
