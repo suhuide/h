@@ -328,3 +328,115 @@ graph TD
 	style D fill:#87f,stroke:#333,stroke-width:2px
 	style E fill:#9f0,stroke:#333,stroke-width:2px
 ```
+
+
+## OTA
+### bootloader
+#### Bootloader Config
+```c
+//config/btl_interface_cfg_s2c4.h
+#define BOOTLOADER_DISABLE_OLD_BOOTLOADER_MITIGATION 0
+// |
+// V
+#define BOOTLOADER_DISABLE_OLD_BOOTLOADER_MITIGATION 1
+```
+#### Invoke track
+```c
+bootloader_verifyImage(0,NULL/metadataCallback)
+    bootloader_initVerifyImage()
+    bootloader_continueVerifyImage()
+```
+#### Metadata Callback
+```c
+//third_party/matter_sdk/src/platform/silabs/efr32/OTAImageProcessorImpl.cpp
+#ifndef MIN
+#define MIN(x, y) (((x) < (y)) ? (x) : (y))
+#endif
+#define MAX_METADATA_LENGTH   512
+uint8_t metadata[MAX_METADATA_LENGTH];
+
+void metadataCallback(uint32_t address, uint8_t *data, size_t length, void *context)
+{
+    uint8_t i;
+    ChipLogError(SoftwareUpdate, "%s", __func__);
+    for (i = 0; i < MIN(length , MAX_METADATA_LENGTH - address); i++)
+    {
+        metadata[address + i] = data[i];
+        ChipLogError(SoftwareUpdate, "[%ld]:%d", (address + i), metadata[address + i]);
+    }
+}
+void OTAImageProcessorImpl::HandleApply(intptr_t context)
+{
+    uint32_t err = SL_BOOTLOADER_OK;
+
+    ChipLogProgress(SoftwareUpdate, "HandleApply: verifying image");
+    SILABS_TRACE_BEGIN(TimeTraceOperation::kImageVerification);
+
+    // Force KVS to store pending keys such as data from StoreCurrentUpdateInfo()
+    PersistedStorage::KeyValueStoreMgrImpl().ForceKeyMapSave();
+#if SL_BTLCTRL_MUX
+    err = sl_wfx_host_pre_bootloader_spi_transfer();
+    if (err != SL_STATUS_OK)
+    {
+        ChipLogError(SoftwareUpdate, "sl_wfx_host_pre_bootloader_spi_transfer() error: %ld", err);
+        SILABS_TRACE_END_ERROR(TimeTraceOperation::kImageVerification, CHIP_ERROR_INTERNAL);
+        return;
+    }
+#endif // SL_BTLCTRL_MUX
+
+#if defined(_SILICON_LABS_32B_SERIES_3) && CHIP_PROGRESS_LOGGING
+    osDelay(100); // sl-temp: delay for uart print before verifyImage
+#endif            // _SILICON_LABS_32B_SERIES_3 && CHIP_PROGRESS_LOGGING
+    LockRadioProcessing();
+#if defined(SL_TRUSTZONE_NONSECURE)
+    WRAP_BL_DFU_CALL(err = bootloader_verifyImage(mSlotId))
+#else
+    WRAP_BL_DFU_CALL(err = bootloader_verifyImage(mSlotId, metadataCallback)) //NULL
+#endif
+    UnlockRadioProcessing();
+```
+```c
+#define BOOTLOADER_ERROR_PARSER_UNKNOWN_TAG \
+  (BOOTLOADER_ERROR_PARSER_BASE | 0x08L)
+
+//Silabe bootloader_verifyImage
+[silabs ]bootloader_verifyImage() error: 4104 ->0x1008-> BOOTLOADER_ERROR_PARSER_UNKNOWN_TAG
+```  
+
+```c
+// src\app\AppTask.cpp
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#define MAX_METADATA_LENGTH   512
+uint8_t metadata[MAX_METADATA_LENGTH];
+
+void metadataCallback(uint32_t address, uint8_t *data, size_t length, void *context)
+{
+    uint8_t i;
+    LOG_API_HEX("metadata", data, length);
+    return;
+    for (i = 0; i < MIN(length , MAX_METADATA_LENGTH - address); i++)
+    {
+        metadata[address + i] = data[i];
+    }
+}
+
+CHIP_ERROR AppTask::AppInit()
+{
+    //...
+    DeviceLayer::ThreadStackMgr().LockThreadStack();
+    wdg_api_disable();
+    CORE_ATOMIC_SECTION(
+    uint32_t bootloader_err  = bootloader_init();
+    if (bootloader_err != 0){
+        SILABS_LOG("bootloader_init() error: %ld", bootloader_err);
+    }
+    bootloader_err = bootloader_verifyImage(0, metadataCallback);
+    if (bootloader_err != 0){
+        SILABS_LOG("bootloader_verifyImage() error: %ld", bootloader_err);
+    }
+    );
+    wdg_api_enable();
+    DeviceLayer::ThreadStackMgr().UnlockThreadStack();
+    //...
+}
+```

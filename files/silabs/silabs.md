@@ -12,6 +12,15 @@ C:\Users\Administrator\.silabs\slt\installs\conan\p\matte66ea43dc8d7de\p\third_p
 C:\Users\Administrator\.silabs\slt\installs\conan\p\matte66ea43dc8d7de\p\third_party\matter_sdk\src\platform\silabs\efr32\BLEManagerImpl.cpp
 C:\Users\Administrator\.silabs\slt\installs\conan\p\matte66ea43dc8d7de\p\third_party\matter_sdk\src\platform\silabs\efr32\BLEManagerImpl.h
 ```
+
+```c
+//ME v2.8.1
+C:\Users\Administrator\.silabs\slt\installs\conan\p\mattef07831835e490\p\third_party\matter_sdk
+//ME v2.8.0
+C:\Users\Administrator\.silabs\slt\installs\conan\p\mattecce5da49b7e37\p\third_party\matter_sdk
+//ME v2.5.1
+C:\Users\Administrator\.silabs\slt\installs\conan\p\matte67027640a7b4a\p\third_party\matter_sdk
+```
 ## Matter Log Level
 ```c
 config\sl_matter_config.h

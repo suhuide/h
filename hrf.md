@@ -6,7 +6,7 @@
 # project
 | 1 | 2 | 3 | 4 | 5 | 6 |
 | ---- | ---- | ---- | ---- | ---- | ---- |
-|[aok](aok.md)|[ez](ez.md)|[pte9](pte9.md)|[bk](bk.md)|
+|[aok](aok.md)|[ez](ez.md)|[pte9](pte9.md)|[bk](bk.md)|[ll](ll.md)|
 
 # [Module](./files/other/module.md)
 # [MFG](./files/other/mfg.md)
@@ -30,6 +30,8 @@ http://ai.hoperf.cn
 HP1239
 Er..1
 ```
+# Release Record
+[Record](https://ones.cn/wiki/#/team/VocipTXV/space/7jKfDSiJ/page/GiVjDm9P)  
 
 # Tool
 [WCH-BLEAnalyzer](https://www.wch.cn/downloads/WCH_BLEAnalyzer_zip.html)

@@ -43,7 +43,21 @@ regedit
 HKEY_CURRENT_USER\Software\Scooter Software\Beyond Compare 4
                                                     CacheID
 ```
-
+# IP
+```c
+C:\Users\Administrator\Desktop>curl ipinfo.io
+{
+  "ip": "103.172.81.131",
+  "city": "Tung Chung",
+  "region": "Islands",
+  "country": "HK",
+  "loc": "22.2878,113.9424",
+  "org": "AS146961 NEXET LIMITED",
+  "postal": "999077",
+  "timezone": "Asia/Hong_Kong",
+  "readme": "https://ipinfo.io/missingauth"
+}
+```
 # PWM
 ## Resolution(分辨率)  
 占空比可以设置的最小步进数量  
