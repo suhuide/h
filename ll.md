@@ -9,7 +9,7 @@ EFR32MG24A420F1536IM40
 ```
 # QR code
 [MT:6FCJ1E.N16LA0648G00](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3A6FCJ1E.N16LA0648G00)
-
+https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3A4CT9142C00KA0648G
 # Pin Map
 **二位开关**
 

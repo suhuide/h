@@ -43,6 +43,9 @@ commander readmem --range 0x817e000:0x8180000 --device EFR32MG24A420F1536IM40 --
 commander readmem --range 0x8000000:0x80FC000 --device EFR32MG24A420F1536IM40 --outfile hex.s37
 ```
 ```c
+commander readmem --range 0x8000000:0x80FC000 --device EFR32MG24B210F1536IM48 --outfile hex.s37 -s 440054379
+```
+```c
 commander flash ez01_matter-signed--v0.0.13-2d274330.s37 --device efr32mg24 --no-reset
 ```
 
