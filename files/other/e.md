@@ -228,7 +228,6 @@ mindmap
     current("⚡ current<br>当前的 / 电流<br>└ cur(跑) + -ent → 正在跑的")
     course("🗺️ course<br>课程 / 路线<br>└ curs(跑) + -e → 跑的路")
     occur("💥 occur<br>发生<br>└ oc-(加强) + cur(跑) → 跑出来 → 出现")
-    excuse("🙏 excuse<br>原谅 / 借口<br>└ ex-(向外) + curs(跑) + -e → 跑出去 → 离开责任")
     currency("💰 currency<br>货币<br>└ cur(跑) + -ency → 流通的东西")
     cursor("🖱️ cursor<br>光标<br>└ curs(跑) + -or → 跑来跑去的指示器")
 ```
@@ -262,7 +261,6 @@ mindmap
     patient("🏥 patient<br>病人 / 耐心的<br>└ path(忍受/病) + -ent → 忍受痛苦的人")
     passion("🔥 passion<br>激情<br>└ pass(感情) + -ion → 强烈的情感")
     pathetic("😢 pathetic<br>可怜的 / 可悲的<br>└ path(感情) + -etic → 引发怜悯感情的")
-    hospital("🏥 hospital<br>医院<br>└ hospit(客人) + -al → 接待客人的地方")
     pathology("🔬 pathology<br>病理学<br>└ path(病) + -ology(科学) → 研究疾病的科学")
 ```
 # 25 ped
@@ -274,7 +272,6 @@ mindmap
     expedition("🗺️ expedition<br>远征 / 探险<br>└ ex-(向外) + ped(脚) + -ition → 向外迈脚")
     impede("🚧 impede<br>阻碍<br>└ im-(向内) + ped(脚) + -e → 把脚伸进去 → 挡住")
     centipede("🐛 centipede<br>蜈蚣<br>└ centi(一百) + ped(脚) → 很多脚的虫")
-    encyclopedia("📚 encyclopedia<br>百科全书<br>└ en-(在内) + cycl(圆) + ped(教育) + -ia → 全方位教育")
 ```
 # 26 press
 ```mermaid
