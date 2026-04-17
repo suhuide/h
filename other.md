@@ -44,6 +44,11 @@ regedit
 HKEY_CURRENT_USER\Software\Scooter Software\Beyond Compare 4
                                                     CacheID
 ```
+# MarkItDown
+```c
+python -m pip install markitdown[all]
+python -m pip install --upgrade pip
+```
 # IP
 ```c
 C:\Users\Administrator\Desktop>curl ipinfo.io
