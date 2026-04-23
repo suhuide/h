@@ -2,11 +2,29 @@
 
 |Date | Job | Remark | 
 | ---- | ---- | ---- |
+|20260430| ||
+|20260429| ||
+|20260428| ||
+|20260427| ||
+|20260426| ||
+|20260425| ||
+|20260424| ||
+|20260423|BK01, bootloader, matter FW program and test ||
+|20260422|BK01, bootloader ||
+|20260421|BK01, bootloader ||
+|20260420|BK01, MCU DFU AOK AC Update to SiSDK2025.12.02||
+|20260419| ||
+|20260418| ||
+|20260417|BK01, MCU DFU ||
+|20260416|BK01, MCU DFU  ||
+|20260415|AOK DC BDADDR bug ||
+|20260414|BK01 MCU 联调||
+|20260413|BK01 MCU,remote,Matter 联调录像 ||
 |20260412| ||
 |20260411| ||
 |20260410|LL01,scene sw demo,bug fix ||
 |20260409|LL01,scene sw, porting to v6 ||
-|20260408|LL01,add scene sw  ||
+|20260408|LL01,add scene sw ||
 |20260407|LL01, light-switch endpoint ||
 |20260406| ||
 |20260405| ||

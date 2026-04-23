@@ -30,7 +30,7 @@ SOFTWARE COMPONENTS
                 +Unit Localization Server Cluster
             Genera             
                 +Ethernet Network Diagnostics Server Cluster
-                +ICD Management Server Cluster  //need to remove, MatterIcdManagementPluginServerInitCallback
+                +ICD Management Server Cluster  //need to remove, MatterIcdManagementPluginServerInitCallback,also check zap
 ```
 ```c
 SOFTWARE COMPONENTS  

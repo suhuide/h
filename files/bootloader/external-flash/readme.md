@@ -1,0 +1,1 @@
+C:\Users\Administrator\.silabs\slt\installs\conan\p\simpl965e19baece23\p\bootloader\platform\bootloader\storage\spiflash_sfdp\btl_storage_spiflash_sfdp.c

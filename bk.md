@@ -39,11 +39,11 @@ sequenceDiagram
     participant Matter模块
     participant MCU
     
-    Matter模块->>MCU: 发送版本请求
+    Matter模块->>MCU: 发送版本请求(0x01)
     MCU-->>Matter模块: 返回当前版本
     
     alt Matter模块端版本检查
-        Matter模块->>MCU: 发送升级通知
+        Matter模块->>MCU: 发送升级通知(带version,size,checksum)
         MCU-->>Matter模块: 升级响应
         
         alt MCU拒绝升级
