@@ -33,6 +33,11 @@ EFR32MG24A410F1536IM40
   <img src="files/bk/bk.png" width="2160">
 </div>
 
+## Secure Boot Module
+[MT:K2CA0Q181498OE18B10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AK2CA0Q181498OE18B10)  
+[MT:K2CA0WSC00YM3X7D910](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AK2CA0WSC00YM3X7D910)  
+
+
 ## MCU DFU
 ```mermaid
 sequenceDiagram

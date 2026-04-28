@@ -6,9 +6,9 @@
 |20260429| ||
 |20260428| ||
 |20260427| ||
-|20260426| ||
+|20260426|AOK DC, BLE GATT ||
 |20260425| ||
-|20260424| ||
+|20260424|BK01, MCU DFU change protocol ||
 |20260423|BK01, bootloader, matter FW program and test ||
 |20260422|BK01, bootloader ||
 |20260421|BK01, bootloader ||

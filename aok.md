@@ -11,6 +11,9 @@
 [commission-by-raspi-chiptool](./files/aok/commission-by-raspi-chiptool.md)  
 [thread-ctl-msg-link](./files/aok/thread-ctl-msg-link.md)  
 [rgb-serial-data](./files/aok/rgb-serial-data.md)  
+[AOK-Module-20260320-QRcode](./files/aok/AOK-Module-20260320.md)  
+[gatt_dynamic](./files/aok/gatt_dynamic.md)  
+
 # FW Release
 ## File Signature
 ```c
