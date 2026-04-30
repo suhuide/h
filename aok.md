@@ -13,6 +13,7 @@
 [rgb-serial-data](./files/aok/rgb-serial-data.md)  
 [AOK-Module-20260320-QRcode](./files/aok/AOK-Module-20260320.md)  
 [gatt_dynamic](./files/aok/gatt_dynamic.md)  
+[whitelist](./files/aok/whitelist.md)  
 
 # FW Release
 ## File Signature

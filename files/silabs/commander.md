@@ -55,6 +55,7 @@ commander nvm3 read -o nvm3.s37 --device efr32mg24 --range 0x8174000:0x817e000
 commander nvm3 parse nvm3.s37
 commander nvm3 read -o nvm3.s37 --device efr32mg24 --range 0x8174000:0x817e000
 commander nvm3 parse nvm3.s37
+commander nvm3 parse nvm3.s37 --key 0x0f00f
 ```
 ### Ctune
 ```c
