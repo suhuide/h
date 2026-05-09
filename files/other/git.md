@@ -1,4 +1,6 @@
 ```c
+git config --global alias.diffx 'diff -- ":!.project" ":!.cproject" ":!*.slps" ":!*.pintool" ":!*.html" ":!*.pdm*" ":!*.zap" ":!*.json" ":!*.cmake"'
+git config --global alias.diffx 'diff -- ":!.project" ":!.cproject" ":!*.slps" ":!*.pintool" ":!*.html" ":!*.pdm*" ":!*.zap" ":!*.json"'
 git config --global alias.diffx 'diff -- ":!.project" ":!.cproject" ":!*.slps" ":!*.pintool" ":!*.html" ":!*.pdm*" ":!*.zap"'
 git diff ':!.cproject' ':!*.slps' ':!*.pintool' ':!*.html'
 ```
