@@ -35,6 +35,36 @@ sudo systemctl restart otbr-agent.service
 ```c
 ubuntu:$y$j9T$hjmlkoibe.0MGn/58.0dJ1$myNLRHr/VQ6gF8BNnDY31m./sDxiHA55Mu.gGA2bt52:20476:0:99999:7:::
 ```
+## Linux CMD
+```c
+//Check disk
+sudo fdisk -l
+// Original disk
+Device     Boot   Start       End   Sectors  Size Id Type
+/dev/sdb1  *       2048   1050623   1048576  512M  c W95 FAT32 (LBA)
+/dev/sdb2       1050624 124735454 123684831   59G 83 Linux
+//Target disk
+Device     Boot   Start       End   Sectors  Size Id Type
+/dev/sdb1  *       2048   1050623   1048576  512M  c W95 FAT32 (LBA)
+/dev/sdb2       1050624 124735454 123684831   59G 83 Linux
+
+//Check directory size
+du -sh
+//Check disk status
+df -h /dev/sd*
+//Check memory status  
+free -h
+//Check thread
+ps aux
+//Kill
+kill -9 xxxx
+```
+### DD
+```c
+sudo dd if=/dev/sdb of=./sdb.img bs=2M conv=noerror,sync status=progress
+sudo dd if=./sdb.img of=/dev/sdb bs=2M status=progress
+```
+
 # Beyond Compare
 Remove CacheID under HKEY_CURRENT_USER\Software\Scooter Software\Beyond Compare 4 can make you happy.
 ```c

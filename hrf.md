@@ -41,6 +41,12 @@ Er..1
 ```c
 *.cpp;*.c;*.h;-.git\;-.pdm\;-.settings\;-.uceditor\;-.vscode\;-GNU ARM v12.2.1 - Default\
 ```
+# Cmake
+```
+cd target_project
+cmake --build cmake_gcc\build --target clean
+cmake --build cmake_gcc\build
+```
 # VScode Filter
 ## Exclude
 ```c

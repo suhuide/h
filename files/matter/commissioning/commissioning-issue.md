@@ -269,7 +269,33 @@
 ```
 **Cause by corrupt NVM3 data**
 
-# 4 Reset(Code is unsafe)
+# 4 Failed Device Attestation
+```c
+[1778485826.760] [6606:6628] [-] -----END CERTIFICATE-----
+[1778485826.761] [6606:6628] [-] --> PAA certificate SKID: E9:16:0D:C4:17:F7:41:9C:95:32:0B:BF:36:56:71:93:3F:F3:12:22
+[1778485826.762] [6606:6628] [-] --> PAA certificate AKID: E9:16:0D:C4:17:F7:41:9C:95:32:0B:BF:36:56:71:93:3F:F3:12:22
+[1778485826.769] [6606:6628] [-] CD signing key identifier: 62:FA:82:33:59:AC:FA:A9:96:3E:1C:FA:14:0A:DD:F5:04:F3:71:60
+[1778485826.769] [6606:6628] [-] Allowing CD signed by test key
+[1778485826.770] [6606:6628] [CTL] Error on commissioning step 'AttestationVerification': 'src/controller/CHIPDeviceController.cpp:1338: CHIP Error 0x00000020: Failed Device Attestation'
+[1778485826.770] [6606:6628] [CTL] Failed verifying attestation information. Now checking DAC chain revoked status.
+[1778485826.770] [6606:6628] [CTL] Commissioning stage next step: 'AttestationVerification' -> 'AttestationRevocationCheck'
+[1778485826.770] [6606:6628] [CTL] Performing next commissioning step 'AttestationRevocationCheck' with completion status = 'src/controller/CHIPDeviceController.cpp:1338: CHIP Error 0x00000020: Failed Device Attestation'
+[1778485826.770] [6606:6628] [TOO] Starting commissioning stage 'AttestationRevocationCheck'
+[1778485826.770] [6606:6628] [CTL] Verifying the device's DAC chain revocation status
+[1778485826.770] [6606:6628] [-] WARNING: No revocation delegate available. Revocation checks will be skipped!
+[1778485826.770] [6606:6628] [CTL] Failed in verifying 'Attestation Information' command received from the device: err 604 (Certification declaration vendor ID failed to cross-reference with DAC and/or PAI and/or Basic Information cluster)
+[1778485826.770] [6606:6628] [CTL] Error on commissioning step 'AttestationRevocationCheck': 'src/controller/CHIPDeviceController.cpp:1385: CHIP Error 0x00000020: Failed Device Attestation'
+[1778485826.770] [6606:6628] [CTL] Going from commissioning step 'AttestationRevocationCheck' with lastErr = 'src/controller/CHIPDeviceController.cpp:1385: CHIP Error 0x00000020: Failed Device Attestation' -> 'Cleanup'
+//...
+[1778485827.442] [6606:6606] [TOO] Run command failure: src/controller/CHIPDeviceController.cpp:1385: CHIP Error 0x00000020: Failed Device Attestation
+```
+**Check DAC,VID PID, or bypass the verify**  
+```c
+//Bypass attestation verifier
+sudo ./chip-tool pairing ble-thread 2250 hex:0e0800000000000100004a0300000b35060004001fffe00208d66aa42e602782d70708fd119c64dd37b8c40510af58620082e94dcc8b2e7e4a5735245b030f4f70656e5468726561642d323235660102225f04101ab41530faf60b359a71bbd4d65101e50c0402a0f7f8000300000f 85956333 1884 --bypass-attestation-verifier 1
+```
+
+# 5 Reset(Code is unsafe)
 ```c
 //Cause reset, ;
 [00:03:50.712][error ][DL] Chip stack locking error at 'C:/Users/Administrator/.silabs/slt/installs/conan/p/matte66ea43dc8d7de/p/third_party/matter_sdk/src/app/util/attribute-storage.cpp:659'. Code is unsafe/racy
