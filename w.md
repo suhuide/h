@@ -19,13 +19,13 @@
 |20260518|||
 |20260517|||
 |20260516|||
-|20260515|||
-|20260514|||
-|20260513|||
-|20260512|||
-|20260511|||
+|20260515|AOK PICS||
+|20260514|AOK color temperature||
+|20260513|AOK ICD||
+|20260512|AOK ICD||
+|20260511|BK MCU DFU||
 |20260510|||
-|20260509| Zap and PICS xml parse||
+|20260509|Zap and PICS xml parse||
 |20260508|AOK DC/AC, SDK patch,  Zap and PICS xml parse||
 |20260507|AOK DC/AC, whitelist, BK01 new hw programing||
 |20260506|AOK DC/AC, whitelist||

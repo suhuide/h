@@ -2,7 +2,7 @@
 | 1 | 2 | 3 | 4 | 5 | 6 |
 | ---- | ---- | ---- | ---- | ---- | ---- |
 | [memo](../../l/l/memo.md) |[silabs](./files/silabs/silabs.md)| [w](w.md) |[other](other.md) |[ble](ble.md)|[matter](matter.md)|
-| [bootloader](bootloader.md) |
+| [bootloader](bootloader.md) |[ai](./files/ai/ai.md)|
 
 # project
 | 1 | 2 | 3 | 4 | 5 | 6 |
@@ -29,7 +29,7 @@ Fax: +86-755-82973550
 ```c
 http://ai.hoperf.cn
 HP1239
-Er..1
+er..1
 ```
 # Release Record
 [Record](https://ones.cn/wiki/#/team/VocipTXV/space/7jKfDSiJ/page/GiVjDm9P)  

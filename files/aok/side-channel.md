@@ -1,6 +1,18 @@
 [hrf](../../hrf.md)  
 [aok](../../aok.md)  
 [SSv6 side channel](sideChannelTestLog.md)
+
+SideChannel 和 Matter CHIPoBLE 在 BLE 栈层面就是两个独立的 advertiser——不同的 handle、不同的数据、不同的 interval。  
+真正的区别不在底层 API，而在软件层面的职责分工和事件分发秩序：
+
+||Matter CHIPoBLE|SideChannel|
+|------|------|------|
+|协议行为	|Matter 规范定义的配网协议，栈自动管理 fast→slow 切换	|无协议约束，应用自由控制|
+|事件分发秩序	|优先权：先消费，标记 MatterReservedEvent 就不往下传	|次要权：只拿到 Matter 不处理的事件|
+
+**SideChannel 的真正价值是一个"软件框架"——给你一个结构化的方式在 Matter 旁边加自定义 BLE，保证事件不冲突。**  
+**底层就是两个 advertiser 并行广播，谁先处理事件由 sl_bt_on_event() 里的优先级决定。**
+
 ## File
 ```c
 matter_2.7.0/third_party/matter_sdk/src/platform/silabs/efr32/BLEChannelImpl.cpp

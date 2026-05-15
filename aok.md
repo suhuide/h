@@ -602,3 +602,172 @@ void emberAfEndpointConfigureCallback(EmberAfDefinedEndpoint * emAfEndpoints, ui
     }
 }
 ```
+
+## Color
+### Debug
+#### Code
+```c
+//./common/app/ZclCallbacks.cpp
+void MatterPostAttributeChangeCallback()
+{
+    //...
+    event.Type                         = AppEvent::kEventType_AttributeChange;
+    event.AttrChangeEvent.endpoint_id  = attributePath.mEndpointId;
+    event.AttrChangeEvent.cluster_id   = attributePath.mClusterId;
+    event.AttrChangeEvent.attribute_id = attributePath.mAttributeId;
+    event.AttrChangeEvent.size         = size;
+
+    switch (attributePath.mClusterId) {
+    case app::Clusters::ColorControl::Id:
+    case app::Clusters::LevelControl::Id:
+    case app::Clusters::OnOff::Id:
+    {
+→       memcpy(event.AttrChangeEvent.value, value, size);
+        //...    
+    }
+
+    default:
+        break;
+    }
+}
+```
+#### Value
+```c
+endpoint_id =3
+cluster_id =768(0x0300)
+attribute_id =0(0x0000,CurrentHue)
+```
+### ZAP
+#### Color Control
+Endpoint 3 / Lighting / Color Control
+Attributes and commands for controlling the color properties of a color-capable light.  
+Cluster ID: 0x0300, Enabled for **Server**
+##### Attributes
+| Enabled | Attribute ID | Attribute | Required | Client/Server ↑ | Mfg Code | Storage Option | Type  | Default |
+|---------|--------------|-----------|----------|-----------------|----------|----------------|-------|---------|
+|    →    | 0x0000       | CurrentHue |         |Server           |          |RAM             | INT8U | 0x00    |
+|    →    | 0x0001       | CurrentSaturation |  |Server           |          |RAM             | INT8U | 0x00    |
+|    →    | 0x0002       | RemainingTime |      |Server           |          |RAM             | INT16U| 0x0000  |
+
+##### Feature
+| Enabled | Feature Name       | Code | Conformance | Bit | Description                                      |
+|---------|--------------------|------|-------------|-----|--------------------------------------------------|
+|   →     | Hue And Saturation | HS   | 0           | 0   | Supports color specification via hue/saturation. |
+|         | Enhanced Hue       | EHUE | 0           | 1   | Enhanced hue is supported.                       |
+|         | Color loop         | CL   | 0           | 2   | Color loop is supported.                         |
+|         | XY                 | XY   | M           | 3   | Supports color specification via XY.             |
+|         | Color temperature  | CT   | M           | 4   | Supports specification of color temperature.     |
+
+### Matter to MCU commands
+#### Click on Color Temperature
+```c
+[15:11:54.773]IN←◆55 AA 02 00 0D 04 00 08 0D 02 00 04 01 FE B3 6B 4A 
+[15:11:54.873]IN←◆55 AA 02 00 0E 04 00 08 0D 02 00 04 01 FE B3 6B 4B 
+```
+#### Click on RGB
+```c
+[15:16:52.675]IN←◆55 AA 02 00 12 04 00 08 0D 02 00 04 01 FE 43 A6 1A 
+[15:16:52.776]IN←◆55 AA 02 00 13 04 00 08 0D 02 00 04 01 FE 43 A6 1B
+```
+
+
+### Color temperature
+#### Color Control
+Endpoint 3 / Lighting / Color Control
+Attributes and commands for controlling the color properties of a color-capable light.  
+Cluster ID: 0x0300, Enabled for **Server**
+##### Feature
+| Enabled | Feature Name      | Code | Conformance | Bit | Description                                    |
+|---------|-------------------|------|-------------|-----|------------------------------------------------|
+|   →     | Hue And Saturation | HS   | 0           | 0   | Supports color specification via hue/saturation. |
+|         | Enhanced Hue      | EHUE | 0           | 1   | Enhanced hue is supported.                    |
+|         | Color loop        | CL   | 0           | 2   | Color loop is supported.                      |
+|         | XY                | XY   | M           | 3   | Supports color specification via XY.          |
+|   →     | Color temperature | CT   | M           | 4   | Supports specification of color temperature.  |
+
+```c
+Elements to be updated
+Attributes
+enable ColorTemperatureMireds
+enable ColorTempPhysicalMinMireds
+enable ColorTempPhysicalMaxMireds
+Commands
+enable MoveToColorTemperature
+enable MoveColorTemperature
+enable StepColorTemperature
+```
+### Debug
+#### Code
+```c
+//./common/app/ZclCallbacks.cpp
+void MatterPostAttributeChangeCallback()
+{
+    //...
+    event.Type                         = AppEvent::kEventType_AttributeChange;
+    event.AttrChangeEvent.endpoint_id  = attributePath.mEndpointId;
+    event.AttrChangeEvent.cluster_id   = attributePath.mClusterId;
+    event.AttrChangeEvent.attribute_id = attributePath.mAttributeId;
+    event.AttrChangeEvent.size         = size;
+
+    switch (attributePath.mClusterId) {
+    case app::Clusters::ColorControl::Id:
+    case app::Clusters::LevelControl::Id:
+    case app::Clusters::OnOff::Id:
+    {
+→       memcpy(event.AttrChangeEvent.value, value, size);
+        //...    
+    }
+
+    default:
+        break;
+    }
+}
+```
+```c
+//.\common\app\app_colorlight_mgr.cpp
+void AppColorLightDev::ColorControlAttributeChangedEventHandler(AttributeId attribute_id, uint16_t size, uint8_t * value)
+{
+    #if (!MATTER_MAX_LIGHT_NUM)
+    return;
+    #endif
+    switch (attribute_id) {
+    case app::Clusters::ColorControl::Attributes::ColorTemperatureMireds::Id:
+    {
+        uint8_t payload[4] = { 0 };
+→       LOG_MSG_INFO(TAG_LIT, "EP[%u] Attr ColorTemperatureMireds 0x%02lx", m_ep, value[0]);
+        break;
+    }
+    default:
+        break;
+    }
+}
+```
+#### Value
+##### EnhancedColorMode(1st click)
+```c
+endpoint_id =3
+cluster_id =768(0x0300)
+attribute_id =16385(0x4001,EnhancedColorMode)
+```
+##### ColorMode(1st click)
+```c
+endpoint_id =3
+cluster_id =768(0x0300)
+attribute_id =8(0x0008,ColorMode)
+```
+##### ColorTemperatureMireds
+```c
+endpoint_id =3
+cluster_id =768(0x0300)
+attribute_id =7(0x0007,ColorTemperatureMireds)
+```
+
+#### Click on Color Temperature
+```c
+NULL
+```
+
+#### Click on RGB
+```c
+[10:31:04.921]收←◆55 AA 02 00 1D 04 00 08 0D 02 00 04 01 66 00 00 A4
+```
