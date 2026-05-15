@@ -21,11 +21,12 @@ Zap2Xml - Convert .zap files to PICS XML files
 Converts Silicon Labs ZAP configuration files to Matter PICS XML files
 using the Matter V1.5 PICS XML templates.
 
-Rules:
+Rules (MODIFIED - false default):
 1. Server-side items (.S.*) - Set based on ZAP cluster configuration
 2. Client-side items (.C.*) - Set based on ZAP cluster configuration (if client role exists)
-3. Manually items (.S.M.* or .C.M.*) - Set to false (override template defaults) because ZAP doesn't configure these
-4. Base.xml - Generated dynamically from ZAP data (communication capabilities, roles, etc.)
+3. Manually items (.S.M.* or .C.M.*) - Set to false
+4. Base.xml - ALL items default to false unless ZAP confirms capability
+5. Cluster XML items not parseable as .S/.C format - Set to false
 """
 
 import argparse
@@ -152,7 +153,7 @@ GLOBAL_ATTRIBUTE_IDS = {
 def load_pics_xml_file_list(pics_xml_path: str) -> list:
     """Load and return sorted list of PICS XML files."""
     all_files = sorted(os.listdir(pics_xml_path))
-    
+
     # Filter out duplicate files
     clean_files = []
     for file in all_files:
@@ -162,7 +163,7 @@ def load_pics_xml_file_list(pics_xml_path: str) -> list:
                 clean_files.append(file)
         else:
             clean_files.append(file)
-    
+
     return clean_files
 
 
@@ -172,13 +173,13 @@ def get_network_commissioning_feature_from_zap(cluster_data: dict) -> str:
     Defaults to Thread if no feature is explicitly set (per Matter spec).
     """
     feature_map = get_feature_map_from_zap(cluster_data)
-    
+
     # Check which feature is enabled (can be multiple, but typically only one)
     enabled_features = []
     for feature_name, bit in NETWORK_COMMISSIONING_FEATURES.items():
         if (feature_map >> bit) & 1:
             enabled_features.append(feature_name)
-    
+
     if len(enabled_features) > 1:
         print(f"    [WARNING] Multiple network features enabled: {enabled_features}. Using first: {enabled_features[0]}")
         return enabled_features[0]
@@ -191,59 +192,59 @@ def get_network_commissioning_feature_from_zap(cluster_data: dict) -> str:
 
 
 def map_cluster_name_to_pics_xml(
-    cluster_name: str, 
-    pics_xml_file_list: list, 
+    cluster_name: str,
+    pics_xml_file_list: list,
     cluster_data: Optional[dict] = None
 ) -> str:
     """
     Map a cluster name to its corresponding PICS XML template file.
-    
+
     For Network Commissioning cluster, the selection depends on which feature
     (WiFi/Thread/Ethernet) is enabled in the FeatureMap. Defaults to Thread.
     """
     pics_base_name = CLUSTER_TO_PICS_DICT.get(cluster_name, cluster_name)
-    
+
     # Special handling for Network Commissioning cluster
     if cluster_name == "Network Commissioning" and cluster_data is not None:
         feature = get_network_commissioning_feature_from_zap(cluster_data)
         suffix = FEATURE_TO_TEMPLATE_SUFFIX.get(feature, "Thread")
-        
+
         # Look for template with feature suffix
         target_pattern = f"{pics_base_name} Test Plan({suffix}).xml"
-        
+
         # Try exact match first
         for file in pics_xml_file_list:
             if file == target_pattern:
                 return file
-        
+
         # Try case-insensitive match
         for file in pics_xml_file_list:
             if file.lower() == target_pattern.lower():
                 return file
-        
+
         # If not found, try to find any matching template and log warning
         print(f"    [WARNING] Could not find template '{target_pattern}' for {cluster_name} with feature {feature}")
-        
+
         # Fallback: try to find any Network Commissioning template
         for file in pics_xml_file_list:
             if file.lower().startswith(pics_base_name.lower()):
                 print(f"    [WARNING] Using fallback template: {file}")
                 return file
-        
+
         return ""
-    
+
     # Default handling for other clusters
     # Try exact match first
     for file in pics_xml_file_list:
         if file.lower().startswith(pics_base_name.lower()):
             return file
-    
+
     # Try without "Test Plan" suffix
     for file in pics_xml_file_list:
         file_base = file.lower().replace(" test plan", "").replace(".xml", "")
         if file_base == pics_base_name.lower():
             return file
-    
+
     return ""
 
 
@@ -252,33 +253,33 @@ def extract_clusters_from_zap(zap_data: dict) -> dict:
     endpoints = {}
     endpoint_types = zap_data.get("endpointTypes", [])
     endpoints_config = zap_data.get("endpoints", [])
-    
+
     for ep_config in endpoints_config:
         ep_type_index = ep_config.get("endpointTypeIndex")
         ep_number = ep_config.get("endpointId")
-        
+
         if ep_type_index is None or ep_number is None:
             continue
-            
+
         if ep_type_index < 0 or ep_type_index >= len(endpoint_types):
             continue
-            
+
         ep_type = endpoint_types[ep_type_index]
         clusters = ep_type.get("clusters", [])
-        
+
         endpoints[ep_number] = {
             "endpoint_type": ep_type,
             "clusters": clusters,
         }
-    
+
     return endpoints
 
 
 def parse_item_number(item_text: str) -> Optional[dict]:
     """Parse XML itemNumber to extract type and code.
-    
+
     Returns dict with 'side', 'type', 'code' or None if unparseable.
-    
+
     Examples:
         ACL.S           -> side='S', type='role', code=None
         ACL.S.A0000     -> side='S', type='attribute', code=0x0000
@@ -293,42 +294,42 @@ def parse_item_number(item_text: str) -> Optional[dict]:
     """
     if not item_text:
         return None
-    
+
     # Role: PREFIX.S or PREFIX.C
     role_match = re.match(r'^([A-Z]+)\.([SC])$', item_text)
     if role_match:
         return {'prefix': role_match.group(1), 'side': role_match.group(2), 'type': 'role', 'code': None}
-    
+
     # Manual: PREFIX.S.M.Name or PREFIX.C.M.Name
     manual_match = re.match(r'^([A-Z]+)\.([SC])\.M\.([A-Za-z]+)$', item_text)
     if manual_match:
         return {'prefix': manual_match.group(1), 'side': manual_match.group(2), 'type': 'manual', 'code': manual_match.group(3)}
-    
+
     # Attribute: PREFIX.S.AXXXX or PREFIX.C.AXXXX
     attr_match = re.match(r'^([A-Z]+)\.([SC])\.A([0-9a-fA-F]{4})$', item_text)
     if attr_match:
         return {'prefix': attr_match.group(1), 'side': attr_match.group(2), 'type': 'attribute', 'code': int(attr_match.group(3), 16)}
-    
+
     # Feature: PREFIX.S.FXX or PREFIX.C.FXX
     feat_match = re.match(r'^([A-Z]+)\.([SC])\.F([0-9a-fA-F]{1,2})$', item_text)
     if feat_match:
         return {'prefix': feat_match.group(1), 'side': feat_match.group(2), 'type': 'feature', 'code': int(feat_match.group(3), 16)}
-    
+
     # Command received (Rsp): PREFIX.S.CXX.Rsp or PREFIX.C.CXX.Rsp
     cmd_rx_match = re.match(r'^([A-Z]+)\.([SC])\.C([0-9a-fA-F]{2})\.Rsp$', item_text)
     if cmd_rx_match:
         return {'prefix': cmd_rx_match.group(1), 'side': cmd_rx_match.group(2), 'type': 'command_received', 'code': int(cmd_rx_match.group(3), 16)}
-    
+
     # Command generated (Tx): PREFIX.S.CXX.Tx or PREFIX.C.CXX.Tx
     cmd_tx_match = re.match(r'^([A-Z]+)\.([SC])\.C([0-9a-fA-F]{2})\.Tx$', item_text)
     if cmd_tx_match:
         return {'prefix': cmd_tx_match.group(1), 'side': cmd_tx_match.group(2), 'type': 'command_generated', 'code': int(cmd_tx_match.group(3), 16)}
-    
+
     # Event: PREFIX.S.EXX or PREFIX.C.EXX
     evt_match = re.match(r'^([A-Z]+)\.([SC])\.E([0-9a-fA-F]{2})$', item_text)
     if evt_match:
         return {'prefix': evt_match.group(1), 'side': evt_match.group(2), 'type': 'event', 'code': int(evt_match.group(3), 16)}
-    
+
     return None
 
 
@@ -366,11 +367,11 @@ def get_attributes_by_side(cluster_data: dict, side: str) -> set:
 
 def get_commands_by_side_and_type(cluster_data: dict, side: str) -> Tuple[Dict[int, bool], Dict[int, bool]]:
     """Return (received_commands, generated_commands) for a specific cluster side.
-    
+
     For a server cluster (side='server'):
     - received: commands with isIncoming=1
     - generated: commands with isIncoming=0
-    
+
     For a client cluster (side='client'):
     - received: commands with isIncoming=1
     - generated: commands with isIncoming=0
@@ -406,20 +407,20 @@ def determine_server_support(parsed: dict, cluster_data: dict) -> str:
     """Determine support for a server-side PICS item based on ZAP data."""
     item_type = parsed['type']
     item_code = parsed['code']
-    
+
     # Check if cluster is enabled as server
     enabled = cluster_data.get('enabled', 0)
     side = cluster_data.get('side', '')
     is_server = (enabled and side == 'server')
-    
+
     if item_type == 'role':
         # Server role: true if cluster enabled as server
         return 'true' if is_server else 'false'
-    
+
     # For non-role items, if cluster is not server, all are false
     if not is_server:
         return 'false'
-    
+
     if item_type == 'attribute':
         # Global attributes are always supported
         if item_code in GLOBAL_ATTRIBUTE_IDS:
@@ -427,31 +428,31 @@ def determine_server_support(parsed: dict, cluster_data: dict) -> str:
         # Check if attribute is included for server side
         server_attrs = get_attributes_by_side(cluster_data, 'server')
         return 'true' if item_code in server_attrs else 'false'
-    
+
     elif item_type == 'feature':
         # Check FeatureMap bitmap
         feature_map = get_feature_map_from_zap(cluster_data)
         return 'true' if (feature_map >> item_code) & 1 else 'false'
-    
+
     elif item_type == 'command_received':
         # Commands received by server (from client)
         received, _ = get_commands_by_side_and_type(cluster_data, 'server')
         return 'true' if received.get(item_code, False) else 'false'
-    
+
     elif item_type == 'command_generated':
         # Commands generated by server (to client)
         _, generated = get_commands_by_side_and_type(cluster_data, 'server')
         return 'true' if generated.get(item_code, False) else 'false'
-    
+
     elif item_type == 'event':
         # Events for server side
         server_events = get_events_by_side(cluster_data, 'server')
         return 'true' if item_code in server_events else 'false'
-    
+
     elif item_type == 'manual':
         # Manual items are not configurable in ZAP, always false
         return 'false'
-    
+
     return 'false'
 
 
@@ -459,50 +460,51 @@ def determine_client_support(parsed: dict, cluster_data: dict) -> str:
     """Determine support for a client-side PICS item based on ZAP data."""
     item_type = parsed['type']
     item_code = parsed['code']
-    
+
     # Check if cluster is enabled as client
     enabled = cluster_data.get('enabled', 0)
     side = cluster_data.get('side', '')
     is_client = (enabled and side == 'client')
-    
+
     if item_type == 'role':
         # Client role: true if cluster enabled as client
         return 'true' if is_client else 'false'
-    
+
     # For non-role items, if cluster is not client, all are false
     if not is_client:
         return 'false'
-    
+
     if item_type == 'attribute':
         # Check if attribute is included for client side
         client_attrs = get_attributes_by_side(cluster_data, 'client')
         return 'true' if item_code in client_attrs else 'false'
-    
+
     elif item_type == 'feature':
         # Features are same for server and client
         feature_map = get_feature_map_from_zap(cluster_data)
         return 'true' if (feature_map >> item_code) & 1 else 'false'
-    
+
     elif item_type == 'command_received':
         # Commands received by client (from server)
         received, _ = get_commands_by_side_and_type(cluster_data, 'client')
         return 'true' if received.get(item_code, False) else 'false'
-    
+
     elif item_type == 'command_generated':
         # Commands generated by client (to server)
         _, generated = get_commands_by_side_and_type(cluster_data, 'client')
         return 'true' if generated.get(item_code, False) else 'false'
-    
+
     elif item_type == 'event':
         # Events for client side
         client_events = get_events_by_side(cluster_data, 'client')
         return 'true' if item_code in client_events else 'false'
-    
+
     elif item_type == 'manual':
         # Manual items are not configurable in ZAP, always false
         return 'false'
-    
+
     return 'false'
+
 
 def generate_pics_xml_for_ota(
     cluster_data_list: List[dict],
@@ -514,13 +516,15 @@ def generate_pics_xml_for_ota(
     """
     Special handler for OTA Software Update cluster which combines both
     Provider (client) and Requestor (server) into a single XML template.
-    
+
     For manual items (OTAP.S.M.* and OTAR.C.M.*), they are set to true if
     the corresponding cluster (server or client) is enabled.
+    
+    Items not parseable as standard .S/.C format default to false.
     """
     if not cluster_data_list:
         return
-    
+
     # Separate server and client data
     server_cluster = None
     client_cluster = None
@@ -529,20 +533,20 @@ def generate_pics_xml_for_ota(
             server_cluster = cd
         elif cd.get('side') == 'client':
             client_cluster = cd
-    
+
     xml_path = xml_template_path.rstrip('\\/').replace('\\', '/') + '/'
     xml_file = f"{xml_path}{pics_file_name}"
-    
+
     # Read original file content to preserve comments
     with open(xml_file, 'r', encoding='utf-8') as f:
         original_content = f.read()
-    
+
     # Extract the comment block after <?xml ...?>
     comment_match = re.search(r'(<\?xml[^?]*\?>)(<!--.*?-->)(<clusterPICS)', original_content, re.DOTALL)
     header_comment = None
     if comment_match:
         header_comment = comment_match.group(2)
-    
+
     try:
         parser = ET.XMLParser(target=ET.TreeBuilder(insert_comments=True))
         tree = ET.parse(xml_file, parser)
@@ -553,10 +557,10 @@ def generate_pics_xml_for_ota(
     except FileNotFoundError:
         print(f"  [ERROR] File not found: \"{xml_file}\"")
         return
-    
+
     print(f"  Processing OTA combined template: {pics_file_name}")
     modified_count = 0
-    
+
     def process_node(node):
         nonlocal modified_count
         item_number_element = node.find('itemNumber')
@@ -565,17 +569,22 @@ def generate_pics_xml_for_ota(
         support_element = node.find('support')
         if support_element is None:
             return
-        
+
         item_text = item_number_element.text
         if not item_text:
             return
-        
+
+        old_value = support_element.text
+
         parsed = parse_item_number(item_text)
         if parsed is None:
+            # Item doesn't match .S/.C pattern - default to false
+            if old_value != 'false':
+                support_element.text = 'false'
+                modified_count += 1
+                print(f"    ✗ Set {item_text} = false (was {old_value}) [unparseable -> false]")
             return
-        
-        old_value = support_element.text
-        
+
         # Special handling for OTA manual items
         if parsed['type'] == 'manual':
             # Server-side manual items (OTAP.S.M.*): true if server_cluster exists and enabled
@@ -600,18 +609,18 @@ def generate_pics_xml_for_ota(
                     new_support = 'false'
             else:
                 return
-        
+
         if old_value != new_support:
             support_element.text = new_support
             modified_count += 1
             print(f"    {'✓' if new_support == 'true' else '✗'} Set {item_text} = {new_support} (was {old_value})")
-    
+
     # Process all XML sections
     usage_node = root.find('usage')
     if usage_node is not None:
         for pics_item in usage_node:
             process_node(pics_item)
-    
+
     # Server side
     server_side = root.find("./clusterSide[@type='Server']")
     if server_side is not None:
@@ -620,7 +629,7 @@ def generate_pics_xml_for_ota(
             if sec_node is not None:
                 for pics_item in sec_node:
                     process_node(pics_item)
-    
+
     # Client side
     client_side = root.find("./clusterSide[@type='Client']")
     if client_side is not None:
@@ -629,10 +638,10 @@ def generate_pics_xml_for_ota(
             if sec_node is not None:
                 for pics_item in sec_node:
                     process_node(pics_item)
-    
+
     if modified_count == 0:
         print(f"    No modifications needed (all items already match ZAP)")
-    
+
     # Write output
     output_file = f"{output_path}{pics_file_name}"
     indent_xml(root)
@@ -647,11 +656,12 @@ def generate_pics_xml_for_ota(
             decl_end = decl_match.end()
             rest_content = xml_content[decl_end:].lstrip()
             xml_content = xml_content[:decl_end] + header_comment + rest_content
-    
+
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write(xml_content)
-    
+
     print(f"  ✓ Generated: {output_file}")
+
 
 def generate_pics_xml(
     cluster_name: str,
@@ -660,27 +670,30 @@ def generate_pics_xml(
     output_path: str,
     pics_xml_file_list: list,
 ):
-    """Generate PICS XML file for a cluster by updating the template."""
+    """Generate PICS XML file for a cluster by updating the template.
     
+    Items not matching .S/.C pattern default to false instead of keeping template default.
+    """
+
     # Find matching PICS XML template
     pics_file_name = map_cluster_name_to_pics_xml(cluster_name, pics_xml_file_list, cluster_data)
     if not pics_file_name:
         print(f"  [WARNING] Could not find matching PICS XML template for \"{cluster_name}\"")
         return
-    
+
     xml_path = xml_template_path.rstrip('\\/').replace('\\', '/') + '/'
     xml_file = f"{xml_path}{pics_file_name}"
-    
+
     # Read original file content to preserve comments
     with open(xml_file, 'r', encoding='utf-8') as f:
         original_content = f.read()
-    
+
     # Extract the comment block after <?xml ...?>
     comment_match = re.search(r'(<\?xml[^?]*\?>)(<!--.*?-->)(<clusterPICS)', original_content, re.DOTALL)
     header_comment = None
     if comment_match:
         header_comment = comment_match.group(2)
-    
+
     try:
         # Parse the XML template
         parser = ET.XMLParser(target=ET.TreeBuilder(insert_comments=True))
@@ -692,10 +705,10 @@ def generate_pics_xml(
     except FileNotFoundError:
         print(f"  [ERROR] File not found: \"{xml_file}\"")
         return
-    
+
     print(f"  Processing template: {pics_file_name}")
     modified_count = 0
-    
+
     # Helper function to process a node
     def process_node(node):
         nonlocal modified_count
@@ -705,17 +718,23 @@ def generate_pics_xml(
         support_element = node.find('support')
         if support_element is None:
             return
-        
+
         item_text = item_number_element.text
         if not item_text:
             return
-        
+
+        old_value = support_element.text
+
         parsed = parse_item_number(item_text)
         if parsed is None:
+            # Item doesn't match .S/.C pattern (e.g. MCORE.* items in cluster templates)
+            # Default to false instead of keeping template default
+            if old_value != 'false':
+                support_element.text = 'false'
+                modified_count += 1
+                print(f"    ✗ Set {item_text} = false (was {old_value}) [unparseable -> false]")
             return
-        
-        old_value = support_element.text
-        
+
         # Determine new support value based on side
         if parsed['side'] == 'S':
             new_support = determine_server_support(parsed, cluster_data)
@@ -723,20 +742,20 @@ def generate_pics_xml(
             new_support = determine_client_support(parsed, cluster_data)
         else:
             return
-        
+
         # Update if changed
         if old_value != new_support:
             support_element.text = new_support
             modified_count += 1
             print(f"    {'✓' if new_support == 'true' else '✗'} Set {item_text} = {new_support} (was {old_value})")
-    
+
     # Process all XML sections
     # 1. Usage (role)
     usage_node = root.find('usage')
     if usage_node is not None:
         for pics_item in usage_node:
             process_node(pics_item)
-    
+
     # 2. Server side
     server_side = root.find("./clusterSide[@type='Server']")
     if server_side is not None:
@@ -745,37 +764,37 @@ def generate_pics_xml(
         if attrs_node is not None:
             for pics_item in attrs_node:
                 process_node(pics_item)
-        
+
         # Server features
         features_node = server_side.find('features')
         if features_node is not None:
             for pics_item in features_node:
                 process_node(pics_item)
-        
+
         # Server commands received
         cmds_rx_node = server_side.find('commandsReceived')
         if cmds_rx_node is not None:
             for pics_item in cmds_rx_node:
                 process_node(pics_item)
-        
+
         # Server commands generated
         cmds_tx_node = server_side.find('commandsGenerated')
         if cmds_tx_node is not None:
             for pics_item in cmds_tx_node:
                 process_node(pics_item)
-        
+
         # Server events
         events_node = server_side.find('events')
         if events_node is not None:
             for pics_item in events_node:
                 process_node(pics_item)
-        
+
         # Server manually
         manually_node = server_side.find('manually')
         if manually_node is not None:
             for pics_item in manually_node:
                 process_node(pics_item)
-    
+
     # 3. Client side
     client_side = root.find("./clusterSide[@type='Client']")
     if client_side is not None:
@@ -784,53 +803,53 @@ def generate_pics_xml(
         if attrs_node is not None:
             for pics_item in attrs_node:
                 process_node(pics_item)
-        
+
         # Client features
         features_node = client_side.find('features')
         if features_node is not None:
             for pics_item in features_node:
                 process_node(pics_item)
-        
+
         # Client commands received
         cmds_rx_node = client_side.find('commandsReceived')
         if cmds_rx_node is not None:
             for pics_item in cmds_rx_node:
                 process_node(pics_item)
-        
+
         # Client commands generated
         cmds_tx_node = client_side.find('commandsGenerated')
         if cmds_tx_node is not None:
             for pics_item in cmds_tx_node:
                 process_node(pics_item)
-        
+
         # Client events
         events_node = client_side.find('events')
         if events_node is not None:
             for pics_item in events_node:
                 process_node(pics_item)
-        
+
         # Client manually
         manually_node = client_side.find('manually')
         if manually_node is not None:
             for pics_item in manually_node:
                 process_node(pics_item)
-    
+
     if modified_count == 0:
         print(f"    No modifications needed (all items already match ZAP)")
-    
+
     # Write the output XML file
     output_file = f"{output_path}{pics_file_name}"
     indent_xml(root)
-    
+
     # Convert tree to string
     xml_buffer = io.StringIO()
     tree.write(xml_buffer, encoding="unicode", xml_declaration=True)
     xml_content = xml_buffer.getvalue()
-    
+
     # Fix single quotes to double quotes in XML declaration
     xml_content = xml_content.replace("<?xml version='1.0' encoding='utf-8'?>", '<?xml version="1.0" encoding="utf-8"?>')
     xml_content = xml_content.lstrip()
-    
+
     # Insert the header comment after <?xml ...?> if it exists
     if header_comment:
         decl_match = re.search(r'(<\?xml[^?]*\?>)', xml_content)
@@ -838,10 +857,10 @@ def generate_pics_xml(
             decl_end = decl_match.end()
             rest_content = xml_content[decl_end:].lstrip()
             xml_content = xml_content[:decl_end] + header_comment + rest_content
-    
+
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write(xml_content)
-    
+
     print(f"  ✓ Generated: {output_file}")
 
 
@@ -852,7 +871,7 @@ def get_supported_networks(zap_data: dict) -> Dict[str, bool]:
     """
     networks = {'wifi': False, 'thread': False, 'ethernet': False}
     endpoints = extract_clusters_from_zap(zap_data)
-    
+
     for ep_data in endpoints.values():
         for cluster in ep_data.get('clusters', []):
             if cluster.get('name') == 'Network Commissioning' and cluster.get('enabled', 0):
@@ -877,12 +896,12 @@ def get_device_roles(zap_data: dict) -> Dict[str, bool]:
     # Commissionee: any device that has OperationalCredentials server is a commissionee.
     # For safety, default True because all Matter devices are commissionable.
     is_commissionee = True
-    
+
     is_commissioner = False
     is_controller = False
-    
+
     endpoints = extract_clusters_from_zap(zap_data)
-    
+
     # Clusters that, when present as client, indicate the device can actively control other devices.
     # Exclude clusters that are only used for OTA or commissioning.
     controller_client_clusters = {
@@ -893,22 +912,22 @@ def get_device_roles(zap_data: dict) -> Dict[str, bool]:
         "Content Launcher", "Account Login", "Binding", "Scenes Management",
         "Groups", "Identify"
     }
-    
+
     for ep_data in endpoints.values():
         for cluster in ep_data.get('clusters', []):
             if not cluster.get('enabled', 0):
                 continue
             side = cluster.get('side')
             name = cluster.get('name')
-            
+
             # Commissioner detection: has client side of AdministratorCommissioning or NetworkCommissioning
             if side == 'client' and name in ('Administrator Commissioning', 'Network Commissioning'):
                 is_commissioner = True
-            
+
             # Controller detection: has any client side cluster from the list above
             if side == 'client' and name in controller_client_clusters:
                 is_controller = True
-    
+
     return {
         'commissionee': is_commissionee,
         'commissioner': is_commissioner,
@@ -919,23 +938,25 @@ def get_device_roles(zap_data: dict) -> Dict[str, bool]:
 def generate_base_xml(zap_data: dict, xml_template_path: str, output_path: str):
     """
     Generate Base.xml according to the actual device capabilities extracted from .zap file.
+    
+    KEY CHANGE: ALL items default to false unless ZAP data confirms capability.
     """
     xml_path = xml_template_path.rstrip('\\/').replace('\\', '/') + '/'
     base_template = f"{xml_path}Base.xml"
     if not os.path.exists(base_template):
         print(f"  [WARNING] Base.xml template not found at {base_template}, skipping.")
         return
-    
+
     # Read original file to preserve comments
     with open(base_template, 'r', encoding='utf-8') as f:
         original_content = f.read()
-    
+
     # Extract header comment
     comment_match = re.search(r'(<\?xml[^?]*\?>)(<!--.*?-->)(<generalPICS)', original_content, re.DOTALL)
     header_comment = None
     if comment_match:
         header_comment = comment_match.group(2)
-    
+
     try:
         parser = ET.XMLParser(target=ET.TreeBuilder(insert_comments=True))
         tree = ET.parse(base_template, parser)
@@ -943,21 +964,54 @@ def generate_base_xml(zap_data: dict, xml_template_path: str, output_path: str):
     except ET.ParseError as e:
         print(f"  [ERROR] Could not parse Base.xml: {e}")
         return
-    
+
     # Get device capabilities
     networks = get_supported_networks(zap_data)
     roles = get_device_roles(zap_data)
-    
+
     # Determine wireless support summary
     wifi_supported = networks['wifi']
     thread_supported = networks['thread']
     ethernet_supported = networks['ethernet']
     wireless_supported = wifi_supported or thread_supported
-    
+
+    # Detect OTA support
+    has_ota_requestor = False
+    has_ota_provider = False
+    endpoints = extract_clusters_from_zap(zap_data)
+    for ep_data in endpoints.values():
+        for cluster in ep_data.get('clusters', []):
+            if not cluster.get('enabled', 0):
+                continue
+            name = cluster.get('name')
+            side = cluster.get('side')
+            if name == 'OTA Software Update Requestor' and side == 'server':
+                has_ota_requestor = True
+            elif name in ('OTA Software Update Provider',) and side == 'client':
+                has_ota_provider = True
+
+    # Detect if device has any client/server clusters
+    has_client_cluster = False
+    has_server_cluster = False
+    for ep_data in endpoints.values():
+        for cluster in ep_data.get('clusters', []):
+            if not cluster.get('enabled', 0):
+                continue
+            side = cluster.get('side')
+            if side == 'client':
+                has_client_cluster = True
+            elif side == 'server':
+                has_server_cluster = True
+
+    # Detect if device uses BDX (OTA uses BDX internally)
+    has_bdx = has_ota_requestor or has_ota_provider
+
     print(f"  Detected network capabilities: WiFi={wifi_supported}, Thread={thread_supported}, Ethernet={ethernet_supported}")
     print(f"  Detected roles: Commissionee={roles['commissionee']}, Commissioner={roles['commissioner']}, Controller={roles['controller']}")
-    
-    # Update each picsItem
+    print(f"  Detected OTA: Requestor={has_ota_requestor}, Provider={has_ota_provider}, BDX={has_bdx}")
+    print(f"  Detected clusters: has_server={has_server_cluster}, has_client={has_client_cluster}")
+
+    # Update each picsItem — default to false unless ZAP confirms
     modified_count = 0
     for pics_item in root.findall(".//picsItem"):
         item_elem = pics_item.find('itemNumber')
@@ -967,14 +1021,14 @@ def generate_base_xml(zap_data: dict, xml_template_path: str, output_path: str):
         item_text = item_elem.text
         if not item_text:
             continue
-        
+
         old_value = support_elem.text
-        new_value = None
-        
-        # Communication
+        new_value = None  # None means "default to false"
+
+        # --- Communication ---
         if item_text == 'MCORE.COM.BLE':
-            # Most Matter devices support BLE commissioning; keep template default (true)
-            pass
+            # BLE is fundamental to Matter commissioning
+            new_value = 'true'
         elif item_text == 'MCORE.COM.WIFI_2P4GHZ':
             new_value = 'true' if wifi_supported else 'false'
         elif item_text == 'MCORE.COM.WIFI_5GHZ':
@@ -987,24 +1041,112 @@ def generate_base_xml(zap_data: dict, xml_template_path: str, output_path: str):
             new_value = 'true' if thread_supported else 'false'
         elif item_text == 'MCORE.COM.WIRELESS':
             new_value = 'true' if wireless_supported else 'false'
-        # Roles
+
+        # --- Roles ---
         elif item_text == 'MCORE.ROLE.COMMISSIONER':
             new_value = 'true' if roles['commissioner'] else 'false'
         elif item_text == 'MCORE.ROLE.COMMISSIONEE':
             new_value = 'true' if roles['commissionee'] else 'false'
         elif item_text == 'MCORE.ROLE.CONTROLLER':
             new_value = 'true' if roles['controller'] else 'false'
-        # For all other items (like MCORE.DD.*), keep template unchanged
-        # This includes MCORE.DD.QR, MCORE.DD.MANUAL_PC, etc.
-        
-        if new_value is not None and new_value != old_value:
+
+        # --- OTA ---
+        elif item_text == 'MCORE.OTA.Requestor':
+            new_value = 'true' if has_ota_requestor else 'false'
+        elif item_text == 'MCORE.OTA.Provider':
+            new_value = 'true' if has_ota_provider else 'false'
+        elif item_text == 'MCORE.OTA.HTTPS':
+            new_value = 'true' if has_ota_requestor else 'false'
+        elif item_text in ('MCORE.OTA.RequestorConsent', 'MCORE.OTA.Resume', 'MCORE.OTA.VendorSpecific', 'MCORE.OTA.Retry'):
+            new_value = 'false'
+
+        # --- BDX (OTA uses BDX) ---
+        elif item_text == 'MCORE.BDX.Sender':
+            new_value = 'true' if has_bdx else 'false'
+        elif item_text == 'MCORE.BDX.Receiver':
+            new_value = 'true' if has_bdx else 'false'
+        elif item_text == 'MCORE.BDX.AsynchronousSender':
+            new_value = 'true' if has_bdx else 'false'
+        elif item_text == 'MCORE.BDX.AsynchronousReceiver':
+            new_value = 'true' if has_bdx else 'false'
+        elif item_text == 'MCORE.BDX.Initiator':
+            new_value = 'true' if has_bdx else 'false'
+        elif item_text == 'MCORE.BDX.Responder':
+            new_value = 'true' if has_bdx else 'false'
+        elif item_text.startswith('MCORE.BDX.'):
+            new_value = 'false'
+
+        # --- IDM (Interaction Data Model) ---
+        elif item_text == 'MCORE.IDM.S':
+            new_value = 'true' if has_server_cluster else 'false'
+        elif item_text == 'MCORE.IDM.C':
+            new_value = 'true' if has_client_cluster else 'false'
+        elif item_text.startswith('MCORE.IDM.C.'):
+            new_value = 'true' if has_client_cluster else 'false'
+        elif item_text.startswith('MCORE.IDM.S.'):
+            new_value = 'true' if has_server_cluster else 'false'
+
+        # --- BRIDGE ---
+        elif item_text.startswith('MCORE.BRIDGE'):
+            new_value = 'false'
+
+        # --- DEVLIST ---
+        elif item_text.startswith('MCORE.DEVLIST'):
+            new_value = 'false'
+
+        # --- Fabric Synchronization ---
+        elif item_text == 'MCORE.FS':
+            new_value = 'false'
+
+        # --- SM / DT ---
+        elif item_text == 'MCORE.SM.S':
+            new_value = 'true' if has_server_cluster else 'false'
+        elif item_text == 'MCORE.DT.S':
+            new_value = 'true' if has_server_cluster else 'false'
+
+        # --- Groups ---
+        elif item_text == 'MCORE.G.MULTIENDPOINT':
+            new_value = 'false'
+
+        # --- Software Component ---
+        elif item_text == 'MCORE.DT_SW_COMP':
+            new_value = 'false'
+
+        # --- Diagnostic Logs ---
+        elif item_text in ('MCORE.DLOG.S.UTCTIMESTAMP', 'MCORE.DLOG.S.TIMESINCEBOOT'):
+            new_value = 'false'
+
+        # --- Device Discovery / Onboarding ---
+        elif item_text.startswith('MCORE.DD.'):
+            if item_text in ('MCORE.DD.QR', 'MCORE.DD.MANUAL_PC'):
+                new_value = 'true' if roles['commissionee'] else 'false'
+            else:
+                new_value = 'false'
+
+        # --- Subtype / mDNS ---
+        elif item_text.startswith('MCORE.SC.'):
+            new_value = 'false'
+
+        # --- ACL ---
+        elif item_text == 'MCORE.ACL.Administrator':
+            new_value = 'true' if roles['commissioner'] else 'false'
+
+        # --- PAF ---
+        elif item_text == 'MCORE.COM.PAF':
+            new_value = 'false'
+
+        # Default: if we haven't matched any rule above, set to false
+        if new_value is None:
+            new_value = 'false'
+
+        if new_value != old_value:
             support_elem.text = new_value
             modified_count += 1
             print(f"    {'✓' if new_value == 'true' else '✗'} Set {item_text} = {new_value} (was {old_value})")
-    
+
     if modified_count == 0:
         print(f"  No Base.xml modifications needed (already matches ZAP)")
-    
+
     # Write output
     output_file = f"{output_path}Base.xml"
     indent_xml(root)
@@ -1019,10 +1161,10 @@ def generate_base_xml(zap_data: dict, xml_template_path: str, output_path: str):
             decl_end = decl_match.end()
             rest_content = xml_content[decl_end:].lstrip()
             xml_content = xml_content[:decl_end] + header_comment + rest_content
-    
+
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write(xml_content)
-    
+
     print(f"  ✓ Generated Base.xml (customized)")
 
 
@@ -1044,55 +1186,55 @@ def indent_xml(elem, level=0):
 
 def process_zap_file(zap_file: str, xml_template_path: str, output_path: str):
     """Main function to process a .zap file and generate PICS XML files."""
-    
+
     # Load .zap file
     print(f"Loading .zap file: {zap_file}")
     with open(zap_file, 'r', encoding='utf-8') as f:
         zap_data = json.load(f)
-    
+
     # Load PICS XML template list
     print(f"Loading PICS XML templates from: {xml_template_path}")
     pics_xml_file_list = load_pics_xml_file_list(xml_template_path)
     print(f"  Found {len(pics_xml_file_list)} template files")
-    
+
     # Create output directory
     output_path = output_path.rstrip('\\/') + '/'
     pathlib.Path(output_path).mkdir(parents=True, exist_ok=True)
     print(f"Output directory: {output_path}")
-    
+
     # Extract clusters from .zap file
     endpoints = extract_clusters_from_zap(zap_data)
-    
+
     if not endpoints:
         print("[WARNING] No endpoints found in .zap file")
         return
-    
+
     print(f"\nFound {len(endpoints)} endpoint(s) in .zap file")
-    
+
     # Process each endpoint
     for ep_number, ep_data in sorted(endpoints.items()):
         print(f"\n{'='*60}")
         print(f"Processing endpoint {ep_number} -> EP{ep_number}")
         print(f"{'='*60}")
-        
+
         clusters = ep_data.get("clusters", [])
         print(f"  Found {len(clusters)} cluster(s)")
-        
+
         # Create endpoint-specific output directory
         ep_output_path = f"{output_path}EP{ep_number}/"
         pathlib.Path(ep_output_path).mkdir(parents=True, exist_ok=True)
-        
+
         # Generate Base.xml only for EP0 (global PICS items)
         if ep_number == 0:
             print(f"\n  Generating Base.xml for endpoint EP0...")
             generate_base_xml(zap_data, xml_template_path, ep_output_path)
-        
+
         # --- Special handling for OTA Software Update (dual cluster) ---
         # Collect clusters that map to the OTA template
         ota_clusters = []
         other_clusters = []
         ota_template_name = "OTA Software Update Test Plan.xml"
-        
+
         for cluster in clusters:
             cluster_name = cluster.get("name", "")
             if not cluster.get("enabled", 0):
@@ -1102,7 +1244,7 @@ def process_zap_file(zap_file: str, xml_template_path: str, output_path: str):
                 ota_clusters.append(cluster)
             else:
                 other_clusters.append(cluster)
-        
+
         # Generate OTA combined XML if any OTA clusters exist
         if ota_clusters:
             print(f"\n  Processing OTA Software Update (combined) with {len(ota_clusters)} cluster(s)...")
@@ -1113,18 +1255,18 @@ def process_zap_file(zap_file: str, xml_template_path: str, output_path: str):
                 pics_xml_file_list=pics_xml_file_list,
                 pics_file_name=ota_template_name
             )
-        
+
         # Process all other clusters normally
         for cluster in other_clusters:
             cluster_name = cluster.get("name", "")
             cluster_code = cluster.get("code", 0)
             cluster_enabled = cluster.get("enabled", 0)
             cluster_side = cluster.get("side", "")
-            
+
             if not cluster_enabled:
                 print(f"\n  Skipping disabled cluster: {cluster_name} (0x{cluster_code:04x})")
                 continue
-            
+
             print(f"\n  Processing cluster: {cluster_name} (0x{cluster_code:04x}) [side={cluster_side}]")
             generate_pics_xml(
                 cluster_name=cluster_name,
@@ -1133,11 +1275,11 @@ def process_zap_file(zap_file: str, xml_template_path: str, output_path: str):
                 output_path=ep_output_path,
                 pics_xml_file_list=pics_xml_file_list,
             )
-    
+
     print(f"\n{'='*60}")
     print("Conversion complete!")
     print(f"{'='*60}")
-    
+
     # Print summary
     total_files = 0
     for root, _, files in os.walk(output_path):
@@ -1166,23 +1308,23 @@ def main():
         required=True,
         help='Path to the output folder for generated PICS XML files'
     )
-    
+
     args = parser.parse_args()
-    
+
     # Validate paths
     if not os.path.exists(args.zap_file):
         print(f"Error: .zap file not found: {args.zap_file}")
         sys.exit(1)
-    
+
     if not os.path.exists(args.pics_template):
         print(f"Error: PICS template directory not found: {args.pics_template}")
         sys.exit(1)
-    
+
     print("="*60)
     print("Zap2Xml - Matter PICS XML Generator")
     print("="*60)
     print()
-    
+
     process_zap_file(args.zap_file, args.pics_template, args.output)
 
 
