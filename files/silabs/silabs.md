@@ -8,21 +8,24 @@
 [Matter Extension v2.8.0-1.5](https://github.com/SiliconLabsSoftware/matter_extension/pull/297)  
 ```c
 //SSv6 SDK ME
-C:\Users\Administrator\.silabs\slt\installs\conan\p\matte66ea43dc8d7de\p\third_party\matter_sdk
-C:\Users\Administrator\.silabs\slt\installs\conan\p\matte66ea43dc8d7de\p\third_party\matter_sdk\src\platform\silabs\efr32\BLEManagerImpl.cpp
-C:\Users\Administrator\.silabs\slt\installs\conan\p\matte66ea43dc8d7de\p\third_party\matter_sdk\src\platform\silabs\efr32\BLEManagerImpl.h
+C:\Users\huide\.silabs\slt\installs\conan\p\matte66ea43dc8d7de\p\third_party\matter_sdk
+C:\Users\huide\.silabs\slt\installs\conan\p\matte66ea43dc8d7de\p\third_party\matter_sdk\src\platform\silabs\efr32\BLEManagerImpl.cpp
+C:\Users\huide\.silabs\slt\installs\conan\p\matte66ea43dc8d7de\p\third_party\matter_sdk\src\platform\silabs\efr32\BLEManagerImpl.h
 ```
 ```c
+//SiSDK2025.12.3
+C:\Users\huide\.silabs\slt\installs\conan\p\simpl35774a752829c\p
 //SiSDK2025.12.2
-C:\Users\Administrator\.silabs\slt\installs\conan\p\simpl965e19baece23\p
+C:\Users\huide\.silabs\slt\installs\conan\p\simpl965e19baece23\p
 ```
 ```c
 //ME v2.8.1
-C:\Users\Administrator\.silabs\slt\installs\conan\p\mattef07831835e490\p\third_party\matter_sdk
+C:\Users\huide\.silabs\slt\installs\conan\p\matte8bada656e9e76\p\third_party\matter_sdk
+C:\Users\huide\.silabs\slt\installs\conan\p\mattef07831835e490\p\third_party\matter_sdk
 //ME v2.8.0
-C:\Users\Administrator\.silabs\slt\installs\conan\p\mattecce5da49b7e37\p\third_party\matter_sdk
+C:\Users\huide\.silabs\slt\installs\conan\p\mattecce5da49b7e37\p\third_party\matter_sdk
 //ME v2.5.1
-C:\Users\Administrator\.silabs\slt\installs\conan\p\matte67027640a7b4a\p\third_party\matter_sdk
+C:\Users\huide\.silabs\slt\installs\conan\p\matte67027640a7b4a\p\third_party\matter_sdk
 ```
 ## Matter Log Level
 ```c

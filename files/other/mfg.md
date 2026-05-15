@@ -49,6 +49,12 @@ gfw_efr32_v2_mg24a-unsigned.s37
 gfw_efr32_v2_mg24a.s37
 gfw_efr32_v2_mg24b.s37
 ```
+
+## Code
+```c
+mfg_worker.py → start_flash → workflow_flash_cd_cert → writer_efr32.py(write_cd_cert) → efr32_commands_v2.py(__init__) → read().
+```
+
 ## MFG Exe
 <div align="center">
   <img src="mfg.png" width="1080">
