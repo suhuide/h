@@ -1,4 +1,3 @@
-
 # Qwen Code
 ## Website
 https://help.aliyun.com/zh/model-studio/qwen-code  
@@ -12,7 +11,7 @@ curl -fsSL -o %TEMP%\install-qwen.bat https://qwen-code-assets.oss-cn-hangzhou.a
 ```
 ## json
 [settings-ali-qwen](./claude/settings-ali-qwen.md)  
-
+[settings-ds](./claude/settings-ds.md)  
 # BigModel(GLM)
 ## Website
 https://bigmodel.cn/glm-coding  
@@ -29,7 +28,7 @@ npm install -g @anthropic-ai/claude-code
 [settings-ali-glm](./claude/settings-ali-glm.md)  
 [settings-ali-qwen](./claude/settings-ali-qwen.md)  
 [settings-ali-ds](./claude/settings-ali-ds.md)  
-
+[settings-ds](./claude/settings-ds.md)   
 
 ## Skill
 
@@ -41,3 +40,9 @@ npm install -g @anthropic-ai/claude-code
 ```c
 curl -o CLAUDE.md https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md
 ```
+
+## Tips
+
+<div align="center">
+  <img src="claude/claude-ug.png" width="1080">
+</div>

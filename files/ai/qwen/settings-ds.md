@@ -4,10 +4,17 @@
 ```c
 {
   "env": {
-    "BAILIAN_API_KEY": "xxx"
+    "BAILIAN_API_KEY": "xxx",
+    "DEEPSEEK_API_KEY": "xxx"
   },
   "modelProviders": {
     "openai": [
+      {
+        "id": "deepseek-v4-pro",
+        "name": "[DeepSeek] deepseek-v4-pro",
+        "baseUrl": "https://api.deepseek.com/anthropic",
+        "envKey": "DEEPSEEK_API_KEY"
+      },
       {
         "id": "qwen3.6-plus",
         "name": "[Bailian] qwen3.6-plus",
@@ -72,14 +79,12 @@
     }
   },
   "model": {
-    "name": "qwen3.6-plus"
+    "name": "deepseek-v4-pro"
   },
   "$version": 4,
   "permissions": {
     "allow": [
-      "Read(C:\\hrf\\other\\Matter_V_1_5_PICS_XML_For_RPI/**)",
-      "Bash(git *)"
+    
     ]
   }
 }
-```

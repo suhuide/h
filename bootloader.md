@@ -59,3 +59,22 @@ int main(void)
   reset_invalidateResetReason();
 #endif
 ```
+
+# GBL
+## [GBL Format](https://docs.silabs.com/mcu-bootloader/latest/bootloader-user-guide-gsdk-4/02-gecko-bootloader-file-format)  
+```c
+[HEADER] → [APPLICATION] → [SE UPGRADE] → [BOOTLOADER] → [METADATA / PROG] → [CERTIFICATE] → [SIGNATURE] → [END]
+```
+## Silabs 文档
+GBL 文件的 tag 顺序：
+1. GBL_HEADER_TAG    (0x03A6) ← 快
+2. GBL_METADATA_TAG  (0x03A4) ← 快  
+3. GBL_APP_DATA_TAG  (0x03A8) ← 这里面是2MB的fw+metadata内容，慢！
+4. GBL_SIGNATURE_TAG (0x03A7) ← 签名验证
+5. GBL_END_TAG       (0x03A9)
+我们的 MCU metadata (10字节 header + firmware) 嵌在 GBL_APP_DATA_TAG 里面。这个 tag 的内容有 2MB，bootloader_continueVerifyImage 需要逐块（每次64字节）读出并验证，才能到我们的 metadata 内容。这是顺序的、不可跳过的。
+
+## 官方文档参考
+[UG266: Gecko Bootloader User's Guide](https://docs.silabs.com/mcu-bootloader/latest/bootloader-user-guide-gsdk-4/) — GBL 文件格式、tag 结构  
+[AN1086: Gecko Bootloader Application Note](https://docs.silabs.com/mcu-bootloader/latest/using-gecko-bootloader-with-bluetooth-apps/) — 验证流程  
+[Gecko Bootloader API Reference](https://docs.silabs.com/mcu-bootloader/latest/gecko-bootloader-api/) — bootloader_continueVerifyImage API  

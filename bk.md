@@ -37,6 +37,10 @@ EFR32MG24A410F1536IM40
 [MT:K2CA0Q181498OE18B10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AK2CA0Q181498OE18B10)  
 [MT:K2CA0WSC00YM3X7D910](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AK2CA0WSC00YM3X7D910)  
 
+## Power Consumption
+<div align="left">
+  <img src="files/bk/bk-power-consumption.png" width="2160">
+</div>
 
 ## MCU DFU
 ```mermaid
