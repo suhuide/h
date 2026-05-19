@@ -25,12 +25,50 @@ Post Code: 518052
 Tel: +86-755-82973805 / 4001-189-180
 Fax: +86-755-82973550
 ```
-# Working Time
+# Account
+## Working Time
 ```c
 http://ai.hoperf.cn
 HP1239
 er..1
 ```
+## ONES
+```c
+https://ones.cn/project/#/workspace/team/VocipTXV/dashboard/common/VPLLqdYw
+suhuide@hoperf.com
+e...1
+```
+## OA
+```c
+http://oa.hoperf.cn:8080/login.jsp
+HP1239
+*1*
+```
+## git account
+```c
+suhuide@hoperf.com
+Shd**475967
+```
+## samba
+```c
+samba: \\hoperf-matter
+username: suhuide
+password: HA39838M*12
+```
+## Raspi
+```c
+raspi4-p
+192.168.100.4
+Rasberrypi
+
+raspi4-e
+192.168.100.20
+...e
+raspi4-h
+192.168.100.21
+...h
+```
+
 # Release Record
 [Record](https://ones.cn/wiki/#/team/VocipTXV/space/7jKfDSiJ/page/GiVjDm9P)  
 
@@ -71,26 +109,6 @@ WSTK Mainboard (ID: 000440045640)
 # matter repo
 ```c
 https://hoperf-matter/gitlab/matter
-```
-
-# samba
-```c
-samba: \\hoperf-matter
-username: suhuide
-password: HA39838M*12
-```
-# Raspi
-```c
-raspi4-p
-192.168.100.4
-Rasberrypi
-
-raspi4-e
-192.168.100.20
-...e
-raspi4-h
-192.168.100.21
-...h
 ```
 # Bluetooth SIG
 ```c

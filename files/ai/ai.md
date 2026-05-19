@@ -10,8 +10,8 @@ qwen --version
 curl -fsSL -o %TEMP%\install-qwen.bat https://qwen-code-assets.oss-cn-hangzhou.aliyuncs.com/installation/install-qwen.bat && %TEMP%\install-qwen.bat --source bailian
 ```
 ## json
-[settings-ali-qwen](./claude/settings-ali-qwen.md)  
-[settings-ds](./claude/settings-ds.md)  
+[settings-ali-qwen](./qwen/settings-ali-qwen.md)  
+[settings-ds](./qwen/settings-ds.md)  
 # BigModel(GLM)
 ## Website
 https://bigmodel.cn/glm-coding  

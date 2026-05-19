@@ -29,6 +29,19 @@ ubuntu@ubuntu:~$ sudo ./chip-tool payload parse-setup-payload MT:GYFB5KY61495TG1
 [1773207925.100] [2635626:2635626] [SPL] Passcode:            85956333
 ```
 ```c
+ubuntu@ubuntu:~$ sudo ./chip-tool payload parse-setup-payload MT:K2CA0Q1814EZX083N00
+[1779188027.854] [3269625:3269625] [DL] ChipLinuxStorage::Init: Using KVS config file: /tmp/chip_tool_kvs
+[1779188027.854] [3269625:3269625] [SPL] Parsing base38Representation: MT:K2CA0Q1814EZX083N00
+[1779188027.858] [3269625:3269625] [SPL] Version:             0
+[1779188027.858] [3269625:3269625] [SPL] VendorID:            5232
+[1779188027.858] [3269625:3269625] [SPL] ProductID:           65281
+[1779188027.858] [3269625:3269625] [SPL] Custom flow:         0    (STANDARD)
+[1779188027.859] [3269625:3269625] [SPL] Discovery Bitmask:   0x02 (BLE)
+[1779188027.859] [3269625:3269625] [SPL] Long discriminator:  3876   (0xf24)
+[1779188027.859] [3269625:3269625] [SPL] Passcode:            28770211
+```
+
+```c
 sudo rm -rf /tmp/chip_*
 ```
 ```c
@@ -41,6 +54,9 @@ sudo ./chip-tool pairing ble-thread 2250 hex:0e0800000000000100004a0300000b35060
 
 ```c
 sudo ./chip-tool pairing ble-thread 2250 hex:0e0800000000000100004a0300000b35060004001fffe00208d66aa42e602782d70708fd119c64dd37b8c40510af58620082e94dcc8b2e7e4a5735245b030f4f70656e5468726561642d323235660102225f04101ab41530faf60b359a71bbd4d65101e50c0402a0f7f8000300000f 85956333 1884 --paa-trust-store-path ~/paa-root-certs
+```
+```c
+sudo ./chip-tool pairing ble-thread 2250 hex:0e0800000000000100004a0300000b35060004001fffe00208d66aa42e602782d70708fd119c64dd37b8c40510af58620082e94dcc8b2e7e4a5735245b030f4f70656e5468726561642d323235660102225f04101ab41530faf60b359a71bbd4d65101e50c0402a0f7f8000300000f 28770211 3876 --paa-trust-store-path ~/paa-root-certs
 ```
 ```c
 sudo ./chip-tool onoff on 2250 3
