@@ -771,3 +771,37 @@ NULL
 ```c
 [10:31:04.921]收←◆55 AA 02 00 1D 04 00 08 0D 02 00 04 01 66 00 00 A4
 ```
+
+## DFU
+```c
+[15:56:05.866]  [00:00:00.127][silabs ]app_mcu_dfu_init
+[15:56:05.866]  [00:00:00.127][silabs ]bootloader_init() OK, calling cache_entire_metadata()
+[15:56:05.866]  [00:00:00.128][silabs ]cache_entire_metadata: initVerify OK, starting continueVerify loop...
+[15:56:19.701]  [00:00:13.968][silabs ]cache_entire_metadata: continueVerify loop done, ret=515, iter=4693, bytes=39786
+[15:56:19.701]  [00:00:13.968][silabs ]cache_entire_metadata: Header OK - magic=0x55AA, size=39776, ver=0.0.2
+[15:56:19.705]  [00:00:13.972][silabs ]parse_metadata_header: Magic=0x55AA, Size=39776, Checksum=0xC5, Version=0.0.2
+[15:56:19.705]  [00:00:13.972][silabs ]cache_entire_metadata: DONE, cached 39786 bytes, header_valid=1
+[15:56:19.707]  [00:00:13.972][silabs ]cache_entire_metadata() returned: true
+[15:56:19.707]  [00:00:13.973][silabs ]app_mcu_dfu_init: done, cache_valid=1, header_valid=1
+[15:56:19.709]  [00:00:13.973][silabs ]App Task started
+```
+```c
+[16:02:57.357]  [00:00:00.127][silabs ]app_mcu_dfu_init
+[16:02:57.357]  [00:00:00.127][silabs ]bootloader_init() OK, calling cache_entire_metadata()
+[16:02:59.857]  [00:00:02.632][silabs ]cache_entire_metadata: initVerify OK, starting continueVerify loop...
+[16:02:59.921]  [00:00:02.697][silabs ]cache_entire_metadata: first continueVerify failed, ret=4097
+[16:02:59.921]  [00:00:02.698][silabs ]cache_entire_metadata() returned: false
+[16:02:59.923]  [00:00:02.698][silabs ]app_mcu_dfu_init: done, cache_valid=0, header_valid=0
+[16:02:59.923]  [00:00:02.698][silabs ]App Task started
+```
+```c
+[16:06:26.457]  [00:00:00.128][silabs ]app_mcu_dfu_init
+[16:06:26.457]  [00:00:00.128][silabs ]bootloader_init() OK, calling cache_entire_metadata()
+[16:06:26.457]  [00:00:00.128][silabs ]cache_entire_metadata: starting ONE verify pass...
+[16:06:26.458]  [00:00:00.128][silabs ]cache_entire_metadata: slot 0 length=2088960
+[16:06:26.459]  [00:00:00.129][silabs ]cache_entire_metadata: initVerify OK, starting continueVerify loop...
+[16:06:26.459]  [00:00:00.132][silabs ]cache_entire_metadata: first continueVerify failed, ret=4097
+[16:06:26.461]  [00:00:00.132][silabs ]cache_entire_metadata() returned: false
+[16:06:26.463]  [00:00:00.132][silabs ]app_mcu_dfu_init: done, cache_valid=0, header_valid=0
+[16:06:26.463]  [00:00:00.133][silabs ]App Task started
+```
