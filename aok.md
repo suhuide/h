@@ -805,3 +805,25 @@ NULL
 [16:06:26.463]  [00:00:00.132][silabs ]app_mcu_dfu_init: done, cache_valid=0, header_valid=0
 [16:06:26.463]  [00:00:00.133][silabs ]App Task started
 ```
+
+## CD
+```c
+ubuntu@ubuntu:~$ sudo chmod +x chip-cert
+ubuntu@ubuntu:~$ ./chip-cert print-cd ./csa25d65mat4831124.der
+SignerKeyId value: hex:FE343F959947763B61EE4539131338494FE67D8E
+0x01, tag[Anonymous]: 0x100, type: Structure (0x15), container:
+0x04,     tag[Context Specific]: 0x0, type: Unsigned Fixed Point (0x04), value: 1
+0x08,     tag[Context Specific]: 0x1, type: Unsigned Fixed Point (0x04), value: 5274
+0x0A,     tag[Context Specific]: 0x2, type: Array (0x16), container:
+0x0D,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 12821
+0x12,     tag[Context Specific]: 0x3, type: Unsigned Fixed Point (0x04), value: 514
+0x15,     tag[Context Specific]: 0x4, type: UTF-8 String (0x0c), length: 19, value: "CSA25D65MAT48311-24"
+0x2B,     tag[Context Specific]: 0x5, type: Unsigned Fixed Point (0x04), value: 0
+0x2E,     tag[Context Specific]: 0x6, type: Unsigned Fixed Point (0x04), value: 0
+0x31,     tag[Context Specific]: 0x7, type: Unsigned Fixed Point (0x04), value: 1
+0x34,     tag[Context Specific]: 0x8, type: Unsigned Fixed Point (0x04), value: 2
+0x38,     tag[Context Specific]: 0x9, type: Unsigned Fixed Point (0x04), value: 5232
+0x3C,     tag[Context Specific]: 0xa, type: Unsigned Fixed Point (0x04), value: 32774
+0x3E,     tag[Context Specific]: 0xb, type: Array (0x16), container:
+0x40,         tag[Anonymous]: 0x100, type: Octet String (0x10), length: 20, value: hex:E9160DC417F7419C95320BBF365671933FF31222
+```

@@ -121,7 +121,7 @@ sudo ./chip-tool colorcontrol move-to-color-temperature 4000 0 0 0 2250 1
 sudo ./chip-tool interactive start
 any subscribe-by-id 0xffffffff 0xffffffff 0 1 2250 0xffff
 ```
-# chip-cert
+# CD
 ```c
 ubuntu@ubuntu:~$ sudo chmod +x chip-cert
 ubuntu@ubuntu:~$ ./chip-cert print-cd ./csa25d65mat4831124.der
@@ -141,8 +141,6 @@ SignerKeyId value: hex:FE343F959947763B61EE4539131338494FE67D8E
 0x3C,     tag[Context Specific]: 0xa, type: Unsigned Fixed Point (0x04), value: 32774
 0x3E,     tag[Context Specific]: 0xb, type: Array (0x16), container:
 0x40,         tag[Anonymous]: 0x100, type: Octet String (0x10), length: 20, value: hex:E9160DC417F7419C95320BBF365671933FF31222
-ubuntu@ubuntu:~$
-
 ```
 
 
