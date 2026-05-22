@@ -15,7 +15,7 @@
 [gatt_dynamic](./files/aok/gatt_dynamic.md)  
 [whitelist](./files/aok/whitelist.md)  
 [icd](./files/aok/icd.md)  
-
+[pid](./files/aok/pid.md)
 
 # FW Release
 ## File Signature

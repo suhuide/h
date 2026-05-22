@@ -43,3 +43,29 @@ No.	QR Code
 	38	[MT:GYFB56XV17C6I22A110](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AGYFB56XV17C6I22A110)  
 	39	[MT:GYFB5QNB00O9Y977300](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AGYFB5QNB00O9Y977300)  
 	40	[MT:GYFB5KY614D7TZ3JL10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AGYFB5KY614D7TZ3JL10)  
+
+
+AC  @20260522
+No.	QR Code  
+	21	[MT:MNKA1KKN167PHX01T10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AMNKA1KKN167PHX01T10)  
+	22	[MT:MNKA1ANB00PEPM7MF00](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AMNKA1ANB00PEPM7MF00)  
+	23	[MT:MNKA1IZJ01DZ5N6MW10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AMNKA1IZJ01DZ5N6MW10)  
+	24	[MT:MNKA14Y614LQS-5TF00](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AMNKA14Y614LQS-5TF00)  
+	25	[MT:MNKA1KKN16IX5A3J610](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AMNKA1KKN16IX5A3J610)  
+	26	[MT:MNKA1SWV17C88Z0V910](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AMNKA1SWV17C88Z0V910)  
+	27	[MT:MNKA1YL-03MBYP2S100](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AMNKA1YL-03MBYP2S100)  
+	28	[MT:MNKA1ANB00BW1-6BH00](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AMNKA1ANB00BW1-6BH00)  
+	29	[MT:MNKA1SWV17XDLR6MW10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AMNKA1SWV17XDLR6MW10)  
+	30	[MT:MNKA1Q9S02IS261M-00](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AMNKA1Q9S02IS261M-00)  
+	31	[MT:MNKA1C8F15VA3H5CT00](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AMNKA1C8F15VA3H5CT00)  
+	32	[MT:MNKA1SWV17VYG51IX10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AMNKA1SWV17VYG51IX10)  
+	33	[MT:MNKA1ANB00ZYX47I310](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AMNKA1ANB00ZYX47I310)  
+	34	[MT:MNKA1Q9S020K5U01510](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AMNKA1Q9S020K5U01510)  
+	35	[MT:MNKA14Y614J6061PF00](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AMNKA14Y614J6061PF00)  
+	36	[MT:MNKA1YL-03EPCQ0Y410](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AMNKA1YL-03EPCQ0Y410)  
+	37	[MT:MNKA1KKN16WHDV20K00](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AMNKA1KKN16WHDV20K00)  
+	38	[MT:MNKA1KKN1603KQ2M020](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AMNKA1KKN1603KQ2M020)  
+	39	[MT:MNKA1ANB00-O.208M00](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AMNKA1ANB00-O.208M00)  
+	40	[MT:MNKA14Y614P9J70HN10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AMNKA14Y614P9J70HN10)  
+
+ 

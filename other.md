@@ -64,6 +64,57 @@ kill -9 xxxx
 sudo dd if=/dev/sdb of=./sdb.img bs=2M conv=noerror,sync status=progress
 sudo dd if=./sdb.img of=/dev/sdb bs=2M status=progress
 ```
+# Tips
+```c
+//文件数
+find . -name "*.c"|wc -l
+//行数
+find . -name "*.c" -or  -name "*.h" | xargs cat|wc -l
+//行数(除空白行)
+find . -name "*.c" -or  -name "*.h" | xargs cat|grep -v ^$|wc -l
+find . -name "*.cpp" -or  -name "*.h" | xargs cat|grep -v ^$|wc -l
+```
+```c
+//wildcard
+.+?
+```
+```c
+//每行前8个字符
+.{8}
+//包含0x00000044的所有行
+.*0x00000044.*
+```
+```c
+//删除空白行
+^\s*(?=\r?$)\n
+//只保留commit开头的行
+^((?!commit ).)*$
+^((?!(TASK|task|BUG|bug|JENKINS_JOB)).)*$
+^(?!(.*(TASK|task|BUG|bug|JENKINS_JOB))).*$
+
+//BDADDR, AC:86:D1:54:07:2D
+\b([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}\b
+\b(?!00:00:00:00:00:00\b)([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}\b
+\b(?!00:00:00:00:00:00\b)([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}\b(?![:0-9A-Fa-f])
+```
+```c
+//Scan and remove char before "收←◆" in each line
+^.*收←◆
+
+```
+```c
+(.*10 04.*)|(.*10 01.*)|(.*11 04.*)
+```
+```c
+//[MT:MNKA1UNB00278B2QQ10] -> []
+\[[^\]]*\]
+[]
+```
+```c
+//(https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AMNKA1UNB00278B2QQ10) ->(https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3A)
+(data=MT%3A)[^)]*
+data=MT%3A
+```
 
 # Beyond Compare
 Remove CacheID under HKEY_CURRENT_USER\Software\Scooter Software\Beyond Compare 4 can make you happy.
