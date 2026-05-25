@@ -37,6 +37,8 @@ npm install -g @anthropic-ai/claude-code
 ```c
 /plugin marketplace add forrestchang/andrej-karpathy-skills
 /plugin install andrej-karpathy-skills@karpathy-skills
+/plugin install document-skills@anthropic-agent-skills
+/plugins list --marketplace fullstack-dev-skills
 ```
 
 ```c

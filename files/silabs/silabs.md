@@ -42,6 +42,10 @@ config\sl_matter_config.h
 #define SL_MATTER_LOG_LEVEL SL_MATTER_LOG_PROGRESS
 #endif
 ```
+## Error Code
+[Bootloader Error](C:/Users/huide/.silabs/slt/installs/conan/p/simpl35774a752829c/p/bootloader/platform/bootloader/api/btl_errorcode.h)  
+[Chip Error](C:/Users/huide/.silabs/slt/installs/conan/p/matte8bada656e9e76/p/third_party/matter_sdk/src/lib/core/CHIPError.h)  
+
 ## [Commander](commander.md)  
 ## Serial Config
 ```c

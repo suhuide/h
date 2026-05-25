@@ -1,0 +1,75 @@
+[15:00:36.236]  [00:00:14.506][error ][IN] Data received on an unknown session (LSID=36120). Dropping it!
+[15:00:36.260]  [00:00:14.531][error ][IN] Data received on an unknown session (LSID=36120). Dropping it!
+[15:00:36.283]  [00:00:14.553][error ][IN] Data received on an unknown session (LSID=36120). Dropping it!
+[15:00:36.308]  [00:00:14.579][error ][IN] Data received on an unknown session (LSID=36120). Dropping it!
+[15:00:36.572]  [00:00:14.844][silabs ]SPP: re-sent count 1, ack_timeout_ms 500
+[15:00:36.572]  [00:00:14.844][silabs ]MATTER TX: 55 AA 01 00 00 02 01 00 03 
+[15:00:36.575]  [00:00:14.844][silabs ]COM: CMD: 0x02, SN: 0x0000, LEN: 9
+[15:00:36.575]  
+[15:00:36.661]  [00:00:14.933][info  ][DL] _OnPlatformEvent default:  event->Type = 32786
+[15:00:36.661]  [00:00:14.933][silabs ]NWK: platform event type 32786
+[15:00:36.663]  [00:00:14.933][info  ][SVR] DNS-SD initialized, scheduling OTA Requestor initialization
+[15:00:36.663]  [00:00:14.933][info  ][SVR] Server initialization complete
+[15:00:36.664]  [00:00:14.933][info  ][DIS] Updating services using commissioning mode 0
+[15:00:36.664]  [00:00:14.934][info  ][DIS] Advertise operational node 52017B57FC1E977B-00000000000008CA
+[15:00:36.665]  [00:00:14.934][info  ][DL] advertising srp service: 52017B57FC1E977B-00000000000008CA._matter._tcp
+[15:00:36.667]  [00:00:14.935][info  ][DL] _OnPlatformEvent default:  event->Type = 32790
+[15:00:36.667]  [00:00:14.935][silabs ]NWK: platform event type 32790
+[15:00:36.674]  [00:00:14.945][info  ][IM] No subscriptions to resume
+[15:00:37.072]  [00:00:15.344][silabs ]SPP: re-sent count 2, ack_timeout_ms 500
+[15:00:37.072]  [00:00:15.344][silabs ]MATTER TX: 55 AA 01 00 00 02 01 00 03 
+[15:00:37.075]  [00:00:15.344][silabs ]COM: CMD: 0x02, SN: 0x0000, LEN: 9
+[15:00:37.075]  
+[15:00:37.574]  [00:00:15.845][silabs ]SPP: re-sent reach to max
+[15:00:37.574]  [00:00:15.846][silabs ]MATTER TX: 55 AA 01 00 01 01 00 02 
+[15:00:37.574]  [00:00:15.846][silabs ]COM: CMD: 0x01, SN: 0x0001, LEN: 8
+[15:00:37.576]  
+[15:00:37.576]  [00:00:15.846][silabs ]SPP: ack_timeout_ms 500
+[15:00:38.075]  [00:00:16.346][silabs ]SPP: re-sent count 1, ack_timeout_ms 500
+[15:00:38.075]  [00:00:16.346][silabs ]MATTER TX: 55 AA 01 00 01 01 00 02 
+[15:00:38.075]  [00:00:16.346][silabs ]COM: CMD: 0x01, SN: 0x0001, LEN: 8
+[15:00:38.077]  
+[15:00:38.574]  [00:00:16.846][silabs ]SPP: re-sent count 2, ack_timeout_ms 500
+[15:00:38.574]  [00:00:16.846][silabs ]MATTER TX: 55 AA 01 00 01 01 00 02 
+[15:00:38.574]  [00:00:16.846][silabs ]COM: CMD: 0x01, SN: 0x0001, LEN: 8
+[15:00:38.576]  
+[15:00:39.075]  [00:00:17.346][silabs ]SPP: re-sent reach to max
+[15:00:39.075]  [00:00:17.347][silabs ]MATTER TX: 55 AA 01 00 02 02 01 01 06 
+[15:00:39.075]  [00:00:17.347][silabs ]COM: CMD: 0x02, SN: 0x0002, LEN: 9
+[15:00:39.077]  
+[15:00:39.077]  [00:00:17.347][silabs ]SPP: ack_timeout_ms 500
+[15:00:39.575]  [00:00:17.847][silabs ]SPP: re-sent count 1, ack_timeout_ms 500
+[15:00:39.575]  [00:00:17.847][silabs ]MATTER TX: 55 AA 01 00 02 02 01 01 06 
+[15:00:39.577]  [00:00:17.847][silabs ]COM: CMD: 0x02, SN: 0x0002, LEN: 9
+[15:00:39.577]  
+[15:00:39.665]  [00:00:17.935][info  ][DIS] Resolving 52017B57FC1E977B:0000000000000001 ...
+[15:00:39.665]  [00:00:17.937][info  ][DIS] Lookup started for 52017B57FC1E977B-0000000000000001
+[15:00:39.755]  [00:00:18.026][info  ][DIS] Node ID resolved for 52017B57FC1E977B-0000000000000001
+[15:00:39.755]  [00:00:18.027][info  ][DIS] UDP:[fd7a:e86b:aa12:232:8aa2:9eff:fe1d:c2c2]:5540: new best score: 3 (for 52017B57FC1E977B-0000000000000001)
+[15:00:39.756]  [00:00:18.027][info  ][DIS] Checking node lookup status for 52017B57FC1E977B-0000000000000001 after 92 ms
+[15:00:39.757]  [00:00:18.028][info  ][DIS] Keeping DNSSD lookup active
+[15:00:39.863]  [00:00:18.135][info  ][DIS] Checking node lookup status for 52017B57FC1E977B-0000000000000001 after 200 ms
+[15:00:39.863]  [00:00:18.136][info  ][SC] Initiating session on local FabricIndex 1 from 0x00000000000008CA -> 0x0000000000000001
+[15:00:39.883]  [00:00:18.155][info  ][EM] <<< [E:34834i S:0 M:116315500] (U) Msg TX from 268396511DE59AFC to 0:0000000000000000 [0000] [UDP:[fd7a:e86b:aa12:232:8aa2:9eff:fe1d:c2c2]:5540] --- Type 0000:30 (SecureChannel:CASE_Sigma1) (B:233)
+[15:00:39.884]  [00:00:18.156][info  ][EM] ??1 [E:34834i S:0 M:116315500] (U) Msg Retransmission to 0:0000000000000000 scheduled for 3620ms from now [State:Idle II:500 AI:2000 AT:4000]
+[15:00:39.889]  [00:00:18.156][info  ][SC] Sent Sigma1 msg to <0000000000000001, 1> [II:3000ms AI:2500ms AT:0ms]
+[15:00:40.075]  [00:00:18.347][silabs ]SPP: re-sent count 2, ack_timeout_ms 500
+[15:00:40.075]  [00:00:18.347][silabs ]MATTER TX: 55 AA 01 00 02 02 01 01 06 
+[15:00:40.077]  [00:00:18.347][silabs ]COM: CMD: 0x02, SN: 0x0002, LEN: 9
+[15:00:40.077]  
+[15:00:40.280]  [00:00:18.551][info  ][EM] >>> [E:34834i S:0 M:178079561 (Ack:116315500)] (U) Msg RX from 0:0000000000000000 [0000] to 268396511DE59AFC --- Type 0000:33 (SecureChannel:CASE_Sigma2Resume) (B:100)
+[15:00:40.281]  [00:00:18.552][info  ][EM] <<< [E:34834i S:0 M:116315501 (Ack:178079561)] (U) Msg TX from 268396511DE59AFC to 0:0000000000000000 [0000] [UDP:[fd00:dcff:665f:1:29c8:86f3:61b8:969e]:5540] --- Type 0000:10 (SecureChannel:StandaloneAck) (B:26)
+[15:00:40.288]  [00:00:18.559][info  ][EM] <<< [E:34834i S:0 M:116315502 (Ack:178079561)] (U) Msg TX from 268396511DE59AFC to 0:0000000000000000 [0000] [UDP:[fd00:dcff:665f:1:29c8:86f3:61b8:969e]:5540] --- Type 0000:40 (SecureChannel:StatusReport) (B:34)
+[15:00:40.289]  [00:00:18.560][info  ][EM] ??1 [E:34834i S:0 M:116315502] (U) Msg Retransmission to 0:0000000000000000 scheduled for 5609ms from now [State:Active II:500 AI:2000 AT:4000]
+[15:00:40.292]  [00:00:18.564][info  ][SC] SecureSession[0x20006e28, LSID:25475]: State change 'kEstablishing' --> 'kActive'
+[15:00:40.294]  [00:00:18.565][info  ][SWU] Stopping the watchdog timer
+[15:00:40.294]  [00:00:18.565][info  ][SWU] Starting the periodic query timer, timeout: 86400 seconds
+[15:00:40.298]  [00:00:18.569][info  ][EM] <<< [E:34835i S:25475 M:112792203] (S) Msg TX from 00000000000008CA to 1:0000000000000001 [977B] [UDP:[fd00:dcff:665f:1:29c8:86f3:61b8:969e]:5540] --- Type 0001:08 (IM:InvokeCommandRequest) (B:97)
+[15:00:40.299]  [00:00:18.570][info  ][EM] ??1 [E:34835i S:25475 M:112792203] (S) Msg Retransmission to 1:0000000000000001 scheduled for 5630ms from now [State:Active II:500 AI:2000 AT:4000]
+[15:00:40.302]  [00:00:18.571][info  ][DL] _OnPlatformEvent default:  event->Type = 32792
+[15:00:40.302]  [00:00:18.571][silabs ]NWK: platform event type 32792
+[15:00:40.576]  [00:00:18.847][silabs ]SPP: re-sent reach to max
+[15:00:40.781]  [00:00:19.052][info  ][EM] >>> [E:34834i S:0 M:178079562 (Ack:116315502)] (U) Msg RX from 0:0000000000000000 [0000] to 268396511DE59AFC --- Type 0000:10 (SecureChannel:StandaloneAck) (B:26)
+[15:00:40.805]  [00:00:19.077][info  ][EM] >>> [E:34835i S:25475 M:85115035 (Ack:112792203)] (S) Msg RX from 1:0000000000000001 [977B] to 00000000000008CA --- Type 0001:09 (IM:InvokeCommandResponse) (B:67)
+[15:00:40.807]  [00:00:19.078][info  ][DMG] Received Command Response Status for Endpoint=0 Cluster=0x0000_0029 Command=0x0000_0004 Status=0x0
+[15:00:40.808]  [00:00:19.080][info  ][EM] <<< [E:34835i S:25475 M:112792204 (Ack:85115035)] (S) Msg TX from 00000000000008CA to 1:0000000000000001 [977B] [UDP:[fd00:dcff:665f:1:29c8:86f3:61b8:969e]:5540] --- Type 0000:10 (SecureChannel:StandaloneAck) (B:34)
