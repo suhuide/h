@@ -1,5 +1,5 @@
 ```c
-DEEPSEEK_API_KEY = "sk-8b4549c5e8624d7cbbe58ee79f3b1a96"
+DEEPSEEK_API_KEY = "sk-"
 model_provider = "DeepSeek"
 model = "deepseek-v4-pro"
 
