@@ -6,7 +6,6 @@
 **Matter 版本**: Matter 1.5  
 **Thread 版本**: OpenThread 1.4 (MTD/SED)  
 **芯片平台**: Silicon Labs EFR32MG24  
-**分析日期**: 2026-05-23  
 
 **问题现象**: Matter 设备配网成功后，断电再上电，手机 APP 可能在 1 分钟到数分钟内无法控制设备。
 
