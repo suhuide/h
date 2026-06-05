@@ -62,3 +62,53 @@ commander nvm3 parse nvm3.s37 --key 0x0f00f
 commander ctune get --device efr32mg24
 commander ctune set --value 0x47 --device efr32mg24
 ```
+
+# SecureBoot功能说明
+
+# 1. 生成key
+
+```shell
+# 生成 Sign Key
+commander util genkey --type ecc-p256 --privkey sign_key.pem --pubkey sign_pubkey.pem --tokenfile sign_pubkey.txt
+# 生成 GBL AES key
+commander util genkey --type aes-ccm --outfile aes_key.txt
+# 生成 Command Key
+commander util genkey --type ecc-p256 --privkey command_key.pem --pubkey command_pubkey.pem
+```
+
+## 2. 将pubkey/aeskey临时写入芯片 （LockBit）
+
+```shell
+commander flash --tokengroup znet --tokenfile sign_pubkey.txt --device efr32mg24
+commander flash --tokengroup znet --tokenfile aes_key.txt --device efr32mg24
+```
+
+## 3. 将pubkey/aeskey永久写入到OTP中 (每个芯片只可写入1次)
+
+```shell
+# 写入
+commander security writekey --sign sign_pubkey.pem --device EFR32MG24A410F1536IM40
+commander security writekey --decrypt aes_key.txt --device EFR32MG24A410F1536IM40
+commander security writekey --command command_key.pem --device EFR32MG24A410F1536IM40
+# 写入SE配置
+TODO.
+# 使能SE
+TODO.
+```
+
+## 4. 查询key写入情况
+
+```shell
+# LockBit
+commander tokendump --tokengroup znet --device EFR32MG24A410F1536IM40
+# OTP
+commander security readkey --sign --device EFR32MG24A410F1536IM40
+```
+
+
+commander device reset
+commander device reset --serialno <>
+commander device recover
+commander device recover --device EFR32MG24A410F1536IM40 --serialno 440045640
+commander security erasedevice
+commander security erasedevice --device EFR32MG24A410F1536IM40 --serialno 440045640

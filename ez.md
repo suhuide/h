@@ -16,6 +16,7 @@
 [hrf](hrf.md)  
 [reset](./files/ez/reset.md)  
 [blink-test-code](./files/ez/blink-test-code.md)  
+[Module-QRcode-20260526](./files/ez/Module-20260526.md)  
 
 ## 0. Serial Port
 ```c

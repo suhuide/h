@@ -1,12 +1,13 @@
 [Chip-tool](../../other/chip-tool.md)  
 # 1 OTA Upgrade Operation
 ## 1.1 OTA Requestor Join network
+In <font color="#dd00dd">Terminal A</font>.  
 Kill OTA thread.
 ```c
 ps -ef | grep "ota"
 killall -9 sudo chip-ota-provider-app # Force terminate OTA provider application
 ```
-Commission, keep Terminal A open
+Commission, keep <font color="#dd00dd">Terminal A</font> open  
 ```c
 sudo rm -rf /tmp/chip_* # Clear CHIP temporary files
 sudo ./chip-tool pairing ble-thread 2250 hex:0e0800000000000100004a0300000b35060004001fffe00208d66aa42e602782d70708fd119c64dd37b8c40510af58620082e94dcc8b2e7e4a5735245b030f4f70656e5468726561642d323235660102225f04101ab41530faf60b359a71bbd4d65101e50c0402a0f7f8000300000f 22134108 2498 --paa-trust-store-path ~/paa-root-certs
@@ -26,7 +27,8 @@ Done
 ```
 
 ## 1.2 OTA Provider Load File
-Open a new Terminal B. Use chip-ota-provider-app to load the target xxx.ota file.
+Open a new <font color="#dd00dd">Terminal B</font>.   
+Use chip-ota-provider-app to load the target xxx.ota file.
 ```c
 sudo ./chip-ota-provider-app --KVS /tmp/chip_kvs_provider -f xxx.ota
 ```
@@ -35,6 +37,7 @@ Start the OTA provider application and load the firmware file
  - -f xxx.ota: Specify the target OTA firmware file (xxx.ota is the firmware to be upgraded)
 
 ## 1.3 OTA Provider Join Network
+In <font color="#dd00dd">Terminal A</font>.  
 ```c
 sudo ./chip-tool pairing onnetwork 1 20202021 
 ```
@@ -51,6 +54,7 @@ ACL (Access Control List) configuration:
  - authMode: 2: Authentication mode (Case authentication)
 
 ## 1.4 OTA Requestor Trigger
+In <font color="#dd00dd">Terminal A</font>.  
 ```c
 sudo ./chip-tool otasoftwareupdaterequestor announce-otaprovider 1 0 0 0 2250 0 
 ```
@@ -63,6 +67,7 @@ Trigger OTA update process
  - 0: Retry interval (seconds)
 
 ## 1.5 OTA Requestor Version Check
+In <font color="#dd00dd">Terminal A</font>. 
 ```c
 sudo ./chip-tool basicinformation read software-version-string 2250 0
 ```

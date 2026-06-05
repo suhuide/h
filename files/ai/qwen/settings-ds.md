@@ -10,10 +10,15 @@
   "modelProviders": {
     "openai": [
       {
-        "id": "deepseek-v4-pro",
-        "name": "[DeepSeek] deepseek-v4-pro",
-        "baseUrl": "https://api.deepseek.com/anthropic",
-        "envKey": "DEEPSEEK_API_KEY"
+        "id": "deepseek-chat",
+        "name": "[DeepSeek] deepseek-chat",
+        "baseUrl": "https://api.deepseek.com/v1",
+        "envKey": "DEEPSEEK_API_KEY",
+        "generationConfig": {
+          "extra_body": {
+            "enable_thinking": true
+          }
+        }        
       },
       {
         "id": "qwen3.6-plus",

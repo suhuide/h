@@ -19,7 +19,14 @@
 @flight
 ```
 ```c
-广东省东莞市樟木头镇文裕路8号，东莞保康电子科技有限公司，吴长春，13620049295
+地址：广东省东莞市樟木头镇文裕路8号，东莞保康电子科技有限公司
+联系人：吴长春
+电话：13620049295
+```
+```c
+地址：深圳市宝安区西乡街道共乐社区铁仔路60号奋成智谷大厦A座1303C 
+联系人：李日志 
+电话：18938674968
 ```
 ### PartNo.
 ```c
@@ -48,7 +55,7 @@ sequenceDiagram
     participant Matter模块
     participant MCU
 
-    MCU-->>Matter模块: 发送版本OTA版本查询
+    MCU-->>Matter模块: 发送版本OTA版本查询(可选,主动想升级时)
 
     alt Matter模块端版本检查
         Matter模块->>MCU: 发送升级通知(带version, size, checksum)
@@ -66,6 +73,24 @@ sequenceDiagram
         Note over Matter模块, MCU: 流程结束
     end
 ```
+### Log
+```c
+COM: Boot OTA check - MCU: 0.0.1, Metadata: 3.0.0
+COM: Notify MCU OTA upgrade: cmd=0xE1, PID=0x0001, Ver=3.0.0, size=45676, checksum=0x25
+MATTER TX: 55 AA 01 03 0E E1 0A 00 01 33 2E 30 2E 30 B2 6C 25 2F
+```
+### 解析
+```c
+55 AA 01 03 0E  //header&SN
+E1              //cmd=0xE1
+0A              //len
+00 01           //PID=0x0001
+33 2E 30 2E 30  //Ver=3.0.0
+B2 6C           //size=45676
+25              //MCU FW checksum=0x25
+2F              //checksum=0x25
+```
+
 ## ZAP
 ### Covering app iOS bug
 ```c
@@ -429,4 +454,130 @@ CHIP_ERROR AppTask::AppInit()
     DeviceLayer::ThreadStackMgr().UnlockThreadStack();
     //...
 }
+```
+
+### DFU cause reboot
+```c
+continueVerifyImage 解析非法数据
+  → 访问非法地址 / 非法内存操作
+    → HardFault / BusFault
+      → fault handler → NVIC_SystemReset()
+        → EMU_RSTCAUSE_SYSREQ (0x40)
+```
+
+## TODO @20260604
+|No|ToDo|Remark|
+|-|-|-|
+|1|BK key|bootloader,app, OTA|
+|2|MCU uart communicate during OTA Image Verifing||
+|3|Inter Flash vrersion||
+|4|Ringbuffer version||
+|5|||
+|6|||
+|7|||
+|8|||
+
+
+### Debug
+```c
+void vListInsert(List_t * const pxList,
+                 ListItem_t * const pxNewListItem)
+{
+  ListItem_t * pxIterator;
+  const TickType_t xValueOfInsertion = pxNewListItem->xItemValue;
+
+  traceENTER_vListInsert(pxList, pxNewListItem);
+
+  /* Only effective when configASSERT() is also defined, these tests may catch
+   * the list data structures being overwritten in memory.  They will not catch
+   * data errors caused by incorrect configuration or use of FreeRTOS. */
+  listTEST_LIST_INTEGRITY(pxList);
+  listTEST_LIST_ITEM_INTEGRITY(pxNewListItem);
+
+  /* Insert the new list item into the list, sorted in xItemValue order.
+   *
+   * If the list already contains a list item with the same item value then the
+   * new list item should be placed after it.  This ensures that TCBs which are
+   * stored in ready lists (all of which have the same xItemValue value) get a
+   * share of the CPU.  However, if the xItemValue is the same as the back marker
+   * the iteration loop below will not end.  Therefore the value is checked
+   * first, and the algorithm slightly modified if necessary. */
+  if ( xValueOfInsertion == portMAX_DELAY ) {
+    pxIterator = pxList->xListEnd.pxPrevious;
+  } else {
+    /* *** NOTE ***********************************************************
+    *  If you find your application is crashing here then likely causes are
+    *  listed below.  In addition see https://www.FreeRTOS.org/FAQHelp.html for
+    *  more tips, and ensure configASSERT() is defined!
+    *  https://www.FreeRTOS.org/a00110.html#configASSERT
+    *
+    *   1) Stack overflow -
+    *      see https://www.FreeRTOS.org/Stacks-and-stack-overflow-checking.html
+    *   2) Incorrect interrupt priority assignment, especially on Cortex-M
+    *      parts where numerically high priority values denote low actual
+    *      interrupt priorities, which can seem counter intuitive.  See
+    *      https://www.FreeRTOS.org/RTOS-Cortex-M3-M4.html and the definition
+    *      of configMAX_SYSCALL_INTERRUPT_PRIORITY on
+    *      https://www.FreeRTOS.org/a00110.html
+    *   3) Calling an API function from within a critical section or when
+    *      the scheduler is suspended, or calling an API function that does
+    *      not end in "FromISR" from an interrupt.
+    *   4) Using a queue or semaphore before it has been initialised or
+    *      before the scheduler has been started (are interrupts firing
+    *      before vTaskStartScheduler() has been called?).
+    *   5) If the FreeRTOS port supports interrupt nesting then ensure that
+    *      the priority of the tick interrupt is at or below
+    *      configMAX_SYSCALL_INTERRUPT_PRIORITY.
+    **********************************************************************/
+
+    for ( pxIterator = ( ListItem_t * ) &(pxList->xListEnd); pxIterator->pxNext->xItemValue <= xValueOfInsertion; pxIterator = pxIterator->pxNext ) {
+      /* There is nothing to do here, just iterating to the wanted
+       * insertion position. */
+    }
+  }
+
+  pxNewListItem->pxNext = pxIterator->pxNext;
+  pxNewListItem->pxNext->pxPrevious = pxNewListItem;
+  pxNewListItem->pxPrevious = pxIterator;
+  pxIterator->pxNext = pxNewListItem;
+
+  /* Remember which list the item is in.  This allows fast removal of the
+   * item later. */
+  pxNewListItem->pxContainer = pxList;
+
+  (pxList->uxNumberOfItems) = ( UBaseType_t ) (pxList->uxNumberOfItems + 1U);
+
+  traceRETURN_vListInsert();
+}
+```
+
+```c
+AppTaskMain (4KB stack)
+  └─ AppInit()
+       └─ app_mcu_dfu_init()
+            └─ cache_entire_metadata()
+                 ├─ SILABS_LOG(...)            ← 消耗栈
+                 ├─ bootloader_initVerifyImage  ← 消耗栈
+                 └─ bootloader_continueVerifyImage loop  ← 消耗栈
+                      └─ cache_append_callback  ← 消耗栈
+                           └─ memcpy()          ← 消耗栈
+```                           
+
+```c
+??@0x08003b44 (Unknown Source:0)
+bootloader_continueVerifyImage@0x08034454 (c:\Users\huide\.silabs\slt\installs\conan\p\simpl35774a752829c\p\bootloader_interface\platform\bootloader\api\btl_interface_storage.c:473)
+bootloader_continueVerifyImage@0x08034454 (c:\Users\huide\.silabs\slt\installs\conan\p\simpl35774a752829c\p\bootloader_interface\platform\bootloader\api\btl_interface_storage.c:461)
+cache_entire_metadata@0x08057fbe (c:\Si\v6\bk01_matter\src\app\app_mcu_dfu.cpp:196)
+app_mcu_dfu_init@0x0805815c (c:\Si\v6\bk01_matter\src\app\app_mcu_dfu.cpp:315)
+AppTask::AppInit@0x080597a0 (c:\Si\v6\bk01_matter\src\app\AppTask.cpp:104)
+BaseApplication::Init@0x08007910 (c:\Users\huide\.silabs\slt\installs\conan\p\matte8bada656e9e76\p\third_party\matter_sdk\examples\platform\silabs\BaseApplication.cpp:311)
+AppTask::AppTaskMain@0x080595de (c:\Si\v6\bk01_matter\src\app\AppTask.cpp:137)
+SystemHFXOClockSet@0x08034734 (c:\Users\huide\.silabs\slt\installs\conan\p\simpl35774a752829c\p\devices\platform\Device\SiliconLabs\EFR32MG24\Source\system_efr32mg24.c:506)
+```
+### Fixed
+```c
+#define BOOTLOADER_DISABLE_NVM3_FAULT_HANDLING 0
+|
+V
+#define BOOTLOADER_DISABLE_NVM3_FAULT_HANDLING 1
 ```

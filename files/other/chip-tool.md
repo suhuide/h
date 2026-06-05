@@ -142,5 +142,52 @@ SignerKeyId value: hex:FE343F959947763B61EE4539131338494FE67D8E
 0x3E,     tag[Context Specific]: 0xb, type: Array (0x16), container:
 0x40,         tag[Anonymous]: 0x100, type: Octet String (0x10), length: 20, value: hex:E9160DC417F7419C95320BBF365671933FF31222
 ```
+| TLV 项 | 字段含义 | 解析出的值 |
+| :--- | :--- | :--- |
+| **`SignerKeyId value`** | **签名者密钥标识符** | `FE343F959947763B61EE4539131338494FE67D8E` |
+| **`tag[Anonymous]: 0x100`** | **结构体版本** | `1` |
+| **`tag[Context Specific]: 0x1`** | **供应商ID (Vendor ID)** | `5274` (0x149A) |
+| **`tag[Context Specific]: 0x2`** | **产品ID (Product ID)** | `12821` (0x3215) |
+| **`tag[Context Specific]: 0x3`** | **设备类型ID (Device Type ID)** | `514` (0x202) |
+| **`tag[Context Specific]: 0x4`** | **认证ID (Certification ID)** | `"CSA25D65MAT48311-24"` |
+| **`tag[Context Specific]: 0x5`** | **安全策略 (Security Policy)** | `0` |
+| **`tag[Context Specific]: 0x6`** | **RCD 版本号** | `0` |
+| **`tag[Context Specific]: 0x7`** | **设备特征版本号** | `1` |
+| **`tag[Context Specific]: 0x8`** | **认证类型 (Certification Type)** | `2` |
+| **`tag[Context Specific]: 0x9`** | **认证设备类型ID** | `5232` (0x1470) |
+| **`tag[Context Specific]: 0xa`** | **原始供应商ID (Origin Vendor ID)** | `32774` (0x8006) |
+| **`tag[Context Specific]: 0xb`** | **产品外观 (Product Appearance)** | `E9160DC417F7419C95320BBF365671933FF31222` (hex) |
 
+```c
+ubuntu@ubuntu:~$ ./chip-cert print-cd ./cd-0x149A-0x3005-0x1470-0x8006.der
+SignerKeyId value: hex:62FA823359ACFAA9963E1CFA140ADDF504F37160
+0x01, tag[Anonymous]: 0x100, type: Structure (0x15), container:
+0x04,     tag[Context Specific]: 0x0, type: Unsigned Fixed Point (0x04), value: 1
+0x08,     tag[Context Specific]: 0x1, type: Unsigned Fixed Point (0x04), value: 5274
+0x0A,     tag[Context Specific]: 0x2, type: Array (0x16), container:
+0x0D,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 12293
+0x12,     tag[Context Specific]: 0x3, type: Unsigned Fixed Point (0x04), value: 514
+0x15,     tag[Context Specific]: 0x4, type: UTF-8 String (0x0c), length: 19, value: "ZIG20142ZB330003-24"
+0x2B,     tag[Context Specific]: 0x5, type: Unsigned Fixed Point (0x04), value: 0
+0x2E,     tag[Context Specific]: 0x6, type: Unsigned Fixed Point (0x04), value: 0
+0x32,     tag[Context Specific]: 0x7, type: Unsigned Fixed Point (0x04), value: 599
+0x35,     tag[Context Specific]: 0x8, type: Unsigned Fixed Point (0x04), value: 1
+0x39,     tag[Context Specific]: 0x9, type: Unsigned Fixed Point (0x04), value: 5232
+0x3D,     tag[Context Specific]: 0xa, type: Unsigned Fixed Point (0x04), value: 32774
+```
+
+| TLV 项 | 字段含义 | 解析出的值 |
+| :--- | :--- | :--- |
+| **`tag[Anonymous]: 0x100`** | **结构体版本** | `1` |
+| **`tag[Context Specific]: 0x1`** | **供应商ID (Vendor ID)** | `5274` (0x149A) |
+| **`tag[Context Specific]: 0x2`** | **产品ID (Product ID)** | `12293` (0x3005) |
+| **`tag[Context Specific]: 0x3`** | **设备类型ID (Device Type ID)** | `514` (0x202) |
+| **`tag[Context Specific]: 0x4`** | **认证ID (Certification ID)** | `"ZIG20142ZB330003-24"` |
+| **`tag[Context Specific]: 0x5`** | **安全策略 (Security Policy)** | `0` |
+| **`tag[Context Specific]: 0x6`** | **RCD 版本号** | `0` |
+| **`tag[Context Specific]: 0x7`** | **设备特征版本号** | `599` |
+| **`tag[Context Specific]: 0x8`** | **认证类型 (Certification Type)** | `1` (设备认证) |
+| **`tag[Context Specific]: 0x9`** | **认证设备类型ID** | `5232` (0x1470) |
+| **`tag[Context Specific]: 0xa`** | **原始供应商ID (Origin Vendor ID)** | `32774` (0x8006) |
+| **`SignerKeyId value`** | **签名者密钥标识符** | `62FA823359...` |
 

@@ -827,3 +827,26 @@ SignerKeyId value: hex:FE343F959947763B61EE4539131338494FE67D8E
 0x3E,     tag[Context Specific]: 0xb, type: Array (0x16), container:
 0x40,         tag[Anonymous]: 0x100, type: Octet String (0x10), length: 20, value: hex:E9160DC417F7419C95320BBF365671933FF31222
 ```
+
+## RAM
+```c
+Ram usage       :   262140 /   262140 B (100.00 %)
+  .bootloader_reset_section:        4 B            (  0.00 %)
+  .bss          :   137464 B            ( 52.44 %)
+  .data         :     3680 B            (  1.40 %)
+  .memory_manager_heap:   115936 B            ( 44.23 %)
+  .stack        :     4608 B            (  1.76 %)
+  text_application_ram:      448 B            (  0.17 %)
+
+Flash usage     :   952944 /  1540096 B ( 61.88 %)
+```
+```c
+Ram usage       :   262140 /   262140 B (100.00 %)
+  .bootloader_reset_section:        4 B            (  0.00 %)
+  .bss          :   137208 B            ( 52.34 %)
+  .data         :     3680 B            (  1.40 %)
+  .memory_manager_heap:   116192 B            ( 44.32 %)
+  .stack        :     4608 B            (  1.76 %)
+  text_application_ram:      448 B            (  0.17 %)
+Flash usage     :   953752 /  1540096 B ( 61.93 %)
+```

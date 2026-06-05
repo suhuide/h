@@ -12,6 +12,10 @@
 网址三: https://www.fbweb.cc
 
 # Raspi
+<div align="left">
+  <img src="files/other/raspberrypi-pinmap.png" width="1080">
+</div>
+
 ```c
 ln -s ~/connectedhomeip/out/standalone/chip-tool ~/chip-tool
 ln -s ~/connectedhomeip/out/ota-provider/chip-ota-provider-app ~/chip-ota-provider-app
