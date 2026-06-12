@@ -581,3 +581,37 @@ SystemHFXOClockSet@0x08034734 (c:\Users\huide\.silabs\slt\installs\conan\p\simpl
 V
 #define BOOTLOADER_DISABLE_NVM3_FAULT_HANDLING 1
 ```
+
+## OS Thread
+
+### 当前运行的线程 (共 12 个)
+|#	|线程名	|创建方式	|优先级	|栈大小	|创建位置|
+|----|----|----|----|----|----|
+|1	|Start Task	|osKernelStart() → SDK	|Normal (24)	|4096	|main.c:36 sl_main_second_stage_init()|
+|2	|main (临时)	|osThreadNew	|Realtime7 (55)	|5120	|MatterConfig.cpp:239 → 初始化完自删|
+|3	|App Task	|osThreadNew	|Normal (24)	|4096	|BaseApplication.cpp:292|
+|4	|UART Task	|xTaskCreateStatic	|30	|UART_TASK_SIZE	|hal_uart.cpp:395|
+|5	|BT Link Layer	|SDK sli_bt_rtos_adaptation_kernel_start	|52	|1000	|sl_bt_rtos_config_s2.h|
+|6	|BT Host Stack	|SDK	|51	|2000	|sl_bt_rtos_config_s2.h|
+|7	|BT Event Handler	|SDK	|50	|1536	|sl_bt_rtos_config_s2.h|
+|8	|OT Stack Task	|SDK sl_ot_rtos_stack_init	|24	|4608	|sl_openthread_rtos_config.h|
+|9	|OT App Task	|SDK sl_ot_rtos_app_init	|23	|4608	|sl_openthread_rtos_config.h|
+|10	|OT Serial Task	|SDK	|16	|3840	|sl_openthread_rtos_config.h|
+|11	|IDLE	|FreeRTOS 自动	|0 (最低)	|configMINIMAL_STACK_SIZE	|FreeRTOS 内核|
+|12	|Timer Service	|FreeRTOS 自动	|55 (最高)	|1280	|FreeRTOSConfig.h:219|
+### 启动流程
+```c
+main()
+  └─ sl_main_second_stage_init()    // SDK 硬件/协议栈初始化
+       ├─ osKernelStart()           // FreeRTOS 内核启动 (Start Task 诞生)
+       ├─ sl_bt_* 线程创建           // 3个蓝牙线程
+       ├─ sl_ot_* 线程创建           // 3个 OpenThread 线程
+       └─ app_init()                // 用户初始化
+            └─ SilabsMatterConfig::AppInit()
+                 └─ osThreadNew(ApplicationStart)  // main 线程 (临时, 优先级最高)
+                      ├─ InitMatter()              // Matter 协议栈初始化
+                      └─ StartAppTask()            // App Task 创建
+                           └─ osThreadNew(AppTaskMain)
+                 └─ osThreadTerminate()            // main 线程自删
+  └─ while(app_process_action())    // Start Task 进入事件循环
+```

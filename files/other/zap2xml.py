@@ -139,6 +139,16 @@ FEATURE_TO_TEMPLATE_SUFFIX = {
     "Ethernet": "Ethernet",
 }
 
+# Additional templates associated with a cluster (one cluster may map to multiple PICS templates).
+# Key = cluster name as found in .zap, Value = list of additional template file names.
+# The prefix_filter restricts processing to items with the given prefix(es);
+# items with other prefixes keep their template defaults.
+CLUSTER_ADDITIONAL_TEMPLATES = {
+    "Access Control": [
+        {"file": "Access Control Enforcement Test Plan.xml", "prefix_filter": ["ACL"]},
+    ],
+}
+
 # Global attribute IDs (always supported by Matter stack)
 GLOBAL_ATTRIBUTE_IDS = {
     0xFFF8,  # GeneratedCommandList
@@ -148,6 +158,54 @@ GLOBAL_ATTRIBUTE_IDS = {
     0xFFFC,  # FeatureMap
     0xFFFD,  # ClusterRevision
 }
+
+# Device type IDs that are NOT application device types (utility/commissioning types)
+NON_APPLICATION_DEVICE_TYPE_IDS = {
+    0x0016,  # Root Node
+    0x0011,  # Power Source
+    0x0012,  # OTA Requestor
+    0x0014,  # OTA Provider
+    0x000E,  # Aggregator
+    0x0013,  # Bridged Node
+    0x0015,  # Composed Device
+}
+
+
+def has_application_device_type(zap_data: dict) -> bool:
+    """Check if any endpoint in the ZAP data implements an Application Device Type.
+
+    Walks the 'endpoints' array (actual endpoints) and looks up each endpoint's
+    device types via endpointTypeIndex into 'endpointTypes'.  Any device type code
+    not in NON_APPLICATION_DEVICE_TYPE_IDS counts as an application device type.
+    """
+    endpoint_types = zap_data.get("endpointTypes", [])
+    endpoints = zap_data.get("endpoints", [])
+
+    for ep in endpoints:
+        type_idx = ep.get("endpointTypeIndex")
+        if type_idx is None or type_idx < 0 or type_idx >= len(endpoint_types):
+            continue
+        et = endpoint_types[type_idx]
+
+        codes_seen = set()
+
+        for dt in et.get("deviceTypes", []):
+            code = dt.get("code", 0)
+            if code:
+                codes_seen.add(code)
+
+        dtc = et.get("deviceTypeCode", 0)
+        if dtc:
+            codes_seen.add(dtc)
+
+        ref = et.get("deviceTypeRef", {})
+        if ref and ref.get("code", 0):
+            codes_seen.add(ref["code"])
+
+        for code in codes_seen:
+            if code not in NON_APPLICATION_DEVICE_TYPE_IDS:
+                return True
+    return False
 
 
 def load_pics_xml_file_list(pics_xml_path: str) -> list:
@@ -669,14 +727,26 @@ def generate_pics_xml(
     xml_template_path: str,
     output_path: str,
     pics_xml_file_list: list,
+    pics_file_name_override: Optional[str] = None,
+    prefix_filter: Optional[list] = None,
+    has_app_device_type: bool = False,
 ):
     """Generate PICS XML file for a cluster by updating the template.
-    
+
     Items not matching .S/.C pattern default to false instead of keeping template default.
+
+    If pics_file_name_override is given, that template file is used directly
+    (the cluster_name→template lookup is skipped).
+
+    If prefix_filter is given, only items whose parsed prefix is in the list
+    are processed; items with other prefixes keep their template default value.
     """
 
     # Find matching PICS XML template
-    pics_file_name = map_cluster_name_to_pics_xml(cluster_name, pics_xml_file_list, cluster_data)
+    if pics_file_name_override:
+        pics_file_name = pics_file_name_override
+    else:
+        pics_file_name = map_cluster_name_to_pics_xml(cluster_name, pics_xml_file_list, cluster_data)
     if not pics_file_name:
         print(f"  [WARNING] Could not find matching PICS XML template for \"{cluster_name}\"")
         return
@@ -733,6 +803,20 @@ def generate_pics_xml(
                 support_element.text = 'false'
                 modified_count += 1
                 print(f"    ✗ Set {item_text} = false (was {old_value}) [unparseable -> false]")
+            return
+
+        # APPDEVICE items: determined from ZAP endpoint device types,
+        # not from the current cluster. Handle before prefix_filter skip.
+        if parsed.get('prefix') == 'APPDEVICE':
+            new_support = 'true' if has_app_device_type else 'false'
+            if old_value != new_support:
+                support_element.text = new_support
+                modified_count += 1
+                print(f"    {'✓' if new_support == 'true' else '✗'} Set {item_text} = {new_support} (was {old_value})")
+            return
+
+        # If a prefix_filter is active, skip items whose prefix is not in the list
+        if prefix_filter and parsed.get('prefix') not in prefix_filter:
             return
 
         # Determine new support value based on side
@@ -1211,6 +1295,10 @@ def process_zap_file(zap_file: str, xml_template_path: str, output_path: str):
 
     print(f"\nFound {len(endpoints)} endpoint(s) in .zap file")
 
+    # Pre-compute whether any endpoint has an Application Device Type
+    has_app_device_type = has_application_device_type(zap_data)
+    print(f"  Has Application Device Type: {has_app_device_type}")
+
     # Process each endpoint
     for ep_number, ep_data in sorted(endpoints.items()):
         print(f"\n{'='*60}")
@@ -1274,7 +1362,28 @@ def process_zap_file(zap_file: str, xml_template_path: str, output_path: str):
                 xml_template_path=xml_template_path,
                 output_path=ep_output_path,
                 pics_xml_file_list=pics_xml_file_list,
+                has_app_device_type=has_app_device_type,
             )
+
+            # Process additional templates for this cluster (e.g. Access Control Enforcement)
+            additional_templates = CLUSTER_ADDITIONAL_TEMPLATES.get(cluster_name, [])
+            for addl in additional_templates:
+                addl_file = addl["file"]
+                addl_filter = addl.get("prefix_filter", None)
+                if addl_file in pics_xml_file_list:
+                    print(f"\n  Processing additional template: {addl_file}")
+                    generate_pics_xml(
+                        cluster_name=cluster_name,
+                        cluster_data=cluster,
+                        xml_template_path=xml_template_path,
+                        output_path=ep_output_path,
+                        pics_xml_file_list=pics_xml_file_list,
+                        pics_file_name_override=addl_file,
+                        prefix_filter=addl_filter,
+                        has_app_device_type=has_app_device_type,
+                    )
+                else:
+                    print(f"  [WARNING] Additional template not found: {addl_file}")
 
     print(f"\n{'='*60}")
     print("Conversion complete!")

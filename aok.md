@@ -17,6 +17,19 @@
 [icd](./files/aok/icd.md)  
 [pid](./files/aok/pid.md)
 
+# [BLE Core Spec Version](https://docs.silabs.com/bluetooth/latest/bluetooth-qualification/02-bluetooth-qualification#scenario-a-product-listing-using-existing-core-layer-designs)
+[Bluetooth 6.1-compliant stack](https://docs.silabs.com/bluetooth/11.0.2/sisdk-bt-release-notes/#bluetooth-le-version-11-0-2-release-notes-may-4-2026)
+```c
+[15:49:58.249]  [00:00:00.159][info  ][DL] Bluetooth stack booted: v11.0.2-b0
+[15:49:58.249]  [00:00:00.159][info  ][DL] RAIL version:, v3.0.3-b0
+```
+[Q366996](https://qualification.bluetooth.com/ListingDetails/303046)
+
+| SoCs, Modules, Dev. Kits boards | RFPHY Design # | Other Controller Layers and Host Design # | BLE SDK version and SiSDK                   |
+|---------------------------------|----------------|-------------------------------------------|---------------------------------------------|
+| xG24                            | [Q332743](https://qualification.bluetooth.com/ListingDetails/258839)| [Q317849](https://qualification.bluetooth.com/ListingDetails/240988)| 9.0.0 and above for SiSDK 2024.12 and above |
+
+
 # FW Release
 ## File Signature
 ```c
@@ -850,3 +863,47 @@ Ram usage       :   262140 /   262140 B (100.00 %)
   text_application_ram:      448 B            (  0.17 %)
 Flash usage     :   953752 /  1540096 B ( 61.93 %)
 ```
+## Bug report from Li
+```c
+huide@eric-pc MINGW64 /c/Si/v6/aok02_matter_ac/common (develop)
+$ git diff app/app_colorlight_mgr.cpp
+diff --git a/app/app_colorlight_mgr.cpp b/app/app_colorlight_mgr.cpp
+index 66f8157..9e3eba1 100644
+--- a/app/app_colorlight_mgr.cpp
++++ b/app/app_colorlight_mgr.cpp
+@@ -105,7 +105,7 @@ void AppColorLightDev::Init(void)
+     PlatformMgr().UnlockChipStack();
+
+     LOG_MSG_INFO(TAG_LIT, "EP[%u] startup onoff %u", m_ep, startup_onoff_value);
+-    app_comm_send_ctrl_cmd(fLightSwitch, payload, 1);
++    //app_comm_send_ctrl_cmd(fLightSwitch, payload, 1);
+ #endif
+     init_done = true;
+ }
+```
+
+```c
+OTAImageProcessorImpl::Apply() 调用链
+
+Matter OTA 协议栈下载完成
+  │
+  ▼
+DefaultOTARequestorDriver::ApplyTimerHandler()     ← 系统定时器回调
+  [DefaultOTARequestorDriver.cpp:192]
+  │
+  └─ driver->mImageProcessor->Apply()              ← line 198
+       │
+       ▼
+     OTAImageProcessorImpl::Apply()                ← 你选中的行 (L87)
+       [OTAImageProcessorImpl.cpp:87]
+       │
+       └─ PlatformMgr().ScheduleWork(HandleApply, this)  ← 不是直接执行!
+            │                                   只是投递到 Matter 事件队列
+            ▼
+          HandleApply()                            ← L262, Matter 线程执行
+            │
+            ├─ ForceKeyMapSave()                   ← 强制刷 KVS 到 NVM
+            ├─ bootloader_verifyImage(mSlotId)     ← 校验 OTA 镜像 (～秒级)
+            ├─ bootloader_setImageToBootload()     ← 标记镜像为待启动
+            └─ bootloader_rebootAndInstall()       ← ⚠️ 直接重启设备!
+```			

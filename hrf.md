@@ -68,7 +68,11 @@ raspi4-h
 192.168.100.21
 ...h
 ```
-
+## B
+```c
+suhuide@hoperf.com
+@E.1
+```
 # Release Record
 [Record](https://ones.cn/wiki/#/team/VocipTXV/space/7jKfDSiJ/page/GiVjDm9P)  
 

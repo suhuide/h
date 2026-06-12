@@ -191,3 +191,149 @@ SignerKeyId value: hex:62FA823359ACFAA9963E1CFA140ADDF504F37160
 | **`tag[Context Specific]: 0xa`** | **原始供应商ID (Origin Vendor ID)** | `32774` (0x8006) |
 | **`SignerKeyId value`** | **签名者密钥标识符** | `62FA823359...` |
 
+## XY color control
+🔵 蓝色	
+```c
+sudo ./chip-tool colorcontrol move-to-color 9831 3932 0 0 0 2250 3
+```
+🔴 红色	
+```c
+sudo ./chip-tool colorcontrol move-to-color 41947 21624 0 0 0 2250 3
+```
+🟢 绿色	
+```c
+sudo ./chip-tool colorcontrol move-to-color 0 19660 39320 0 0 2250 3
+```
+🟣 紫色	
+```c
+sudo ./chip-tool colorcontrol move-to-color 20971 9830 0 0 0 2250 3
+```
+
+```c
+sudo ./chip-tool colorcontrol move-to-color <colorX> <colorY> <transitionTime> <optionsMask> <optionsOverride> <nodeId> <endpointId>
+<colorX> <colorY>：XY 色坐标值（0–65535）
+
+<transitionTime>：渐变秒数，0 瞬切
+
+<optionsMask> <optionsOverride>：固定填 0
+
+<nodeId>：2250（放在 endpoint 前面）
+
+<endpointId>：3
+```
+### Read
+```c
+sudo ./chip-tool colorcontrol read color-mode 2250 3
+sudo ./chip-tool colorcontrol read current-x 2250 3
+sudo ./chip-tool colorcontrol read current-y 2250 3
+```
+
+## HSV color control
+🔵 蓝色	
+```c
+sudo ./chip-tool colorcontrol move-to-hue 170 0 0 0 0 2250 3
+```
+🔴 红色	
+```c
+sudo ./chip-tool colorcontrol move-to-hue 0 0 0 0 0 2250 3
+```
+🟢 绿色	
+```c
+sudo ./chip-tool colorcontrol move-to-hue 85 0 0 0 0 2250 3
+```
+🟣 紫色	
+```c
+//Hue 模式下，紫色 ≈ 270°，对应 Hue 值 254 * 270/360 ≈ 191
+sudo ./chip-tool colorcontrol move-to-hue 191 0 0 0 0 2250 3
+```
+
+Chip-Tool 测试指令
+以下指令中 <node-id> 替换为实际入网后的节点 ID（例如 1），<endpoint> 替换为灯的端点号（例如 1）。
+
+1. XY 模式 — 下发测试（Matter → MCU）
+设置紫色 (RGB: 255, 0, 255)，用 XY 色坐标下发：
+
+
+# 紫色 XY 坐标: x≈0.32, y≈0.15
+# CurrentX = 0.32 * 65535 ≈ 21000
+# CurrentY = 0.15 * 65535 ≈  9830
+sudo ./chip-tool colorcontrol move-to-color <node-id> <endpoint> 21000 9830 10 0 0
+此指令会：
+
+触发 ColorControlAttributeChangedEventHandler → CurrentX/CurrentY case
+调用 ConvertColor2RGB() 读取 XY → 转换 RGB → 通过串口 fLightColor 下发 MCU
+验证点：MCU 端灯光应变紫色，串口日志应显示 Attr XY changed 及对应的 RGB 值。
+
+2. HSV 模式 — 下发测试（Matter → MCU）
+设置紫色 (H≈300°，映射到 Matter H≈212)：
+
+
+# Hue 0-254: 300/360 * 254 ≈ 212
+# Saturation: 254 (100%)
+sudo ./chip-tool colorcontrol move-to-hue-and-saturation <node-id> <endpoint> 212 254 10 0 0
+验证点：串口日志应显示 Attr CurrentHue 和 Attr CurrentSaturation，MCU 收到 RGB 转换后的 fLightColor。
+
+3. XY 模式 — 上报验证（MCU → Matter）
+MCU 上报颜色后，用以下指令读取 Matter 端属性确认 XY 值已更新：
+
+
+# 读取 CurrentX
+sudo ./chip-tool colorcontrol read current-x <node-id> <endpoint>
+
+# 读取 CurrentY
+sudo ./chip-tool colorcontrol read current-y <node-id> <endpoint>
+
+# 读取 ColorMode，确认为 XY 模式 (1 = kCurrentXAndCurrentY)
+sudo ./chip-tool colorcontrol read color-mode <node-id> <endpoint>
+4. HSV 模式 — 上报验证（MCU → Matter）
+
+# 读取 CurrentHue
+sudo ./chip-tool colorcontrol read current-hue <node-id> <endpoint>
+
+# 读取 CurrentSaturation
+sudo ./chip-tool colorcontrol read current-saturation <node-id> <endpoint>
+
+# 读取 CurrentLevel (亮度)
+sudo ./chip-tool levelcontrol read current-level <node-id> <endpoint>
+5. 完整测试流程
+
+# ==== 第一步：测试 XY 下发 ====
+# 设为红色 (XY: x≈0.64, y≈0.33)
+sudo ./chip-tool colorcontrol move-to-color <node-id> <endpoint> 41942 21626 10 0 0
+# 确认 MCU 收到，读取回来验证
+sudo ./chip-tool colorcontrol read current-x <node-id> <endpoint>
+sudo ./chip-tool colorcontrol read current-y <node-id> <endpoint>
+
+# ==== 第二步：测试 XY→HSV 上报 ====
+# 通过 MCU 物理改变颜色（如按键），然后读取 HSV 属性
+sudo ./chip-tool colorcontrol read current-hue <node-id> <endpoint>
+sudo ./chip-tool colorcontrol read current-saturation <node-id> <endpoint>
+# ★ 重点验证：MCU 上报后 CurrentX/CurrentY 是否也同步更新了（之前的 bug）
+sudo ./chip-tool colorcontrol read current-x <node-id> <endpoint>
+sudo ./chip-tool colorcontrol read current-y <node-id> <endpoint>
+
+# ==== 第三步：测试 HSV 下发 ====
+# 设为蓝色 (H≈170/360*254≈120, S=254)
+sudo ./chip-tool colorcontrol move-to-hue-and-saturation <node-id> <endpoint> 120 254 10 0 0
+
+# ==== 第四步：测试 HSV→XY 上报 ====
+# 再次通过 MCU 改变颜色，验证 XY 也同步
+sudo ./chip-tool colorcontrol read current-x <node-id> <endpoint>
+sudo ./chip-tool colorcontrol read current-y <node-id> <endpoint>
+sudo ./chip-tool colorcontrol read color-mode <node-id> <endpoint>
+常用颜色参考值
+颜色	RGB	CurrentX (0-65535)	CurrentY (0-65535)	CurrentHue (0-254)	CurrentSaturation
+红	(255,0,0)	41942	21626	0	254
+绿	(0,255,0)	19660	46660	85	254
+蓝	(0,0,255)	11796	3958	170	254
+紫	(255,0,255)	20971	9830	212	254
+黄	(255,255,0)	31480	37350	43	254
+白	(255,255,255)	20468	21156	0	0
+关键验证点总结
+#	测试项	下发指令	读取验证
+1	XY 下发→MCU	move-to-color	观察串口 Attr XY changed 日志
+2	HSV 下发→MCU	move-to-hue-and-saturation	观察串口 Attr CurrentHue 日志
+3	MCU上报→XY属性	MCU本地变色	read current-x/y （修复重点）
+4	MCU上报→HSV属性	MCU本地变色	read current-hue/saturation
+5	Level变化→XY转换	move-to-level	read current-x/y（验证 ConvertColor2RGB 对XY模式的处理）
+特别注意第3项：这是本次修复的核心验证点——MCU 上报 RGB 后，CurrentX/CurrentY 是否真的被更新了。修复前只更新 HSV，XY 属性会保持旧值不变。

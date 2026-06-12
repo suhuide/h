@@ -1,3 +1,23 @@
+## nrf
+### ADV
+60 13 4A 68 A2 C9 09 ED 02 01 06 09 09 50 65 72 
+67 6F 6C 75 78 
+### ScanReq
+C3 0C 75 65 86 26 7E 5C 4A 68 A2 C9 09 ED 
+
+## silabs
+### ADV
+60 13 F4 14 8F 9C 2C C4 02 01 06 09 09 50 65 72 
+67 6F 6C 75 78 
+### ScanReq
+C3 0C 75 65 86 26 7E 5C F4 14 8F 9C 2C C4
+
+我手动回退了app_ble_mgr.cpp。
+原来的逻辑是   如果搜索到白名单列表里的扫描请求则切换到白名单广播  所以要避免非白名单里的对它发起scan req,所以用sc = sl_bt_advertiser_configure(custom_adv_handle, SL_BT_ADVERTISER_USE_FILTER_FOR_SCAN_REQUESTS);。 
+现在这个 如果搜索到白名单列表里的扫描请求则切换到白名单广播    逻辑不要了。SL_BT_ADVERTISER_USE_FILTER_FOR_SCAN_REQUESTS → 0。
+其他进入白名单模式保持。帮我改好
+
+
 # 蓝牙模块功能测试方案
 ## 0. 需求
 广播流程：  
