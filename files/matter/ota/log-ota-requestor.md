@@ -87,6 +87,14 @@
 [19:05:26.271]  [00:02:07.609][info  ][DL] _OnPlatformEvent default:  event->Type = 32792
 [19:05:26.274]  [00:02:07.609][silabs ]NWK: platform event type 32792
 [19:05:26.727]  [00:02:08.065][info  ][EM] >>> [E:14650r S:14007 M:221680434] (S) Msg RX from 1:000000000001B669 [E9EB] to 00000000000008CA --- Type 0001:08 (IM:InvokeCommandRequest) (B:71)
+
+
+
+
+
+
+
+@@@@@@@@@@@@@@@@@@@@
 [19:05:26.730]  [00:02:08.067][info  ][SWU] OTA Requestor received AnnounceOTAProvider
 [19:05:26.730]  [00:02:08.069][info  ][EM] <<< [E:14650r S:14007 M:161305172 (Ack:221680434)] (S) Msg TX from 00000000000008CA to 1:000000000001B669 [E9EB] [UDP:[fd53:6f42:3a33:4efe:8aa2:9eff:fe1d:c2c2]:44293] --- Type 0001:09 (IM:InvokeCommandResponse) (B:67)
 [19:05:26.732]  [00:02:08.070][info  ][EM] ??1 [E:14650r S:14007 M:161305172] (S) Msg Retransmission to 1:000000000001B669 scheduled for 3403ms from now [State:Active II:500 AI:300 AT:4000]
@@ -123,6 +131,13 @@
 [19:05:29.077]  [00:02:10.414][info  ][SWU] Update available from version 1 to 2
 [19:05:29.077]  [00:02:10.416][info  ][EM] <<< [E:29147i S:14009 M:240766366 (Ack:31549737)] (S) Msg TX from 00000000000008CA to 1:0000000000000001 [E9EB] [UDP:[fd53:6f42:3a33:4efe:8aa2:9eff:fe1d:c2c2]:5540] --- Type 0000:10 (SecureChannel:StandaloneAck) (B:34)
 [19:05:29.120]  [00:02:10.416][info  ][DIS] Found an existing secure session to [1:0000000000000001]!
+
+
+
+
+
+
+@@@@@@@@@@@@@@@@@@@@
 [19:05:29.120]  [00:02:10.416][info  ][SWU] HandlePrepareDownload: started
 [19:05:29.123]  [00:02:10.460][info  ][EM] <<< [E:29148i S:14009 M:240766367] (S) Msg TX from 00000000000008CA to 1:0000000000000001 [E9EB] [UDP:[fd53:6f42:3a33:4efe:8aa2:9eff:fe1d:c2c2]:5540] --- Type 0002:04 (BDX:ReceiveInit) (B:88)
 [19:05:29.124]  [00:02:10.461][info  ][EM] ??1 [E:29148i S:14009 M:240766367] (S) Msg Retransmission to 1:0000000000000001 scheduled for 5317ms from now [State:Active II:500 AI:2000 AT:4000]

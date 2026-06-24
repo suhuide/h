@@ -17,6 +17,12 @@
 [icd](./files/aok/icd.md)  
 [pid](./files/aok/pid.md)
 
+```c
+AOK02 DC: DC阳光房：一个电机，1个彩灯，一个白灯
+AOK02 AC: AC阳光房：两个电机，1个彩灯，两个白灯，两个加热开关
+AOK04 DC: 日夜帘DC项目：两个电机
+```
+
 # [BLE Core Spec Version](https://docs.silabs.com/bluetooth/latest/bluetooth-qualification/02-bluetooth-qualification#scenario-a-product-listing-using-existing-core-layer-designs)
 [Bluetooth 6.1-compliant stack](https://docs.silabs.com/bluetooth/11.0.2/sisdk-bt-release-notes/#bluetooth-le-version-11-0-2-release-notes-may-4-2026)
 ```c

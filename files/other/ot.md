@@ -45,3 +45,39 @@ sudo ot-ctl thread start
 sudo ot-ctl state
 sudo ot-ctl channel
 ```
+```c
+sudo systemctl daemon-reload
+sudo systemctl restart otbr-agent
+sudo systemctl status otbr-agent
+● otbr-agent.service - OpenThread Border Router Agent
+     Loaded: loaded (/lib/systemd/system/otbr-agent.service; enabled; vendor preset: enabled)
+     Active: active (running) since Wed 2026-06-24 03:29:00 UTC; 83ms ago
+    Process: 234959 ExecStartPre=/usr/sbin/service mdns start (code=exited, status=0/SUCCESS)
+   Main PID: 235059 (otbr-agent)
+      Tasks: 1 (limit: 9240)
+     Memory: 848.0K
+        CPU: 66ms
+     CGroup: /system.slice/otbr-agent.service
+             └─235059 /usr/sbin/otbr-agent -I wpan0 -B eth0 "spinel+hdlc+uart:///dev/ttyUSB0?uart-flow-control=1" trel://eth0
+
+Jun 24 03:29:00 ubuntu otbr-agent[235059]: [INFO]-DPROXY--: Started
+Jun 24 03:29:00 ubuntu otbr-agent[235059]: [INFO]-APP-----: Co-processor version: SL-OPENTHREAD/3.0.0.0_GitHub-61e43cffb; EFR32; Jun  3 2026 14:43:06
+Jun 24 03:29:00 ubuntu otbr-agent[235059]: 00:00:00.041 [I] Notifier------: StateChanged (0x521fc310) [MLAddr KeySeqCntr NetData Channel PanId NetName ExtPanId NetworkKey PSKc ...
+Jun 24 03:29:00 ubuntu otbr-agent[235059]: 00:00:00.041 [I] Notifier------: StateChanged (0x521fc310) ... SecPolicy BbrState ActDset Nat64]
+Jun 24 03:29:00 ubuntu otbr-agent[235059]: 00:00:00.041 [I] Bbr-----------: Start listening on port 61631
+Jun 24 03:29:00 ubuntu otbr-agent[235059]: 00:00:00.041 [I] Bbr-----------: Backbone TMF subscribes ff32:40:fdf8:718c:cf83:a998:0:3: OK
+Jun 24 03:29:00 ubuntu otbr-agent[235059]: 00:00:00.041 [I] BbrManager----: Start Backbone TMF agent: OK
+Jun 24 03:29:00 ubuntu otbr-agent[235059]: 00:00:00.041 [I] AnnounceSender: ChannelMask:{ 11-26 }, period:21500
+Jun 24 03:29:00 ubuntu otbr-agent[235059]: 00:00:00.041 [I] AnnounceSender: StartingChannel:11
+Jun 24 03:29:00 ubuntu otbr-agent[235059]: 00:00:00.041 [I] AnnounceSender: StartingChannel:11
+Jun 24 03:29:00 ubuntu otbr-agent[235059]: 00:00:00.052 [I] Platform------: Execute command `ipset flush otbr-ingress-allow-dst-swap` = 0
+ubuntu@ubuntu:~$ sudo ot-ctl state
+leader
+Done
+ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ sudo ot-ctl dataset active -x
+ubuntu@ubuntu:~$: command not found
+ubuntu@ubuntu:~$ sudo ot-ctl dataset active -x
+0e080000000000010000000300000b4a0300000f35060004001fffe002082d786bf354e59df80708fdf8718ccf83a9980510c1d7bed0358c657c7e4e42bd42a2d091030f4f70656e5468726561642d3962333901029b39041080f2e38b9b69d2c9e3bd1fbc8053313c0c0402a0f7f8
+
+Done
+```

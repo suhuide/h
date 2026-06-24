@@ -1121,6 +1121,19 @@ ubuntu@ubuntu:~$ sudo ./chip-ota-provider-app --KVS /tmp/chip_kvs_provider -f bk
 [1773227128.686101][3959615:3959615] CHIP:DMG: },
 [1773227128.686457][3959615:3959615] CHIP:DMG: AccessControl: checking f=1 a=c s=0x00000000000008CA t= c=0x0000_0029 e=0 p=o r=i
 [1773227128.686545][3959615:3959615] CHIP:DMG: AccessControl: allowed
+
+
+
+
+
+
+
+
+
+
+
+
+@@@@@@@@@@@@@@@@@@@@
 [1773227128.686613][3959615:3959615] CHIP:DMG: Received command for Endpoint=0 Cluster=0x0000_0029 Command=0x0000_0000
 [1773227128.686759][3959615:3959615] CHIP:ZCL: OTA Provider received QueryImage
 [1773227128.686816][3959615:3959615] CHIP:ZCL:   VendorID: 0x149a

@@ -1,4 +1,5 @@
 # [OT](ot.md)
+# [CERT](cert.md)  
 
 ```c
 sudo ot-ctl dataset active -x
@@ -337,3 +338,13 @@ sudo ./chip-tool colorcontrol read color-mode <node-id> <endpoint>
 4	MCU上报→HSV属性	MCU本地变色	read current-hue/saturation
 5	Level变化→XY转换	move-to-level	read current-x/y（验证 ConvertColor2RGB 对XY模式的处理）
 特别注意第3项：这是本次修复的核心验证点——MCU 上报 RGB 后，CurrentX/CurrentY 是否真的被更新了。修复前只更新 HSV，XY 属性会保持旧值不变。
+
+
+## Groups
+```c
+sudo ./chip-tool groupkeymanagement read max-groups-per-fabric 2250 0
+```
+## descriptor
+```c
+sudo ./chip-tool descriptor read feature-map 2250 1
+```

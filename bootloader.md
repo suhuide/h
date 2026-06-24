@@ -1,4 +1,19 @@
 [hrf](hrf.md)  
+# Bootloader Error
+## [SWU] bootloader_init Failed error: 259
+```c
+//Check if we received a valid SFDP signature from the flash device
+  if (signature != SFDP_SIGNATURE) {
+    return BOOTLOADER_ERROR_INIT_SFDP;
+  }
+```
+**Check Hardware**
+## [SWU] bootloader_eraseWriteStorage() error: 1025
+```c
+/// Invalid slot
+#define BOOTLOADER_ERROR_STORAGE_INVALID_SLOT  (BOOTLOADER_ERROR_STORAGE_BASE | 0x01L)
+```
+**Check Spec and driver**
 
 # External Flash
 ## Operation(Erase,Write,Read)
