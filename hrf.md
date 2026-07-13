@@ -2,7 +2,7 @@
 | 1 | 2 | 3 | 4 | 5 | 6 |
 | ---- | ---- | ---- | ---- | ---- | ---- |
 | [memo](../../l/l/memo.md) |[silabs](./files/silabs/silabs.md)| [w](w.md) |[other](other.md) |[ble](ble.md)|[matter](matter.md)|
-| [bootloader](bootloader.md) |[ai](./files/ai/ai.md)|
+| [bootloader](bootloader.md) |[ai](./files/ai/ai.md)|[cert](./files/matter/cert/cert.md)|
 
 # project
 | 1 | 2 | 3 | 4 | 5 | 6 |

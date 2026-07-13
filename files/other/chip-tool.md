@@ -67,6 +67,10 @@ sudo ./chip-tool levelcontrol read min-level 2250 3
 sudo ./chip-tool levelcontrol read max-level 2250 3
 sudo ./chip-tool levelcontrol read current-level 2250 3
 sudo ./chip-tool levelcontrol read all 2250 3
+sudo ./chip-tool onoff read on-off 2250 6
+sudo ./chip-tool onoff read start-up-on-off 2250 6
+sudo ./chip-tool onoff write start-up-on-off 0 2250 6
+
 
 sudo ./chip-tool basicinformation read software-version 2250 0
 sudo ./chip-tool basicinformation read software-version-string 2250 0
@@ -347,4 +351,18 @@ sudo ./chip-tool groupkeymanagement read max-groups-per-fabric 2250 0
 ## descriptor
 ```c
 sudo ./chip-tool descriptor read feature-map 2250 1
+```
+
+## Identify
+### Identify
+```c
+sudo ./chip-tool identify identify 10 2250 1
+sudo ./chip-tool identify identify 30 2250 1
+sudo ./chip-tool identify identify 0 2250 1
+sudo ./chip-tool identify identify 3600 2250 1
+```
+### TriggerEffect 
+```c
+sudo ./chip-tool identify trigger-effect 0 0 2250 1
+sudo ./chip-tool identify trigger-effect 1 1 2250 1
 ```

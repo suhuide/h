@@ -1,0 +1,217 @@
+=~=~=~=~=~=~=~=~=~=~=~= MobaXterm log 2026.06.30 13:33:51 =~=~=~=~=~=~=~=~=~=~=~=
+    
+                      MobaXterm Personal Edition v25.4                  
+                   (SSH client, X server and network tools)               
+                                                                          
+      SSH session to ubuntu@192.168.100.8                                
+        Direct SSH      :                                               
+        SSH compression :                                               
+        SSH-browser     :                                               
+        X11-forwarding  :    (remote display is forwarded through SSH)  
+                                                                          
+      For more info, ctrl+click on help or visit our website.            
+    
+
+Welcome to Ubuntu 24.04.3 LTS (GNU/Linux 6.8.0-1057-raspi aarch64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Tue Jun 30 13:33:48 CST 2026
+
+  System load:           0.05
+  Usage of /:            79.2% of 58.00GB
+  Memory usage:          47%
+  Swap usage:            0%
+  Temperature:           52.6 C
+  Processes:             201
+  Users logged in:       1
+  IPv4 address for eth0: 192.168.100.8
+  IPv6 address for eth0: fd18:f74f:dbfe:6a59:dea6:32ff:feb9:dd6d
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+Expanded Security Maintenance for Applications is not enabled.
+
+70 updates can be applied immediately.
+To see these additional updates run: apt list --upgradable
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Tue Jun 30 10:38:57 2026 from 192.168.100.106
+ubuntu@ubuntu:~$ suudo reboot
+[sudo] password for ubuntu: 
+Sorry, try again.
+[sudo] password for ubuntu: 
+Sorry, try again.
+[sudo] password for ubuntu: 
+
+Broadcast message from root@ubuntu on pts/2 (Tue 2026-06-30 13:34:22 CST):
+
+The system will reboot now!
+
+ubuntu@ubuntu:~$ 
+Remote side unexpectedly closed network connection
+
+
+
+Session stopped
+    - Press <Return> to exit tab
+    - Press R to restart session
+    - Press S to save terminal output to file
+    
+                      MobaXterm Personal Edition v25.4                  
+                   (SSH client, X server and network tools)               
+                                                                          
+      SSH session to ubuntu@192.168.100.8                                
+        Direct SSH      :                                               
+        SSH compression :                                               
+        SSH-browser     :                                               
+        X11-forwarding  :    (remote display is forwarded through SSH)  
+                                                                          
+      For more info, ctrl+click on help or visit our website.            
+    
+
+Welcome to Ubuntu 24.04.3 LTS (GNU/Linux 6.8.0-1057-raspi aarch64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Tue Jun 30 13:37:14 CST 2026
+
+  System load:           4.06
+  Usage of /:            79.2% of 58.00GB
+  Memory usage:          23%
+  Swap usage:            0%
+  Temperature:           57.9 C
+  Processes:             210
+  Users logged in:       0
+  IPv4 address for eth0: 192.168.100.8
+  IPv6 address for eth0: fd18:f74f:dbfe:6a59:dea6:32ff:feb9:dd6d
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+Expanded Security Maintenance for Applications is not enabled.
+
+70 updates can be applied immediately.
+To see these additional updates run: apt list --upgradable
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Tue Jun 30 13:33:51 2026 from 192.168.100.186
+ubuntu@ubuntu:~$ sudo reboot
+[sudo] password for ubuntu: 
+
+Broadcast message from root@ubuntu on pts/1 (Tue 2026-06-30 13:48:20 CST):
+
+The system will reboot now!
+
+ubuntu@ubuntu:~$ 
+Remote side unexpectedly closed network connection
+
+
+
+Session stopped
+    - Press <Return> to exit tab
+    - Press R to restart session
+    - Press S to save terminal output to file
+    
+                      MobaXterm Personal Edition v25.4                  
+                   (SSH client, X server and network tools)               
+                                                                          
+      SSH session to ubuntu@192.168.100.8                                
+        Direct SSH      :                                               
+        SSH compression :                                               
+        SSH-browser     :                                               
+        X11-forwarding  :    (remote display is forwarded through SSH)  
+                                                                          
+      For more info, ctrl+click on help or visit our website.            
+    
+
+Welcome to Ubuntu 24.04.3 LTS (GNU/Linux 6.8.0-1057-raspi aarch64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Tue Jun 30 13:55:18 CST 2026
+
+  System load:           3.55
+  Usage of /:            79.5% of 58.00GB
+  Memory usage:          53%
+  Swap usage:            0%
+  Temperature:           56.5 C
+  Processes:             198
+  Users logged in:       0
+  IPv4 address for eth0: 192.168.100.8
+  IPv6 address for eth0: fd18:f74f:dbfe:6a59:dea6:32ff:feb9:dd6d
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+Expanded Security Maintenance for Applications is not enabled.
+
+70 updates can be applied immediately.
+To see these additional updates run: apt list --upgradable
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+Last login: Tue Jun 30 13:37:20 2026 from 192.168.100.186
+ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ sudo reboot
+[sudo] password for ubuntu: 
+Sorry, try again.
+[sudo] password for ubuntu: 
+sudo: 1 incorrect password attempt
+ubuntu@ubuntu:~$ docker ps
+CONTAINER ID   IMAGE                                                                     COMMAND                  CREATED         STATUS          PORTS                                                                                                                                       NAMES
+8388ed9fc3a5   nrfconnect/otbr:9185bda                                                   "/app/etc/docker/doc"   3 minutes ago   Up 3 minutes                                                                                                                                                compassionate_feynman
+99ff20f80b90   connectedhomeip/chip-cert-bins:ca9d1118e097fe947b2aec1ba84f265d6cf2447e   "tail -f /dev/null"      3 minutes ago   Up 3 minutes                                                                                                                                                th-sdk
+eccd7cb63c4d   ghcr.io/project-chip/csa-certification-tool-frontend:1acbec0              "docker-entrypoint.s"   4 weeks ago     Up 38 minutes   4200/tcp                                                                                                                                    certification-tool-frontend-1
+839a93fe029c   ghcr.io/project-chip/csa-certification-tool-backend:e20beac               "bash -c './prestart"   4 weeks ago     Up 38 minutes   0.0.0.0:8888->8888/tcp, [::]:8888->8888/tcp, 0.0.0.0:5000->5000/udp, [::]:5000->5000/udp, 0.0.0.0:50000->50000/tcp, [::]:50000->50000/tcp   certification-tool-backend-1
+36d3c10046ff   postgres:12                                                               "docker-entrypoint.s"   4 weeks ago     Up 38 minutes   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp                                                                                                 certification-tool-db-1
+e47e367bee1f   traefik:v2.2                                                              "/entrypoint.sh --pr"   4 weeks ago     Up 38 minutes   0.0.0.0:80->80/tcp, [::]:80->80/tcp, 0.0.0.0:8090->8080/tcp, [::]:8090->8080/tcp                                                            certification-tool-proxy-1
+ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ docker ps
+CONTAINER ID   IMAGE                                                                     COMMAND                  CREATED         STATUS          PORTS                                                                                                                                       NAMES
+8388ed9fc3a5   nrfconnect/otbr:9185bda                                                   "/app/etc/docker/doc"   3 minutes ago   Up 3 minutes                                                                                                                                                compassionate_feynman
+99ff20f80b90   connectedhomeip/chip-cert-bins:ca9d1118e097fe947b2aec1ba84f265d6cf2447e   "tail -f /dev/null"      3 minutes ago   Up 3 minutes                                                                                                                                                th-sdk
+eccd7cb63c4d   ghcr.io/project-chip/csa-certification-tool-frontend:1acbec0              "docker-entrypoint.s"   4 weeks ago     Up 38 minutes   4200/tcp                                                                                                                                    certification-tool-frontend-1
+839a93fe029c   ghcr.io/project-chip/csa-certification-tool-backend:e20beac               "bash -c './prestart"   4 weeks ago     Up 38 minutes   0.0.0.0:8888->8888/tcp, [::]:8888->8888/tcp, 0.0.0.0:5000->5000/udp, [::]:5000->5000/udp, 0.0.0.0:50000->50000/tcp, [::]:50000->50000/tcp   certification-tool-backend-1
+36d3c10046ff   postgres:12                                                               "docker-entrypoint.s"   4 weeks ago     Up 38 minutes   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp                                                                                                 certification-tool-db-1
+e47e367bee1f   traefik:v2.2                                                              "/entrypoint.sh --pr"   4 weeks ago     Up 38 minutes   0.0.0.0:80->80/tcp, [::]:80->80/tcp, 0.0.0.0:8090->8080/tcp, [::]:8090->8080/tcp                                                            certification-tool-proxy-1
+ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ docker ps
+CONTAINER ID   IMAGE                                                                     COMMAND                  CREATED         STATUS          PORTS                                                                                                                                       NAMES
+8388ed9fc3a5   nrfconnect/otbr:9185bda                                                   "/app/etc/docker/doc"   3 minutes ago   Up 3 minutes                                                                                                                                                compassionate_feynman
+99ff20f80b90   connectedhomeip/chip-cert-bins:ca9d1118e097fe947b2aec1ba84f265d6cf2447e   "tail -f /dev/null"      3 minutes ago   Up 3 minutes                                                                                                                                                th-sdk
+eccd7cb63c4d   ghcr.io/project-chip/csa-certification-tool-frontend:1acbec0              "docker-entrypoint.s"   4 weeks ago     Up 38 minutes   4200/tcp                                                                                                                                    certification-tool-frontend-1
+839a93fe029c   ghcr.io/project-chip/csa-certification-tool-backend:e20beac               "bash -c './prestart"   4 weeks ago     Up 38 minutes   0.0.0.0:8888->8888/tcp, [::]:8888->8888/tcp, 0.0.0.0:5000->5000/udp, [::]:5000->5000/udp, 0.0.0.0:50000->50000/tcp, [::]:50000->50000/tcp   certification-tool-backend-1
+36d3c10046ff   postgres:12                                                               "docker-entrypoint.s"   4 weeks ago     Up 38 minutes   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp                                                                                                 certification-tool-db-1
+e47e367bee1f   traefik:v2.2                                                              "/entrypoint.sh --pr"   4 weeks ago     Up 38 minutes   0.0.0.0:80->80/tcp, [::]:80->80/tcp, 0.0.0.0:8090->8080/tcp, [::]:8090->8080/tcp                                                            certification-tool-proxy-1
+ubuntu@ubuntu:~$ sudo docker stop compassionate_feynmancompassionate_feynman
+[sudo] password for ubuntu: 
+compassionate_feynman
+ubuntu@ubuntu:~$ sudo docker stop compassionate_feynmandocker ps
+CONTAINER ID   IMAGE                                                                     COMMAND                  CREATED         STATUS          PORTS                                                                                                                                       NAMES
+99ff20f80b90   connectedhomeip/chip-cert-bins:ca9d1118e097fe947b2aec1ba84f265d6cf2447e   "tail -f /dev/null"      5 minutes ago   Up 5 minutes                                                                                                                                                th-sdk
+eccd7cb63c4d   ghcr.io/project-chip/csa-certification-tool-frontend:1acbec0              "docker-entrypoint.s"   4 weeks ago     Up 40 minutes   4200/tcp                                                                                                                                    certification-tool-frontend-1
+839a93fe029c   ghcr.io/project-chip/csa-certification-tool-backend:e20beac               "bash -c './prestart"   4 weeks ago     Up 40 minutes   0.0.0.0:8888->8888/tcp, [::]:8888->8888/tcp, 0.0.0.0:5000->5000/udp, [::]:5000->5000/udp, 0.0.0.0:50000->50000/tcp, [::]:50000->50000/tcp   certification-tool-backend-1
+36d3c10046ff   postgres:12                                                               "docker-entrypoint.s"   4 weeks ago     Up 40 minutes   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp                                                                                                 certification-tool-db-1
+e47e367bee1f   traefik:v2.2                                                              "/entrypoint.sh --pr"   4 weeks ago     Up 40 minutes   0.0.0.0:80->80/tcp, [::]:80->80/tcp, 0.0.0.0:8090->8080/tcp, [::]:8090->8080/tcp                                                            certification-tool-proxy-1
+ubuntu@ubuntu:~$ docker pssudo docker stop compassionate_feynmanth-skdk
+th-sdk
+ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ 

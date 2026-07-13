@@ -1,0 +1,165 @@
+=~=~=~=~=~=~=~=~=~=~=~= MobaXterm log 2026.06.30 14:35:46 =~=~=~=~=~=~=~=~=~=~=~=
+    
+                      MobaXterm Personal Edition v25.4                  
+                   (SSH client, X server and network tools)               
+                                                                          
+      SSH session to ubuntu@192.168.100.20                               
+        Direct SSH      :                                               
+        SSH compression :                                               
+        SSH-browser     :                                               
+        X11-forwarding  :    (remote display is forwarded through SSH)  
+                                                                          
+      For more info, ctrl+click on help or visit our website.            
+    
+
+Welcome to Ubuntu 24.04.3 LTS (GNU/Linux 6.8.0-1053-raspi aarch64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Tue Jun 30 14:35:42 CST 2026
+
+  System load:           0.67
+  Usage of /:            74.7% of 58.00GB
+  Memory usage:          88%
+  Swap usage:            0%
+  Temperature:           34.6 C
+  Processes:             202
+  Users logged in:       0
+  IPv4 address for eth0: 192.168.100.20
+  IPv6 address for eth0: fd18:f74f:dbfe:6a59:dea6:32ff:fed7:8d91
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar for easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+Expanded Security Maintenance for Applications is not enabled.
+
+103 updates can be applied immediately.
+To see these additional updates run: apt list --upgradable
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+The list of available updates is more than a week old.
+To check for new updates run: sudo apt update
+
+Last login: Tue Jun 30 13:51:03 2026 from 192.168.100.186
+ubuntu@ubuntu:~$ ls
+--filepath  apps  certification-tool  chip-tool-sprint14  credentials  mock_server  paa-test  temp_data
+ubuntu@ubuntu:~$ cd corertification-tool/
+ubuntu@ubuntu:~/certification-tool$ ls
+CODE_OF_CONDUCT.md  NOTICE     backend  default.env                              docker-compose.override-frontend-dev.yml  docs      logs     traefik_dynamic.yml
+LICENSE             README.md  cli      docker-compose.override-backend-dev.yml  docker-compose.yml                        frontend  scripts
+ubuntu@ubuntu:~/certification-tool$ cd backend/
+ubuntu@ubuntu:~/certification-tool/backend$ ls
+CODE_OF_CONDUCT.md  LICENSE  README.md  alembic.ini  cspell.json  gunicorn  otbr_manager       poetry.lock  pyproject.toml  scripts           tests-start.sh
+Dockerfile          NOTICE   alembic    app          docs         mypy.ini  package-lock.json  prestart.sh  pytest.ini      test_collections
+ubuntu@ubuntu:~/certification-tool/backend$ cd scripts/
+ubuntu@ubuntu:~/certification-tool/backend/scripts$ ls
+build-docker-image.sh  format-imports.sh  format.sh  install-pi-deps.sh  lint.sh  log_display  reset_db.py  test-cov-html.sh  test-docker.sh  test-local.sh
+ubuntu@ubuntu:~/certification-tool/backend/scripts$ cd ..
+ubuntu@ubuntu:~/certification-tool/backend$ cd test_collections/
+ubuntu@ubuntu:~/certification-tool/backend/test_collections$ ls
+__init__.py  matter  sample_tests  tool_blocklist_unit_tests  tool_unit_tests
+ubuntu@ubuntu:~/certification-tool/backend/test_collections$ cd matter/
+ubuntu@ubuntu:~/certification-tool/backend/test_collections/matter$ ls
+__init__.py  config.py  default_project.config  platform-cert  prestart.sh  python_tests  scripts  sdk_tests  setup.sh  test_environment_config.py
+ubuntu@ubuntu:~/certification-tool/backend/test_collections/matter$ cd scripts/
+ubuntu@ubuntu:~/certification-tool/backend/test_collections/matter/scripts$ ls
+OTBR  package-dependency-list.txt  update-paa-certs.sh  update-sample-apps.sh  validate_sdk_python_tests_scripts.sh
+ubuntu@ubuntu:~/certification-tool/backend/test_collections/matter/scripts$ cd OTBR/
+ubuntu@ubuntu:~/certification-tool/backend/test_collections/matter/scripts/OTBR$ ls
+otbr_srp_restart.sh  otbr_start.sh  otbr_stop.sh
+ubuntu@ubuntu:~/certification-tool/backend/test_collections/matter/scripts/OTBR$ docker ps
+CONTAINER ID   IMAGE                                                          COMMAND                  CREATED        STATUS          PORTS                                                                                                                                       NAMES
+98aa24069130   ghcr.io/project-chip/csa-certification-tool-frontend:1acbec0   "docker-entrypoint.s"   3 months ago   Up 59 minutes   4200/tcp                                                                                                                                    certification-tool-frontend-1
+d4890f2a3d13   ghcr.io/project-chip/csa-certification-tool-backend:e20beac    "bash -c './prestart"   3 months ago   Up 59 minutes   0.0.0.0:8888->8888/tcp, [::]:8888->8888/tcp, 0.0.0.0:5000->5000/udp, [::]:5000->5000/udp, 0.0.0.0:50000->50000/tcp, [::]:50000->50000/tcp   certification-tool-backend-1
+54a84dca22ab   postgres:12                                                    "docker-entrypoint.s"   3 months ago   Up 59 minutes   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp                                                                                                 certification-tool-db-1
+11ea39f88dce   traefik:v2.2                                                   "/entrypoint.sh --pr"   3 months ago   Up 59 minutes   0.0.0.0:80->80/tcp, [::]:80->80/tcp, 0.0.0.0:8090->8080/tcp, [::]:8090->8080/tcp                                                            certification-tool-proxy-1
+ubuntu@ubuntu:~/certification-tool/backend/test_collections/matter/scripts/OTBR$ ./otbr_stop.sh art.sh 
+
+
+################################################################################
+otbr_start.sh: Starting...
+################################################################################
+
+
+********************************************************************************
+otbr_start.sh: Removing 'otbr-chip' container
+********************************************************************************
+nrfconnect/otbr                                        9185bda                                    083c8472bc52   3 years ago     1.21GB
+otbr image nrfconnect/otbr:9185bda already installed
+
+
+********************************************************************************
+otbr_start.sh: Starting 'otbr-chip' container
+********************************************************************************
+[sudo] password for ubuntu: 
+aafa7afbebe58d1c8a53135e53dcab67148b94781169b1163d8ded746af9e4ed
+
+
+********************************************************************************
+otbr_start.sh: Waiting 10 seconds to give the the docker container enough time to start up...
+********************************************************************************
+
+
+********************************************************************************
+otbr_start.sh: Setting up Thread Network
+********************************************************************************
+Param: 'dataset init new'Done
+Param: 'dataset channel 25'Done
+Param: 'dataset panid 0x5b35'Done
+Param: 'dataset extpanid 5b35dead5b35beef'Done
+Param: 'dataset networkname 5b35'Done
+Param: 'dataset networkkey 00112233445566778899aabbccddeeff'Done
+Param: 'dataset commit active'Done
+Param: 'prefix add fd11:35::/64 pasor'Done
+Param: 'ifconfig up'Done
+Param: 'thread start'Done
+Param: 'netdata register'Done
+Param: 'dataset active -x'0e08000000000001000035060004001fffe00708fdc5f4eedcca5d9f0410987fd8cb6ad1bf316a46bfdfb5533b1e0c0402a0f7f8000300001901025b3502085b35dead5b35beef030435623335051000112233445566778899aabbccddeeff
+Done
+Simple Dataset: 000300001902085b35dead5b35beef051000112233445566778899aabbccddeeff01025b35
+
+********************************************************************************
+otbr_start.sh: Restarting the Raspi avahi to have it in a clean state
+********************************************************************************
+
+
+################################################################################
+otbr_start.sh: Finishing...
+################################################################################
+ubuntu@ubuntu:~/certification-tool/backend/test_collections/matter/scripts/OTBR$ ./otbr_start.sh docker pslscd OTBR/lscd scripts/lscd matter/ls
+otbr_srp_restart.sh  otbr_start.sh  otbr_stop.sh
+ubuntu@ubuntu:~/certification-tool/backend/test_collections/matter/scripts/OTBR$ cd./otbr_stop.sh 
+
+
+################################################################################
+otbr_stop.sh: Starting...
+################################################################################
+
+
+********************************************************************************
+otbr_stop.sh: Stoping OTBR service
+********************************************************************************
+Done
+otbr-chip
+
+
+################################################################################
+otbr_stop.sh: Finishing...
+################################################################################
+ubuntu@ubuntu:~/certification-tool/backend/test_collections/matter/scripts/OTBR$ cd -
+/home/ubuntu/certification-tool/backend/test_collections/matter/scripts
+ubuntu@ubuntu:~/certification-tool/backend/test_collections/matter/scripts$ cd ~
+ubuntu@ubuntu:~$ docker ps
+CONTAINER ID   IMAGE                                                          COMMAND                  CREATED        STATUS             PORTS                                                                                                                                       NAMES
+98aa24069130   ghcr.io/project-chip/csa-certification-tool-frontend:1acbec0   "docker-entrypoint.s"   3 months ago   Up About an hour   4200/tcp                                                                                                                                    certification-tool-frontend-1
+d4890f2a3d13   ghcr.io/project-chip/csa-certification-tool-backend:e20beac    "bash -c './prestart"   3 months ago   Up About an hour   0.0.0.0:8888->8888/tcp, [::]:8888->8888/tcp, 0.0.0.0:5000->5000/udp, [::]:5000->5000/udp, 0.0.0.0:50000->50000/tcp, [::]:50000->50000/tcp   certification-tool-backend-1
+54a84dca22ab   postgres:12                                                    "docker-entrypoint.s"   3 months ago   Up About an hour   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp                                                                                                 certification-tool-db-1
+11ea39f88dce   traefik:v2.2                                                   "/entrypoint.sh --pr"   3 months ago   Up About an hour   0.0.0.0:80->80/tcp, [::]:80->80/tcp, 0.0.0.0:8090->8080/tcp, [::]:8090->8080/tcp                                                            certification-tool-proxy-1
+ubuntu@ubuntu:~$ 

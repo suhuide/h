@@ -55,8 +55,6 @@ sequenceDiagram
     participant Matter模块
     participant MCU
 
-    MCU-->>Matter模块: 发送版本OTA版本查询(可选,主动想升级时)
-
     alt Matter模块端版本检查
         Matter模块->>MCU: 发送升级通知(带version, size, checksum)
         Note over MCU: 根据version/size等信息判断是否升级
