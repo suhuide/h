@@ -129,6 +129,10 @@ regedit
 HKEY_CURRENT_USER\Software\Scooter Software\Beyond Compare 4
                                                     CacheID
 ```
+# TaskBar
+```c
+C:\Users\%USERNAME%\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar
+```
 # MarkItDown
 ```c
 python -m pip install markitdown[all]

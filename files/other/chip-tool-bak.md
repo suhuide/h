@@ -199,19 +199,19 @@ SignerKeyId value: hex:62FA823359ACFAA9963E1CFA140ADDF504F37160
 ## XY color control
 🔵	
 ```c
-sudo ./chip-tool colorcontrol move-to-color 9831 3932 0 0 0 2250 2
+sudo ./chip-tool colorcontrol move-to-color 9831 3932 0 0 0 2250 3
 ```
 🔴
 ```c
-sudo ./chip-tool colorcontrol move-to-color 41947 21624 0 0 0 2250 2
+sudo ./chip-tool colorcontrol move-to-color 41947 21624 0 0 0 2250 3
 ```
 🟢
 ```c
-sudo ./chip-tool colorcontrol move-to-color 19660 39320  0 0 0 2250 2
+sudo ./chip-tool colorcontrol move-to-color 19660 39320  0 0 0 2250 3
 ```
 🟣
 ```c
-sudo ./chip-tool colorcontrol move-to-color 20971 9830 0 0 0 2250 2
+sudo ./chip-tool colorcontrol move-to-color 20971 9830 0 0 0 2250 3
 ```
 
 ```c

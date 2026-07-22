@@ -18,21 +18,21 @@ sudo ot-ctl ifconfig up
 sudo ot-ctl thread start
 ```
 ```c
-ubuntu@ubuntu:~$ sudo ot-ctl dataset init new
+sudo ot-ctl dataset init new
 Done
-ubuntu@ubuntu:~$ sudo ot-ctl dataset commit active
+sudo ot-ctl dataset commit active
 Done
-ubuntu@ubuntu:~$ sudo ot-ctl ifconfig up
+sudo ot-ctl ifconfig up
 Done
-ubuntu@ubuntu:~$ sudo ot-ctl thread start
+sudo ot-ctl thread start
 Done
-ubuntu@ubuntu:~$ sudo ot-ctl state
+sudo ot-ctl state
 detached
 Done
-ubuntu@ubuntu:~$ sudo ot-ctl state
+sudo ot-ctl state
 leader
 Done
-ubuntu@ubuntu:~$ sudo ot-ctl dataset active -x
+sudo ot-ctl dataset active -x
 0e0800000000000100004a0300000d35060004001fffe002080ba8c26939f226680708fdd0a8de45a382e40510e9405e254d6075c62bac56ebbd930ecd030f4f70656e5468726561642d3533343601025346041013957463af0d2b6e844136e1f3fbf0300c0402a0f7f8000300000f
 Done
 ```
@@ -71,13 +71,17 @@ Jun 24 03:29:00 ubuntu otbr-agent[235059]: 00:00:00.041 [I] AnnounceSender: Chan
 Jun 24 03:29:00 ubuntu otbr-agent[235059]: 00:00:00.041 [I] AnnounceSender: StartingChannel:11
 Jun 24 03:29:00 ubuntu otbr-agent[235059]: 00:00:00.041 [I] AnnounceSender: StartingChannel:11
 Jun 24 03:29:00 ubuntu otbr-agent[235059]: 00:00:00.052 [I] Platform------: Execute command `ipset flush otbr-ingress-allow-dst-swap` = 0
-ubuntu@ubuntu:~$ sudo ot-ctl state
+sudo ot-ctl state
 leader
 Done
-ubuntu@ubuntu:~$ ubuntu@ubuntu:~$ sudo ot-ctl dataset active -x
-ubuntu@ubuntu:~$: command not found
-ubuntu@ubuntu:~$ sudo ot-ctl dataset active -x
+sudo ot-ctl dataset active -x
 0e080000000000010000000300000b4a0300000f35060004001fffe002082d786bf354e59df80708fdf8718ccf83a9980510c1d7bed0358c657c7e4e42bd42a2d091030f4f70656e5468726561642d3962333901029b39041080f2e38b9b69d2c9e3bd1fbc8053313c0c0402a0f7f8
 
 Done
+```
+
+```c
+sudo systemctl stop otbr-agent
+sudo otbr-agent -I wpan0 -B eth0 spinel+hdlc+uart:///dev/ttyUSB0?uart-flow-control=1 -v -d7
+sudo ot-ctl state
 ```

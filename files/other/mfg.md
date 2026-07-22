@@ -1,3 +1,5 @@
+[mfg-ug](mfg-ug.md)  
+
 ```c
 username: suhuide
 password: +mTvwceVZk

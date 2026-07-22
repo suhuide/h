@@ -5,4 +5,3 @@ if %errorlevel% equ 0 (
 ) else (
     echo Device reset failed, please check connection
 )
-pause

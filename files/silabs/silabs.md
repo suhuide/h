@@ -168,3 +168,8 @@ ParseEvent
             ->StartAdvertising
         ->RAIL_GetVersion
 ```
+
+## GPIO
+[efr32mg24-datasheet](https://www.silabs.com/documents/public/data-sheets/efr32mg24-datasheet.pdf)  
+[efr32xg24-rm](https://www.silabs.com/documents/public/reference-manuals/efr32xg24-rm.pdf)  
+### Alternate Function Table
