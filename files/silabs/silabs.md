@@ -13,12 +13,16 @@ C:\Users\huide\.silabs\slt\installs\conan\p\matte66ea43dc8d7de\p\third_party\mat
 C:\Users\huide\.silabs\slt\installs\conan\p\matte66ea43dc8d7de\p\third_party\matter_sdk\src\platform\silabs\efr32\BLEManagerImpl.h
 ```
 ```c
+//SiSDK2026.6.1
+C:\Users\huide\.silabs\slt\installs\conan\p\simpleca33d691c539\p
 //SiSDK2025.12.3
 C:\Users\huide\.silabs\slt\installs\conan\p\simpl35774a752829c\p
 //SiSDK2025.12.2
 C:\Users\huide\.silabs\slt\installs\conan\p\simpl965e19baece23\p
 ```
 ```c
+//ME v2.9.1
+C:\Users\huide\.silabs\slt\installs\conan\p\matte77c708c854975\p\third_party\matter_sdk
 //ME v2.8.1
 C:\Users\huide\.silabs\slt\installs\conan\p\matte8bada656e9e76\p\third_party\matter_sdk
 C:\Users\huide\.silabs\slt\installs\conan\p\mattef07831835e490\p\third_party\matter_sdk

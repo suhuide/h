@@ -561,3 +561,448 @@ curve_pwm(45): 45 落在 {100,60} 和 {45,36} 之间 → = 36
 ### 夜灯（LIGHT_LEVEL_MIN_VALUE=1）PWM值
 - 改前：target=33 → curve=20 → 占空比 0.83%（抖动）
 - 改后：target=45 → curve=36 → 占空比 **1.50%**
+
+---
+
+# 凌动开关检测深度分析
+
+## 代码位置速查
+
+| 文件 | 行号 | 内容 |
+|------|------|------|
+| `src/app/AppTask.h:80-84` | 80-84 | PdEventHandler、PdTimerEventHandler、PdTimerInit 声明 |
+| `src/app/AppTask.cpp:220-221` | 220-221 | 定时器周期 12ms（`gPdTimerPeriod = pdMS_TO_TICKS(12)`） |
+| `src/app/AppTask.cpp:223-271` | 223-271 | **PdEventHandler 核心检测状态机** |
+| `src/app/AppTask.cpp:273-280` | 273-280 | PdTimerEventHandler 定时器回调 |
+| `src/app/AppTask.cpp:282-288` | 282-288 | PdTimerInit 定时器初始化 |
+| `src/app/app_btn_mgr.cpp:91-102` | 91-102 | `_light_onoff_event_handler()` 翻转逻辑 |
+| `src/app/app_light_mgr.cpp:194-247` | 194-247 | `app_light_mgr_onoff()` 开关灯执行 |
+| `src/app/app_light_mgr.cpp:404-418` | 404-418 | `app_light_mgr_direct_off()` 直接关灯（仅改 RAM） |
+| `src/app/app_light_mgr.cpp:140-183` | 140-183 | `_startup_timer_event_handler()` 上电启动恢复状态 |
+| `src/hal/cluster_api.cpp:29-40` | 29-40 | `cluster_api_on_off_onoff_set()` 写 OnOff 属性（带锁） |
+| `src/hal/cluster_api.cpp:104-113` | 104-113 | `cluster_api_onoff_server_set_onoff_value()` 写 OnOff（不带锁） |
+| `src/hal/cluster_api.cpp:68-102` | 68-102 | `cluster_api_on_off_startup_onoff_get()` 上电启动策略 |
+| `src/app/ZclCallbacks.cpp:41-78` | 41-78 | `_attr_lock` 重入锁 + `MatterPostAttributeChangeCallback` |
+
+---
+
+## 一、检测原理
+
+### 1.1 硬件原理
+
+凌动开关是一种**自复位（瞬动）墙壁开关**——按下时瞬间切断灯具的交流供电，松手后自动恢复。灯具硬件上有一颗**储能电容**，在交流断电的短暂时间内继续给 MCU 供电，使 MCU 能检测到断电事件。
+
+`app_btn_mgr_btn_is_pressed()` 读取的 GPIO 本质上是**交流电源状态检测脚**：
+- **返回 false（LOW）** → 交流断电，开关被按下
+- **返回 true（HIGH）** → 交流有电，开关松开
+
+### 1.2 定时器与状态变量
+
+每 **12ms** 定时器触发一次 `PdEventHandler()`：
+
+```cpp
+// AppTask.cpp:220-221
+osTimerId_t gPdTimer;
+constexpr uint32_t gPdTimerPeriod = static_cast<uint32_t>(pdMS_TO_TICKS(12));    // 12 ms
+```
+
+| 变量 | 含义 |
+|------|------|
+| `low_count` | 连续低电平（断电）的采样次数 |
+| `high_count` | 连续高电平（有电）的采样次数 |
+| `event_count` | 进入"按下"确认后的持续计时 |
+| `release_flag` | `0`=空闲，`1`=灯开→关已执行，`2`=灯关→开等待中 |
+| `timeout_flag` | `1`=已执行超时翻转，防止重复翻转 |
+
+### 1.3 正常操作流程（凌动开关短按）
+
+```
+t=0        用户按下 → GPIO LOW
+t=144ms    low_count >= 12（12×12ms），确认按下有效
+           → cluster_api_on_off_onoff_get(1, &cur_onoff)  // 读 NVM3 OnOff
+           → _light_onoff_event_handler()                 // 翻转
+             → app_light_mgr_onoff(new_value, LIGHT_ACTION_BUTTON)
+               → 写 OnOff 属性到 NVM3 + 执行 PWM 开关
+t≈300ms    用户松手 → GPIO HIGH
+           → high_count >= 3（3×12ms=36ms），复位所有计数器
+```
+
+### 1.4 为什么通过 Matter 属性读写
+
+**OnOff 状态以 NVM3 中的 Matter 属性为唯一数据源**。RC 遥控、Matter 控制器、物理按键、凌动检测、上电启动恢复全部共享同一份 NVM3 持久化状态，不存在独立的内存影子变量。
+
+```cpp
+// AppTask.cpp:247 — PD 检测读的是 NVM3 持久化的 Matter OnOff 属性
+cluster_api_on_off_onoff_get(1, &cur_onoff);
+
+// app_btn_mgr.cpp:96-99 — 翻转后通过 Matter SDK 写回 NVM3
+cluster_api_on_off_onoff_get(1, &onoff);
+new_value = !onoff;
+app_light_mgr_onoff(new_value, LIGHT_ACTION_BUTTON);
+```
+
+读写 Matter 属性的 SDK 调用会自动触发：
+1. NVM3 持久化写入
+2. 属性变更回调 `MatterPostAttributeChangeCallback`（受 `_attr_lock` 保护，防止重入）
+3. Matter 订阅者网络上报
+
+---
+
+## 二、电网断电误触发分析
+
+### 2.1 核心问题
+
+凌动开关（短时断电 ~300ms）和电网真实断电在 GPIO 上**完全不可区分**——两者都表现为 LOW。唯一的区别是**持续时间**：
+
+| 事件 | GPIO LOW 持续时间 |
+|------|:---:|
+| 凌动开关正常操作 | ~200~500ms（用户松手即恢复） |
+| 电网真实断电 | 无限长（直到来电） |
+
+### 2.2 1.8s 超时自校正机制（核心设计）
+
+代码注释直接揭示了设计意图（`AppTask.cpp:232-233`）：
+
+```cpp
+//Change to 240 from 320,due to minimum decharge time is 3 sencond(250), add some margin.
+//Some device need to change to 150(1.8S) for keep the status,it discharge too fast.
+```
+
+**"decharge"（电容放电）** 是关键词。阈值演变历史：**320→240→150**（3.84s→2.88s→1.8s），完全根据实际设备的电容放电时间校准。
+
+自校正逻辑（`AppTask.cpp:234-238`）：
+
+```cpp
+if(event_count >= 150 && release_flag == 1 && 0 == timeout_flag) {
+    event_count = 0;
+    timeout_flag = 1;
+    _light_onoff_event_handler();  // 状态翻转回去！
+}
+```
+
+触发条件：`release_flag == 1`（灯开→关后）且持续断电超过 1.8s。这意味着一开始误判为凌动开关、关了灯写了 NVM3，但 1.8s 后电还没来 → 意识到"这不是凌动开关，是电网断电"→ 翻转回去。
+
+---
+
+### 2.3 场景一：灯开着 → 电网断电 → 电容撑过 1.8s（正常恢复）✅
+
+```
+时间轴:
+
+t=0ms      电网断电，OnOff=1（NVM3），灯实际亮着
+           ↓
+t=144ms    low_count>=12，误判为凌动"按下"
+           cluster_api_on_off_onoff_get() → 读到 OnOff=1
+           cur_onoff=1 → release_flag=1（on→off）
+           _light_onoff_event_handler():
+             onoff=1 → new_value=0
+             app_light_mgr_onoff(0, BUTTON):
+               cluster_api_on_off_onoff_set(1, 0)  → NVM3: OnOff=0 ⚠️ 误写
+               app_light_mgr_direct_off()            → 仅改 RAM cur_brightness=0
+           event_count=0，开始计时
+           ↓
+t=1800ms   event_count>=150 && release_flag==1 && timeout_flag==0
+           _light_onoff_event_handler():
+             cluster_api_on_off_onoff_get() → 读到 OnOff=0
+             new_value=1
+             app_light_mgr_onoff(1, BUTTON):
+               cluster_api_onoff_server_set_onoff_value(1, 1, false)
+                 → NVM3: OnOff=1 ✓ 恢复！
+               _light_ll_set_onoff(1)  → 无实际效果（没电）
+           timeout_flag=1，防止再次翻转
+           ↓
+数秒后     电容放光，MCU 掉电
+           NVM3 状态: OnOff=1, CurrentLevel=原值, ColorTemperatureMireds=原值
+           ↓
+来电后     _startup_timer_event_handler() 触发（200ms 延迟）
+           cluster_api_on_off_startup_onoff_get():
+             StartUpOnOff == null → 读 OnOff 属性 = 1
+           app_light_mgr_onoff(1, BUTTON) → 开灯
+           app_light_mgr_move_cw_with_time(cur_ct, current_level, 3000ms) → 3s 渐变恢复
+
+结果: ✅ 全部恢复正确（开关状态、色温、亮度）
+```
+
+**关键证据：**
+
+**(a) StartUpOnOff=null 时直接用 NVM3 持久化的 OnOff 值：**
+
+```cpp
+// cluster_api.cpp:68-96
+cluster_api_on_off_startup_onoff_get(uint8_t endpoint, uint8_t * value)
+{
+    DataModel::Nullable<OnOff::StartUpOnOffEnum> startUpOnOff;
+    OnOff::Attributes::StartUpOnOff::Get(endpoint, startUpOnOff);
+    
+    bool updatedOnOff = false;
+    OnOff::Attributes::OnOff::Get(endpoint, &updatedOnOff);  // 读 NVM3 OnOff
+    
+    if (!startUpOnOff.IsNull()) {
+        // StartUpOnOff 有值时按策略覆盖
+        switch (startUpOnOff.Value()) {
+        case kOff:    updatedOnOff = false; break;
+        case kOn:     updatedOnOff = true;  break;
+        case kToggle: updatedOnOff = !updatedOnOff; break;
+        }
+    }
+    // StartUpOnOff 为 null → updatedOnOff 保持 NVM3 中的原始值不变
+    *value = static_cast<uint8_t>(updatedOnOff);
+}
+```
+
+**(b) 上电恢复色温和亮度：**
+
+```cpp
+// app_light_mgr.cpp:166-169
+if (startup_onoff_value) {
+    app_light_mgr_onoff(1, LIGHT_ACTION_BUTTON);
+    app_light_mgr_move_cw_with_time(cur_ct, current_level, SLSD_ONOFF_TRANSITION_TIME_MS);
+    // cur_ct 和 current_level 都从 NVM3 持久化属性读出
+}
+```
+
+**(c) `app_light_mgr_direct_off()` 不改 NVM3：**
+
+```cpp
+// app_light_mgr.cpp:404-418
+void app_light_mgr_direct_off(void)
+{
+    CORE_DECLARE_IRQ_STATE;
+    ev_set_inactive(&slsd_timer_event);
+    CORE_ENTER_ATOMIC();
+    cur_brightness   = 0;                // ← RAM 变量
+    target_colortemp = cur_colortemp;    // ← RAM 变量
+    _light_ll_set_onoff(0);              // ← PWM 硬件，非 NVM3
+    CORE_EXIT_ATOMIC();
+}
+```
+
+**(d) timeout 只在 `release_flag == 1` 时触发：**
+
+```cpp
+// AppTask.cpp:234
+if(event_count >= 150 && release_flag == 1 && 0 == timeout_flag) {
+    // 只在"灯开→关"后触发，用于把误关的灯重新翻回去
+    _light_onoff_event_handler();
+}
+```
+
+---
+
+### 2.4 场景二：灯开着 → 电网断电 → 电容在 144ms~1.8s 间死掉（最坏情况）❌
+
+```
+时间轴:
+
+t=0ms      电网断电，OnOff=1（NVM3）
+           ↓
+t=144ms    low_count>=12，误判为凌动"按下"
+           → OnOff 被翻转为 0，写入 NVM3 ⚠️
+           → event_count 从 0 开始计数
+           ↓
+t≈500ms    电容提前放光！MCU 掉电
+           timeout 还没来得及触发（需要 1.8s）
+           NVM3 状态: OnOff=0 ⚠️ 错误！
+                      CurrentLevel=原值（未被修改过）
+                      ColorTemperatureMireds=原值（未被修改过）
+           ↓
+来电后     _startup_timer_event_handler()
+           StartUpOnOff=null → 读 OnOff=0
+           app_light_mgr_onoff(0, BUTTON) → 灯不亮！
+           
+结果: ❌ 灯本来是开的，来电后不亮（OnOff 状态错乱）
+         但如果用户手动开灯（APP/遥控/按键），色温和亮度仍能恢复原值
+```
+
+**这是设计上已知的风险窗口**，也正是 timeout 从 320→240→150 不断缩短的原因。注释"it discharge too fast"说明：不同设备的电容放电速度差异大，电容放得太快的设备存在这个窗口期风险。
+
+**风险窗口量化：**
+
+| 电容放光时间 t | OnOff 状态 | 结论 |
+|:---:|:---:|:---:|
+| t < 144ms | 未被修改 | ✅ 安全（检测未触发） |
+| 144ms < t < 1.8s | 被错误覆盖为 0 | ❌ 最坏情况 |
+| t > 1.8s | timeout 恢复为 1 | ✅ 安全（自校正成功） |
+
+---
+
+### 2.5 场景三：灯关着 → 电网断电（完全无损）✅
+
+```
+时间轴:
+
+t=0ms      电网断电，OnOff=0（NVM3）
+           ↓
+t=144ms    low_count>=12，确认"按下"
+           cluster_api_on_off_onoff_get() → 读到 OnOff=0
+           cur_onoff=0 → release_flag=2（off→on，等待上电）
+           ⚠️ 不调用 _light_onoff_event_handler()！
+           ⚠️ 不写 NVM3！OnOff 保持 0
+           ↓
+持续断电    event_count 增长，但 timeout 条件要求 release_flag==1，不满足
+           电容放光，MCU 掉电
+           NVM3: OnOff=0（从未被修改）
+                 CurrentLevel=原值（从未被修改）
+                 ColorTemperatureMireds=原值（从未被修改）
+           ↓
+来电后     StartUpOnOff=null → 读 OnOff=0 → 灯保持关
+
+结果: ✅ 完全正确，无任何影响
+```
+
+**关键保护逻辑：**
+
+```cpp
+// AppTask.cpp:248-253
+if(cur_onoff) {                   // 灯当前开
+    release_flag = 1;             // on→off，立即关灯
+    _light_onoff_event_handler();
+} else {                          // 灯当前关
+    release_flag = 2;             // off→on，等待松手（GPIO HIGH）
+    // 不写 NVM3！不操作灯！
+}
+```
+
+当 `cur_onoff=0`（灯原本关着），PD 设 `release_flag=2` 并**等待 GPIO 恢复 HIGH 才执行开灯**。电网断电时 GPIO 永远不会恢复 HIGH，所以 NVM3 从未被写入。这是设计的第二重保护。
+
+```cpp
+// AppTask.cpp:259 — 只有 GPIO 恢复 HIGH 时才执行
+if(release_flag==2 && high_count >= 3) {
+    _light_onoff_event_handler();  // 开灯
+}
+```
+
+---
+
+## 三、色温和亮度影响分析
+
+### 3.1 结论：色温和亮度不受电网断电影响
+
+**PD 检测链路只修改 OnOff 属性，不触碰 LevelControl 和 ColorControl。**
+
+| 操作 | 写 NVM3 OnOff | 写 NVM3 CurrentLevel | 写 NVM3 ColorTemperatureMireds |
+|------|:---:|:---:|:---:|
+| `_light_onoff_event_handler()` | ✅ | ❌ | ❌ |
+| `app_light_mgr_onoff(new_value, BUTTON)` — ON | ✅ | ❌ | ❌ |
+| `app_light_mgr_onoff(new_value, BUTTON)` — OFF | ✅ (`cluster_api_on_off_onoff_set`) | ❌ | ❌ |
+| `app_light_mgr_direct_off()` | ❌ | ❌（仅改 RAM `cur_brightness`） | ❌（仅改 RAM `target_colortemp`） |
+| `cluster_api_on_off_onoff_set(1, 0)` | ✅ | ❌ | ❌ |
+| `cluster_api_onoff_server_set_onoff_value(1, 1, false)` | ✅ | ❌ | ❌ |
+
+CurrentLevel 和 ColorTemperatureMireds 只由以下途径修改：
+- Matter 控制器下发指令（APP 调亮度/色温）
+- RC 遥控操作（`_process_rc_key_move_lvl` / `_process_rc_key_move_ct`）
+- 物理按键长按调光/调色温
+
+它们标记了 `"storageOption": "NVM"`（ZAP 配置），自动被 Matter SDK 持久化到 NVM3，并在上电时恢复。
+
+### 3.2 上电恢复链路
+
+```cpp
+// app_light_mgr.cpp:140-183
+static void _startup_timer_event_handler(app_event_t * ev)
+{
+    // 从 NVM3 读取色温
+    cluster_api_color_control_color_temperature_mireds_get(1, &cur_ct);
+    // 从 NVM3 读取亮度
+    cluster_api_level_control_curent_level_get(1, &current_level);
+
+    cluster_api_on_off_startup_onoff_get(APP_ENDPOINT_LIGHT, &startup_onoff_value);
+
+    if (startup_onoff_value) {
+        app_light_mgr_onoff(1, LIGHT_ACTION_BUTTON);
+        app_light_mgr_move_cw_with_time(cur_ct, current_level, SLSD_ONOFF_TRANSITION_TIME_MS);
+    } else {
+        app_light_mgr_onoff(0, LIGHT_ACTION_BUTTON);
+        if (_frst_factory_reset_read_status()) {
+            _frst_factory_reset_clear();
+            app_light_mgr_onoff(1, LIGHT_ACTION_BUTTON);
+            app_light_mgr_move_cw_with_time(cur_ct, current_level, SLSD_ONOFF_TRANSITION_TIME_MS);
+        }
+    }
+}
+```
+
+---
+
+## 四、`_attr_lock` 重入保护机制
+
+为防止写属性时触发 `MatterPostAttributeChangeCallback` 造成递归调用，项目使用了属性锁：
+
+```cpp
+// ZclCallbacks.cpp:41-63
+static uint32_t _attr_lock = 0;
+
+void zcl_cb_attr_lock(void) {
+    CORE_ATOMIC_SECTION(_attr_lock++;)
+}
+
+void zcl_cb_attr_unlock(void) {
+    CORE_ATOMIC_SECTION(if (_attr_lock) { _attr_lock--; })
+}
+
+void MatterPostAttributeChangeCallback(...) {
+    // 本地更改的属性，跳过回调
+    if (_attr_lock) {
+        return;
+    }
+    // 处理回调时重新加锁，防止嵌套
+    zcl_cb_attr_lock();
+    // ... 分发到各 cluster 处理 ...
+    zcl_cb_attr_unlock();
+}
+```
+
+**不同操作路径的锁策略：**
+
+| 操作 | 是否加锁 | 说明 |
+|------|:---:|------|
+| `cluster_api_on_off_onoff_set(1, 0)` — BUTTON OFF | ✅ 加锁 | `zcl_cb_attr_lock()` → `Set()` → `zcl_cb_attr_unlock()` |
+| `cluster_api_onoff_server_set_onoff_value(1, 1, false)` — BUTTON ON | ❌ 不加锁 | 直接调用 SDK `setOnOffValue` |
+| RC 遥控操作 | ❌ 不加锁 | 依赖回调链来执行 PWM 渐变 |
+| Matter 控制器 | ❌ 不加锁 | 依赖回调链来执行 PWM 渐变 |
+
+**BUTTON ON 不加锁的原因：** `OnOffServer::setOnOffValue` 触发 `MatterPostAttributeChangeCallback` → 50ms 延迟 → `app_light_mgr_onoff(1, LIGHT_ACTION_ATTRIBUTE)` → 读取 CurrentLevel 和 ColorTemperatureMireds → 执行 `app_light_mgr_move_cw_with_time()` 恢复渐变。这个延迟回调路径是实现 BUTTON ON 后自动恢复色温和亮度的机制。
+
+**BUTTON OFF 加锁的原因：** 关灯通过 `app_light_mgr_direct_off()` 直接切断 PWM，不需要走回调渐变路径。加锁防止回调节外生枝。
+
+---
+
+## 五、状态切换总览表
+
+| 断电前灯状态 | 电容存活时间 | 来电后 OnOff | 来电后色温 | 来电后亮度 | 结论 |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+| 开 | >1.8s | 开 ✅ | 正确 ✅ | 正确 ✅ | timeout 翻转回去 |
+| 开 | 144ms~1.8s | 关 ❌ | 正确 ✅（灯不亮不可见） | 正确 ✅（灯不亮不可见） | NVM3 被误覆盖 |
+| 开 | <144ms | 开 ✅ | 正确 ✅ | 正确 ✅ | 检测未触发 |
+| 关 | 任意 | 关 ✅ | 正确 ✅ | 正确 ✅ | release_flag=2 不写 NVM3 |
+
+---
+
+## 六、设计要点总结
+
+1. **NVM3 为唯一数据源**：OnOff、CurrentLevel、ColorTemperatureMireds 全部持久化在 Matter 属性中（`"storageOption": "NVM"`），不存在内存影子变量。RC 遥控、Matter 控制器、按键、PD 检测、上电启动全部共享同一份状态。
+
+2. **144ms 防抖**（`low_count >= 12 × 12ms`）：滤除电网杂波和瞬时扰动（电容撑不过 144ms 的极短断电不触发任何检测）。
+
+3. **1.8s 超时自校正**（`event_count >= 150 × 12ms`）：这是区分凌动开关和电网断电的核心。少于 1.8s 恢复 = 凌动开关，超过 1.8s 仍断电 = 电网断电 → 自动翻转回去。阈值由电容放电实验决定，从 320→240→150 逐步缩短。
+
+4. **`timeout_flag` 单次触发**：防止电容苟延残喘期间反复翻转状态。
+
+5. **灯关时不写 NVM3**（`release_flag=2` 等待 GPIO HIGH）：即使电网断电，关灯状态永不损坏，不需要 timeout 保护。这是代码的**非对称保护**——只保护"灯开"场景。
+
+6. **色温和亮度零风险**：PD 检测链路只操作 OnOff 属性，不触碰 LevelControl 和 ColorControl 属性。
+
+7. **电容放电时间是硬约束**：144ms~1.8s 是风险窗口。电容必须在 1.8s 以上才能保证 100% 不掉状态。所有低于此电容的设备都存在小概率状态丢失风险（概率 = 电网断电恰好发生在灯开时 × 电容撑不到 1.8s）。
+
+## 凌动开关检测
+
+凌动开关检测位于 `src/app/AppTask.cpp:223-271`（`AppTask::PdEventHandler`），通过 12ms 周期定时器轮询交流电源检测 GPIO。这是一个**带自校正能力的断电检测状态机**，核心机制分为三层：
+
+**第一层 — 144ms 防抖确认**（`low_count >= 12`）：连续 12 次读到 LOW（交流断电）才确认"按键有效"，滤除电网杂波和瞬时扰动。电容撑不过 144ms 的极短断电不触发任何检测，NVM3 完全不受影响。
+
+**第二层 — 即时状态切换**：确认按键后，从 NVM3 持久化的 Matter OnOff 属性读取当前灯状态，翻转后写回 NVM3 并执行 PWM 开关。选择读/写 Matter 属性而非内存变量的原因是：OnOff 状态是 Matter cluster 的 NVM3 持久化属性，作为全系统唯一数据源——RC 遥控、Matter 控制器、物理按键、PD 检测、上电启动恢复全部共享同一份状态（`"storageOption": "NVM"`），不存在独立内存影子变量。写属性经 Matter SDK 自动触发 NVM3 持久化 + 属性变更回调 + 订阅者网络上报。
+
+**第三层 — 1.8s 超时自校正**：这是区分凌动开关和电网真实断电的关键。两者在 GPIO 上都表现为 LOW，唯一区别是持续时间——凌动开关通常 <1s，电网断电无限长。PD 确认后立即翻转状态并写 NVM3（假设是凌动开关），但如果 1.8s 后 GPIO 仍未恢复 HIGH（说明是电网断电），则再次翻转回去，将 NVM3 恢复为原始值。这样来电后 `_startup_timer_event_handler()` 通过 `cluster_api_on_off_startup_onoff_get()`（StartUpOnOff=null → 直接用持久化值）读到的 OnOff 属性仍是断电前的正确状态，随后 `app_light_mgr_move_cw_with_time(cur_ct, current_level, 3000)` 恢复色温和亮度。
+
+**1.8s 阈值由电容放电时间决定**（代码注释 `AppTask.cpp:232-233`）：阈值从最初的 320（3.84s）降至 240（2.88s）再降至 150（1.8s），原因是一些设备的储能电容放电较快，必须缩短 timeout 才能赶在电容死掉之前完成 NVM3 回写。如果在 144ms~1.8s 窗口内电容就放光了（场景二），NVM3 中的 OnOff 可能被错误覆盖为"关"，导致来电后灯不亮——这是设计上已知且无法完全消除的风险窗口，概率 = 电网断电恰好发生在灯开时 × 电容撑不到 1.8s。灯原本关着时完全不受影响（场景三），因为 PD 设 `release_flag=2` 等待 GPIO 恢复 HIGH 才执行开灯，电网断电时 GPIO 永远不会恢复 HIGH，NVM3 从未被写入——这是代码的非对称保护设计。色温和亮度在**所有场景**下均不受任何影响——PD 检测链路只操作 OnOff 属性（通过 `cluster_api_on_off_onoff_set` 或 `cluster_api_onoff_server_set_onoff_value`），不触碰 LevelControl 和 ColorControl 属性，`app_light_mgr_direct_off()` 也只修改 RAM 变量（`cur_brightness`、`target_colortemp`）和 PWM 硬件寄存器。

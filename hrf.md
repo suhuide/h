@@ -27,9 +27,16 @@ Tel: +86-755-82973805 / 4001-189-180
 Fax: +86-755-82973550
 ```
 # Account
+## Sign
+```c
+https://hoperf-matter/sign_efr32/
+username: su..de
+password: +mTvwceVZk
+```
 ## Working Time
 ```c
-http://ai.hoperf.cn
+//http://ai.hoperf.cn
+http://pdm.hoperf.cc/main.php?m=User&a=index
 HP1239
 er..1
 ```

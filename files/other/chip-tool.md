@@ -60,18 +60,6 @@ sudo ./chip-tool pairing ble-thread 2250 hex:0e0800000000000100004a0300000b35060
 sudo ./chip-tool pairing ble-thread 2250 hex:0e0800000000000100004a0300000b35060004001fffe00208d66aa42e602782d70708fd119c64dd37b8c40510af58620082e94dcc8b2e7e4a5735245b030f4f70656e5468726561642d323235660102225f04101ab41530faf60b359a71bbd4d65101e50c0402a0f7f8000300000f 28770211 3876 --paa-trust-store-path ~/paa-root-certs
 ```
 ```c
-sudo ./chip-tool onoff on 2250 3
-sudo ./chip-tool onoff off 2250 3
-sudo ./chip-tool levelcontrol move-to-level 128 0 0 0 2250 3
-sudo ./chip-tool levelcontrol read min-level 2250 3
-sudo ./chip-tool levelcontrol read max-level 2250 3
-sudo ./chip-tool levelcontrol read current-level 2250 3
-sudo ./chip-tool levelcontrol read all 2250 3
-sudo ./chip-tool onoff read on-off 2250 6
-sudo ./chip-tool onoff read start-up-on-off 2250 6
-sudo ./chip-tool onoff write start-up-on-off 0 2250 6
-
-
 sudo ./chip-tool basicinformation read software-version 2250 0
 sudo ./chip-tool basicinformation read software-version-string 2250 0
 ```
@@ -116,16 +104,119 @@ sudo ./chip-tool descriptor read server-list 2250 6
 [1773134113.437] [2959503:2959505] [TOO]     [5]: 98 (ScenesManagement)
 
 ```
-
+# OnOff
 ```c
-sudo ./chip-tool levelcontrol move-to-level 128 0 0 0 2250 1
-sudo ./chip-tool colorcontrol move-to-color-temperature 4000 0 0 0 2250 1
+sudo ./chip-tool onoff on 2250 2
+sudo ./chip-tool onoff off 2250 2
+sudo ./chip-tool onoff read on-off 2250 6
+sudo ./chip-tool onoff read start-up-on-off 2250 6
+sudo ./chip-tool onoff write start-up-on-off 0 2250 6
+```
+## Level
+```c
+sudo ./chip-tool levelcontrol move-to-level 0 0 0 0 2250 2
+sudo ./chip-tool levelcontrol move-to-level 128 0 0 0 2250 2
+sudo ./chip-tool levelcontrol move-to-level 254 0 0 0 2250 2
+
+sudo ./chip-tool levelcontrol move-to-level 128 30 0 0 2250 2
+sudo ./chip-tool levelcontrol read min-level 2250 2
+sudo ./chip-tool levelcontrol read max-level 2250 2
+sudo ./chip-tool levelcontrol read current-level 2250 2
+sudo ./chip-tool levelcontrol read all 2250 2
+```
+## Color temperature
+```c
+sudo ./chip-tool colorcontrol move-to-color-temperature 4000 30 0 0 2250 2
+sudo ./chip-tool colorcontrol move-to-color-temperature 100 0 0 0 2250 2
+sudo ./chip-tool colorcontrol move-to-color-temperature 100 30 0 0 2250 2
+sudo ./chip-tool colorcontrol move-to-color-temperature 650 0 0 0 2250 2
+sudo ./chip-tool colorcontrol move-to-color-temperature 650 30 0 0 2250 2
+```
+## XY color control
+🔵	
+```c
+sudo ./chip-tool colorcontrol move-to-color 9830 3931 0 0 0 2250 2
+sudo ./chip-tool colorcontrol move-to-color 9830 3931 30 0 0 2250 2
+```
+🔴
+```c
+sudo ./chip-tool colorcontrol move-to-color 41947 21624 0 0 0 2250 2
+sudo ./chip-tool colorcontrol move-to-color 41947 21624 30 0 0 2250 2
+```
+🟢
+```c
+sudo ./chip-tool colorcontrol move-to-color 19660 39320  0 0 0 2250 2
+sudo ./chip-tool colorcontrol move-to-color 19660 39320  30 0 0 2250 2
+```
+🟣
+```c
+sudo ./chip-tool colorcontrol move-to-color 20971 9830 0 0 0 2250 2
+sudo ./chip-tool colorcontrol move-to-color 20971 9830 30 0 0 2250 2
+```
+### Read
+```c
+sudo ./chip-tool colorcontrol read color-mode 2250 2
+sudo ./chip-tool colorcontrol read current-x 2250 2
+sudo ./chip-tool colorcontrol read current-y 2250 2
+```
+## HSV color control
+🔵 色相角 240° → Hue = 254 * 240 / 360 ≈ 170
+```c
+sudo ./chip-tool colorcontrol move-to-hue-and-saturation 170 254 0 0 0 2250 2
+sudo ./chip-tool colorcontrol move-to-hue-and-saturation 170 254 30 0 0 2250 2
+```
+🔴 色相角 0° → Hue = 0
+```c
+sudo ./chip-tool colorcontrol move-to-hue-and-saturation 0 254 0 0 0 2250 2
+sudo ./chip-tool colorcontrol move-to-hue-and-saturation 0 254 30 0 0 2250 2
+```
+🟢 色相角 120° → Hue = 254 * 120 / 360 ≈ 85
+```c
+sudo ./chip-tool colorcontrol move-to-hue-and-saturation 85 254 0 0 0 2250 2
+sudo ./chip-tool colorcontrol move-to-hue-and-saturation 85 254 30 0 0 2250 2
+```
+🟣 色相角  270° → Hue = 254 * 270 / 360 ≈ 191
+```c
+sudo ./chip-tool colorcontrol move-to-hue-and-saturation 191 254 0 0 0 2250 2
+sudo ./chip-tool colorcontrol move-to-hue-and-saturation 191 254 30 0 0 2250 2
 ```
 
+## Windowcovering
+```c
+sudo ./chip-tool windowcovering up-or-open 2250 1
+sudo ./chip-tool windowcovering go-to-lift-percentage 6000 2250 1
+sudo ./chip-tool windowcovering go-to-lift-percentage 3000 2250 1
+sudo ./chip-tool windowcovering down-or-close 2250 1
+```
+## Groups
+```c
+sudo ./chip-tool groupkeymanagement read max-groups-per-fabric 2250 0
+```
+## descriptor
+```c
+sudo ./chip-tool descriptor read feature-map 2250 1
+```
+
+## Identify
+### Identify
+```c
+sudo ./chip-tool identify identify 10 2250 1
+sudo ./chip-tool identify identify 30 2250 1
+sudo ./chip-tool identify identify 0 2250 1
+sudo ./chip-tool identify identify 3600 2250 1
+```
+### TriggerEffect 
+```c
+sudo ./chip-tool identify trigger-effect 0 0 2250 1
+sudo ./chip-tool identify trigger-effect 1 1 2250 1
+```
+
+## Other
 ```c
 sudo ./chip-tool interactive start
 any subscribe-by-id 0xffffffff 0xffffffff 0 1 2250 0xffff
 ```
+
 # CD
 ```c
 sudo chmod +x chip-cert
@@ -195,180 +286,3 @@ SignerKeyId value: hex:62FA823359ACFAA9963E1CFA140ADDF504F37160
 | **`tag[Context Specific]: 0x9`** | **认证设备类型ID** | `5232` (0x1470) |
 | **`tag[Context Specific]: 0xa`** | **原始供应商ID (Origin Vendor ID)** | `32774` (0x8006) |
 | **`SignerKeyId value`** | **签名者密钥标识符** | `62FA823359...` |
-
-## XY color control
-🔵	
-```c
-sudo ./chip-tool colorcontrol move-to-color 9831 3932 0 0 0 2250 2
-```
-🔴
-```c
-sudo ./chip-tool colorcontrol move-to-color 41947 21624 0 0 0 2250 2
-```
-🟢
-```c
-sudo ./chip-tool colorcontrol move-to-color 19660 39320  0 0 0 2250 2
-```
-🟣
-```c
-sudo ./chip-tool colorcontrol move-to-color 20971 9830 0 0 0 2250 2
-```
-
-```c
-sudo ./chip-tool colorcontrol move-to-color <colorX> <colorY> <transitionTime> <optionsMask> <optionsOverride> <nodeId> <endpointId>
-<colorX> <colorY>：XY 色坐标值（0–65535）
-
-<transitionTime>：渐变秒数，0 瞬切
-
-<optionsMask> <optionsOverride>：固定填 0
-
-<nodeId>：2250（放在 endpoint 前面）
-
-<endpointId>：3
-```
-### Read
-```c
-sudo ./chip-tool colorcontrol read color-mode 2250 3
-sudo ./chip-tool colorcontrol read current-x 2250 3
-sudo ./chip-tool colorcontrol read current-y 2250 3
-```
-
-## HSV color control
-🔵
-```c
-sudo ./chip-tool colorcontrol move-to-hue 170 0 0 0 0 2250 3
-```
-🔴
-```c
-sudo ./chip-tool colorcontrol move-to-hue 0 0 0 0 0 2250 3
-```
-🟢
-```c
-sudo ./chip-tool colorcontrol move-to-hue 85 0 0 0 0 2250 3
-```
-🟣
-```c
-//Hue 模式下，紫色 ≈ 270°，对应 Hue 值 254 * 270/360 ≈ 191
-sudo ./chip-tool colorcontrol move-to-hue 191 0 0 0 0 2250 3
-```
-
-Chip-Tool 测试指令
-以下指令中 <node-id> 替换为实际入网后的节点 ID（例如 1），<endpoint> 替换为灯的端点号（例如 1）。
-
-1. XY 模式 — 下发测试（Matter → MCU）
-设置紫色 (RGB: 255, 0, 255)，用 XY 色坐标下发：
-
-
-# 紫色 XY 坐标: x≈0.32, y≈0.15
-# CurrentX = 0.32 * 65535 ≈ 21000
-# CurrentY = 0.15 * 65535 ≈  9830
-sudo ./chip-tool colorcontrol move-to-color <node-id> <endpoint> 21000 9830 10 0 0
-此指令会：
-
-触发 ColorControlAttributeChangedEventHandler → CurrentX/CurrentY case
-调用 ConvertColor2RGB() 读取 XY → 转换 RGB → 通过串口 fLightColor 下发 MCU
-验证点：MCU 端灯光应变紫色，串口日志应显示 Attr XY changed 及对应的 RGB 值。
-
-2. HSV 模式 — 下发测试（Matter → MCU）
-设置紫色 (H≈300°，映射到 Matter H≈212)：
-
-
-# Hue 0-254: 300/360 * 254 ≈ 212
-# Saturation: 254 (100%)
-sudo ./chip-tool colorcontrol move-to-hue-and-saturation <node-id> <endpoint> 212 254 10 0 0
-验证点：串口日志应显示 Attr CurrentHue 和 Attr CurrentSaturation，MCU 收到 RGB 转换后的 fLightColor。
-
-3. XY 模式 — 上报验证（MCU → Matter）
-MCU 上报颜色后，用以下指令读取 Matter 端属性确认 XY 值已更新：
-
-
-# 读取 CurrentX
-sudo ./chip-tool colorcontrol read current-x <node-id> <endpoint>
-
-# 读取 CurrentY
-sudo ./chip-tool colorcontrol read current-y <node-id> <endpoint>
-
-# 读取 ColorMode，确认为 XY 模式 (1 = kCurrentXAndCurrentY)
-sudo ./chip-tool colorcontrol read color-mode <node-id> <endpoint>
-4. HSV 模式 — 上报验证（MCU → Matter）
-
-# 读取 CurrentHue
-sudo ./chip-tool colorcontrol read current-hue <node-id> <endpoint>
-
-# 读取 CurrentSaturation
-sudo ./chip-tool colorcontrol read current-saturation <node-id> <endpoint>
-
-# 读取 CurrentLevel (亮度)
-sudo ./chip-tool levelcontrol read current-level <node-id> <endpoint>
-5. 完整测试流程
-
-# ==== 第一步：测试 XY 下发 ====
-# 设为红色 (XY: x≈0.64, y≈0.33)
-sudo ./chip-tool colorcontrol move-to-color <node-id> <endpoint> 41942 21626 10 0 0
-# 确认 MCU 收到，读取回来验证
-sudo ./chip-tool colorcontrol read current-x <node-id> <endpoint>
-sudo ./chip-tool colorcontrol read current-y <node-id> <endpoint>
-
-# ==== 第二步：测试 XY→HSV 上报 ====
-# 通过 MCU 物理改变颜色（如按键），然后读取 HSV 属性
-sudo ./chip-tool colorcontrol read current-hue <node-id> <endpoint>
-sudo ./chip-tool colorcontrol read current-saturation <node-id> <endpoint>
-# ★ 重点验证：MCU 上报后 CurrentX/CurrentY 是否也同步更新了（之前的 bug）
-sudo ./chip-tool colorcontrol read current-x <node-id> <endpoint>
-sudo ./chip-tool colorcontrol read current-y <node-id> <endpoint>
-
-# ==== 第三步：测试 HSV 下发 ====
-# 设为蓝色 (H≈170/360*254≈120, S=254)
-sudo ./chip-tool colorcontrol move-to-hue-and-saturation <node-id> <endpoint> 120 254 10 0 0
-
-# ==== 第四步：测试 HSV→XY 上报 ====
-# 再次通过 MCU 改变颜色，验证 XY 也同步
-sudo ./chip-tool colorcontrol read current-x <node-id> <endpoint>
-sudo ./chip-tool colorcontrol read current-y <node-id> <endpoint>
-sudo ./chip-tool colorcontrol read color-mode <node-id> <endpoint>
-常用颜色参考值
-颜色	RGB	CurrentX (0-65535)	CurrentY (0-65535)	CurrentHue (0-254)	CurrentSaturation
-红	(255,0,0)	41942	21626	0	254
-绿	(0,255,0)	19660	46660	85	254
-蓝	(0,0,255)	11796	3958	170	254
-紫	(255,0,255)	20971	9830	212	254
-黄	(255,255,0)	31480	37350	43	254
-白	(255,255,255)	20468	21156	0	0
-关键验证点总结
-#	测试项	下发指令	读取验证
-1	XY 下发→MCU	move-to-color	观察串口 Attr XY changed 日志
-2	HSV 下发→MCU	move-to-hue-and-saturation	观察串口 Attr CurrentHue 日志
-3	MCU上报→XY属性	MCU本地变色	read current-x/y （修复重点）
-4	MCU上报→HSV属性	MCU本地变色	read current-hue/saturation
-5	Level变化→XY转换	move-to-level	read current-x/y（验证 ConvertColor2RGB 对XY模式的处理）
-特别注意第3项：这是本次修复的核心验证点——MCU 上报 RGB 后，CurrentX/CurrentY 是否真的被更新了。修复前只更新 HSV，XY 属性会保持旧值不变。
-
-## Windowcovering
-```c
-sudo ./chip-tool windowcovering up-or-open 2250 1
-sudo ./chip-tool windowcovering go-to-lift-percentage 6000 2250 1
-sudo ./chip-tool windowcovering go-to-lift-percentage 3000 2250 1
-sudo ./chip-tool windowcovering down-or-close 2250 1
-```
-## Groups
-```c
-sudo ./chip-tool groupkeymanagement read max-groups-per-fabric 2250 0
-```
-## descriptor
-```c
-sudo ./chip-tool descriptor read feature-map 2250 1
-```
-
-## Identify
-### Identify
-```c
-sudo ./chip-tool identify identify 10 2250 1
-sudo ./chip-tool identify identify 30 2250 1
-sudo ./chip-tool identify identify 0 2250 1
-sudo ./chip-tool identify identify 3600 2250 1
-```
-### TriggerEffect 
-```c
-sudo ./chip-tool identify trigger-effect 0 0 2250 1
-sudo ./chip-tool identify trigger-effect 1 1 2250 1
-```

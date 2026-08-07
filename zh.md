@@ -1,20 +1,22 @@
-# Protocol
-| header   | header |header  | header | Version | Mode | Config(Endpoint) | Cid |Cid| Aid |Aid | Value |Value| Check |
-|----|----|----|----|----|----|----|----|----|----|-----|-----|-----|-----|
-| D0 | D1 | D2 | D3 | D4 | D5 | D6 | D7 | D8 | D9 | D10 | D11 | D12 | D13 |
-| 55 | AA | AA | 55 | 00 | 02 | 00 | 00 | 00 | 00 | 00  | 00  | 00  | 13  |
-| 55 | AA | AA | 55 | 00 | 01 | 03 | 00 | 11 | 00 | 00  | 00  | 00  | 13  |
-| 55 | AA | AA | 55 | 00 | 03 | 01 | 01 | 02 | 00 | 08  | 00  | 32  | 3B  |
-| 55 | AA | AA | 55 | 00 | 03 | 01 | 00 | 2F | 00 | 09  | 00  | 00  | 24  |
+# [Protocol](./files/zh/protocol.md)
+
+# QR code
+
+[MT:K2CA0WSC00E5BZ4L410](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AK2CA0WSC00E5BZ4L410)  
+[MT:K2CA0WSC00ICQ32W020](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AK2CA0WSC00ICQ32W020)  
+[MT:K2CA0AFT02ECLI5SX00](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AK2CA0AFT02ECLI5SX00)  
+[MT:K2CA023L016YV.33U10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AK2CA023L016YV.33U10)  
+[MT:K2CA0IR.03P6D106M00](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AK2CA0IR.03P6D106M00)  
+[MT:K2CA0C0X17WPIP5-P10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AK2CA0C0X17WPIP5-P10)  
 
 # RGBCW 配置
-|通道	|引脚	|定时器	|组件|
-|---|---|---|---|
-|Red	|PD02	|TIMER0 CC0	|simple_rgb_pwm_led instance rgb|
-|Green	|PA04	|TIMER0 CC1	|↑|
-|Blue	|PB00	|TIMER0 CC2	|↑|
-|Cold	|PA08	|TIMER1 CC0	|无组件，hal_light.c 直驱|
-|Warm	|PD03	|TIMER1 CC1	|↑|
+|通道 |引脚(ZH Demo) |引脚(2401B) |定时器 |组件|
+|---|---|---|---|---|
+|Red   | PC04 | PA04 |TIMER0 CC0 |simple_rgb_pwm_led instance rgb|
+|Green | PC05 | PD02 |TIMER0 CC1 |↑|
+|Blue  | PC03 | PB00 |TIMER0 CC2 |↑|
+|Cold  | PC06 | PA08 |TIMER1 CC0 |无组件，hal_light.c 直驱|
+|Warm  | PC07 | PD03 |TIMER1 CC1 |↑|
 
 ```c
     // --- Hardware diagnostic: toggle PA08 & PD03 to verify LED connections ---
@@ -51,6 +53,41 @@
         hal_light_stop_cw();
     }
 ```    
+
+## LED 亮度 Level 恢复
+
+SDK 内置 `temporaryCurrentLevelCache` 在 OFF→ON 时自动恢复上次亮度，前提是 `OnLevel` 为 Null。
+
+**三处关键代码**（`app_colorlight_mgr.cpp`）：
+
+```cpp
+// 1. 回调空函数 — 不写 OnLevel，避免 subscription report 覆盖 NVM
+void level_control_on_level_changed(endpoint_id, new_level) {
+    (void)endpoint_id; (void)new_level;
+}
+
+// 2. Init() 中清 NVM 残留 OnLevel
+LevelControl::Attributes::OnLevel::Set(m_ep, app::DataModel::Nullable<uint8_t>());
+
+// 3. ON handler 读 CurrentLevel — SDK OnOff handler 先恢复 Level 再触发回调
+LevelControl::Attributes::CurrentLevel::Get(m_ep, curLevel);
+```
+
+## 渐变引擎 (`src/app/app_light_transition.*`)
+
+5ms 定时器驱动的插值引擎。文件清单：
+
+- `app_light_transition.h/c` — 引擎核心（`lt_init/start/stop/tick`，5通道，自动停旧开新）
+- `app_light_transition_ease.h` — 缓动函数（linear, quad-in/out/in-out）
+- `app_light_transition_color.h/c` — 色彩插值（XY/CT/Hue锥形渐变/Level）
+
+**Key behavior**: `lt_start()` 自动 `lt_stop()` 停旧渐变再开新，确保滑块连续响应不丢帧。
+**UART策略**: 渐变过程中只写 PWM 不发 UART，渐变完成后 `_transition_flush_uart()` 一次性发送。
+**模式切换**: CT↔RGB 走 `hal_light_stop_old + lt_stop + lt_clear_current + lt_set_current`，不走渐变。
+
+## RGB 缓存
+
+`m_cached_r/g/b` 记录最近调色的 RGB。开灯优先用缓存，避免 HSV→XY→RGB 往返在高饱和色上的色度丢失。
 
 # Checksum
 

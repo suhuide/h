@@ -6,7 +6,11 @@ password: +mTvwceVZk
 ```c
 //AOK
 vendor id: 5274
+//AOK02 DC
 product_id: 12821
+//AOK02 AC
+product_id: 12293
+
 product code: 9323718166
 product code(temp): 1872036641
 ```

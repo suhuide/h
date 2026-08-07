@@ -104,11 +104,20 @@ commander tokendump --tokengroup znet --device EFR32MG24A410F1536IM40
 # OTP
 commander security readkey --sign --device EFR32MG24A410F1536IM40
 ```
+### Compare
+```c
+& "C:\Program Files\Git\usr\bin\openssl.exe" ec -pubin -in .\sign_pubkey.pem -text -noout
+```
 
-
+```c
 commander device reset
 commander device reset --serialno <>
 commander device recover
 commander device recover --device EFR32MG24A410F1536IM40 --serialno 440045640
 commander security erasedevice
 commander security erasedevice --device EFR32MG24A410F1536IM40 --serialno 440045640
+```
+
+```c
+commander convert gfw_efr32_v2_mg24a-unsigned.s37 --secureboot --keyfile sign_key.pem --verify sign_pubkey.pem --outfile gfw_efr32_v2_mg24a-hrf.s37
+```
