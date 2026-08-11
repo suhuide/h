@@ -1,4 +1,7 @@
 ```c
+sudo gedit /etc/default/otbr-agent
+```
+```c
 //Channel Config
 sudo ot-ctl channel //Read current channel
 sudo ot-ctl dataset channel 15 //set new channel
