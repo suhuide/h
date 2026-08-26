@@ -115,6 +115,12 @@ find . -name "*.cpp" -or  -name "*.h" | xargs cat|grep -v ^$|wc -l
 []
 ```
 ```c
+(MATTER )[^)]*(X: :)
+MATTER TX: :
+MATTER RX: :
+(MATTER )[^)]*(X: :)[^)]*(02 00 01 )
+```
+```c
 //(https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AMNKA1UNB00278B2QQ10) ->(https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3A)
 (data=MT%3A)[^)]*
 data=MT%3A

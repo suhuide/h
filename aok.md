@@ -188,7 +188,11 @@ extension/matter_extension/third_party/matter_sdk/src/platform/silabs/efr32/BLEM
 extension/matter_extension/third_party/matter_sdk/src/platform/silabs/efr32/BLEManagerImpl.cpp:1422:#if defined(AOK02_MATTER_PROJECT)
 extension/matter_extension/third_party/matter_sdk/src/platform/silabs/efr32/BLEManagerImpl.cpp:1458:#if defined(AOK02_MATTER_PROJECT)
 ```
-
+## Build
+```c
+cd "c:/Si/v6/aok02_matter_ac/cmake_gcc" && cmake --build --preset default_config 2>&1 | grep -E "error|Error|warning|\.cpp\.obj|\.out" | head -20; echo "EXIT=$?"
+cd "c:/Si/v6/aok02_matter_ac/cmake_gcc" && cmake --build --preset default_config 2>&1 | tail -6
+```
 # Matter BLE
 | Service     | UUID                                 | characteristic  | UUID                                 |
 | ----------- | ------------------------------------ | --------------- | ------------------------------------ |
@@ -913,3 +917,59 @@ DefaultOTARequestorDriver::ApplyTimerHandler()     ← 系统定时器回调
             ├─ bootloader_setImageToBootload()     ← 标记镜像为待启动
             └─ bootloader_rebootAndInstall()       ← ⚠️ 直接重启设备!
 ```			
+
+## Serial Command
+| Header&Ver|SN(2Byte)|CMD(1Byte)|LEN(2Byte)|DATA(NByte)|SUM(1Byte)|
+|---|---|---|---|---|---|
+|55 AA 02|xxxx|CMD|xxx|data|sum|
+
+| CMD|Function|
+|---|---|
+|01|Device Info|
+|02|Network Status|
+|03|Network Config|
+|04|Command from Matter|
+|05|Status report from MCU|
+|06|Status nodify from MCU|
+
+| CMD/Status|Detail|
+|---|---|
+|01 04|Curtain On/Off|
+|02 02|Curtain Persentage|
+|03 02|Curtain status enquire|
+|04 02|Batter level|
+|05 01|Motor revert|
+|06 01|Heating/Plugin On/Off|
+|07 01|Lighting On/Off|
+|0B 02|Lighting brightness level|
+|0C 02|Lighting Temperature|
+|0D 02|Lighting Color|
+|12 02|Matter peripheral type|
+
+
+MATTER TX:55 aa 02 00 00 <font color="#dd00dd">02</font> 00 01 00 04 <font color="#dd0000">//</font>Network Status  
+MATTER TX:55 aa 02 00 01 <font color="#dd00dd">04</font> 00 08 <font color="#6600aa">12 02</font> 00 04 00 00 00 00 26 <font color="#dd0000">//</font>Check MCU side Matter peripheral type  
+MATTER TX:55 aa 02 00 02 <font color="#dd00dd">02</font> 00 01 01 07 <font color="#dd0000">//</font>Network Status  
+MATTER RX:55 aa 02 00 01 <font color="#dd00dd">05</font> 00 08 <font color="#6600aa">12 02</font> 00 04 00 13 02 02 3e <font color="#dd0000">//</font>MCU report Matter peripheral type    
+MATTER RX:55 aa 02 00 02 <font color="#dd00dd">06</font> 00 08 <font color="#6600aa">03 02</font> 00 04 00 00 01 00 1b <font color="#dd0000">//</font>Curtain status   
+MATTER RX:55 aa 02 00 03 <font color="#dd00dd">06</font> 00 08 <font color="#6600aa">03 02</font> 00 04 00 00 02 00 1d <font color="#dd0000">//</font>    
+MATTER RX:55 aa 02 00 04 <font color="#dd00dd">06</font> 00 05 <font color="#6600aa">01 04</font> 00 01 11 27 <font color="#dd0000">//</font>MCU report curtain 1 status  
+MATTER RX:55 aa 02 00 05 <font color="#dd00dd">06</font> 00 05 <font color="#6600aa">01 04</font> 00 01 21 38 <font color="#dd0000">//</font>MCU report curtain 2 status   
+MATTER RX:55 aa 02 00 06 <font color="#dd00dd">06</font> 00 08 <font color="#6600aa">04 02</font> 00 04 00 00 00 64 83  <font color="#dd0000">//</font>Batter level  
+MATTER RX:55 aa 02 00 07 <font color="#dd00dd">06</font> 00 05 <font color="#6600aa">05 01</font> 00 01 10 2a <font color="#dd0000">//</font>   
+MATTER RX:55 aa 02 00 08 <font color="#dd00dd">06</font> 00 05 <font color="#6600aa">05 01</font> 00 01 20 3b <font color="#dd0000">//</font>   
+MATTER RX:55 aa 02 00 09 <font color="#dd00dd">06</font> 00 05 <font color="#6600aa">06 01</font> 00 01 10 2d <font color="#dd0000">//</font>Plugin1 On/Off  
+MATTER RX:55 aa 02 00 0a <font color="#dd00dd">06</font> 00 05 <font color="#6600aa">06 01</font> 00 01 20 3e <font color="#dd0000">//</font>Plugin2 On/Off  
+MATTER RX:55 aa 02 00 0b <font color="#dd00dd">06</font> 00 05 <font color="#6600aa">07 01</font> 00 01 10 30 <font color="#dd0000">//</font>Lighting RGB(1x) On/Off  
+MATTER RX:55 aa 02 00 0c <font color="#dd00dd">06</font> 00 05 <font color="#6600aa">07 01</font> 00 01 20 41 <font color="#dd0000">//</font>Lighting 1(2x) On/Off  
+MATTER RX:55 aa 02 00 0d <font color="#dd00dd">06</font> 00 05 <font color="#6600aa">07 01</font> 00 01 40 62 <font color="#dd0000">//</font>Lighting 2(4x) On/Off  
+MATTER RX:55 aa 02 00 0e <font color="#dd00dd">06</font> 00 08 <font color="#6600aa">0d 02</font> 00 04 01 60 8f ff 1f <font color="#dd0000">//</font>Lighting Color(60 8f ff)  
+MATTER TX:55 aa 02 00 03 <font color="#dd00dd">04</font> 00 05 <font color="#6600aa">07 01</font> 00 01 10 26 <font color="#dd0000">//</font>Lighting On/Off  
+MATTER TX:55 aa 02 00 04 <font color="#dd00dd">04</font> 00 05 <font color="#6600aa">07 01</font> 00 01 20 37 <font color="#dd0000">//</font>Lighting On/Off  
+MATTER TX:55 aa 02 00 05 <font color="#dd00dd">04</font> 00 05 <font color="#6600aa">07 01</font> 00 01 40 58 <font color="#dd0000">//</font>Lighting On/Off  
+MATTER TX:55 aa 02 00 06 <font color="#dd00dd">04</font> 00 05 <font color="#6600aa">06 01</font> 00 01 10 28 <font color="#dd0000">//</font>Plugin2 On/Off  
+MATTER TX:55 aa 02 00 07 <font color="#dd00dd">04</font> 00 05 <font color="#6600aa">06 01</font> 00 01 21 3a <font color="#dd0000">//</font>Plugin2 On/Off  
+MATTER RX:55 aa 02 00 0f <font color="#dd00dd">05</font> 00 05 <font color="#6600aa">06 01</font> 00 01 21 43 <font color="#dd0000">//</font>Plugin2 On/Off  
+MATTER RX:55 aa 02 00 10 <font color="#dd00dd">06</font> 00 08 <font color="#6600aa">0b 02</font> 00 04 00 02 0e 22 62 <font color="#dd0000">//</font>Lighting 1(02)brightness level   
+MATTER RX:55 aa 02 00 11 <font color="#dd00dd">06</font> 00 08 <font color="#6600aa">0b 02</font> 00 04 00 04 06 52 8d <font color="#dd0000">//</font>Lighting 2(04)brightness level  
+

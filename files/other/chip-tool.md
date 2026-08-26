@@ -238,6 +238,61 @@ SignerKeyId value: hex:FE343F959947763B61EE4539131338494FE67D8E
 0x3E,     tag[Context Specific]: 0xb, type: Array (0x16), container:
 0x40,         tag[Anonymous]: 0x100, type: Octet String (0x10), length: 20, value: hex:E9160DC417F7419C95320BBF365671933FF31222
 ```
+```c
+ubuntu@ubuntu:~$ ./chip-cert print-cd ./fam226497.der
+SignerKeyId value: hex:FE343F959947763B61EE4539131338494FE67D8E
+0x01, tag[Anonymous]: 0x100, type: Structure (0x15), container:
+0x04,     tag[Context Specific]: 0x0, type: Unsigned Fixed Point (0x04), value: 1
+0x08,     tag[Context Specific]: 0x1, type: Unsigned Fixed Point (0x04), value: 5274
+0x0A,     tag[Context Specific]: 0x2, type: Array (0x16), container:
+0x0D,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 12293
+0x10,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 12309
+0x13,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 12325
+0x16,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 12341
+0x19,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 12357
+0x1C,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 12373
+0x1F,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 12389
+0x22,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 12405
+0x25,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 12421
+0x28,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 12437
+0x2B,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 12453
+0x2E,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 12469
+0x31,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 12485
+0x34,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 12501
+0x37,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 12517
+0x3A,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 12533
+0x3D,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 16389
+0x40,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 16405
+0x43,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 16421
+0x46,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 16437
+0x49,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 16453
+0x4C,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 16469
+0x4F,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 16485
+0x52,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 16501
+0x55,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 16517
+0x58,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 16533
+0x5B,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 16549
+0x5E,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 16565
+0x61,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 16581
+0x64,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 16597
+0x67,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 16613
+0x6A,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 16629
+0x6D,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 16901
+0x70,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 16917
+0x73,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 16933
+0x76,         tag[Anonymous]: 0x100, type: Unsigned Fixed Point (0x04), value: 16949
+0x7B,     tag[Context Specific]: 0x3, type: Unsigned Fixed Point (0x04), value: 514
+0x7E,     tag[Context Specific]: 0x4, type: UTF-8 String (0x0c), length: 19, value: "FAM226497          "
+0x94,     tag[Context Specific]: 0x5, type: Unsigned Fixed Point (0x04), value: 0
+0x97,     tag[Context Specific]: 0x6, type: Unsigned Fixed Point (0x04), value: 0
+0x9A,     tag[Context Specific]: 0x7, type: Unsigned Fixed Point (0x04), value: 1
+0x9D,     tag[Context Specific]: 0x8, type: Unsigned Fixed Point (0x04), value: 2
+0xA1,     tag[Context Specific]: 0x9, type: Unsigned Fixed Point (0x04), value: 5232
+0xA5,     tag[Context Specific]: 0xa, type: Unsigned Fixed Point (0x04), value: 32774
+0xA7,     tag[Context Specific]: 0xb, type: Array (0x16), container:
+0xA9,         tag[Anonymous]: 0x100, type: Octet String (0x10), length: 20, value: hex:E9160DC417F7419C95320BBF365671933FF31222
+
+```
 | TLV 项 | 字段含义 | 解析出的值 |
 | :--- | :--- | :--- |
 | **`SignerKeyId value`** | **签名者密钥标识符** | `FE343F959947763B61EE4539131338494FE67D8E` |
