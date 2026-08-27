@@ -144,6 +144,10 @@ C:\Users\huide\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pin
 python -m pip install markitdown[all]
 python -m pip install --upgrade pip
 ```
+# Gith
+```c
+ghp_222ROGSaDsqttL5MamO6FvMxe3v1Va2hksdG
+```
 # IP
 ```c
 C:\Users\Administrator\Desktop>curl ipinfo.io
