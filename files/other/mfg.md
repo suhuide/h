@@ -21,6 +21,18 @@ product_id: 0xFF01
 product code: 4420141878
 ```
 ```c
+//BK
+vendor id: 5232
+product_id: 0xFF01
+product code: 2011320546
+```
+```c
+//EZ
+vendor id: 5232
+product_id: 0xFF01
+product code: 1125063728
+```
+```c
 matter_mfg_tool_2.5.9\mfg_tool.exe
 //Load config
 AOK02-MT2401B-v0.1.7-DC\mfg_config.json

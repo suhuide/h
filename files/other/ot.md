@@ -82,6 +82,15 @@ sudo ot-ctl dataset active -x
 
 Done
 ```
+```c
+ubuntu@ubuntu:~$ sudo ot-ctl networkname
+OpenThread-225f
+Done
+ubuntu@ubuntu:~$ sudo ot-ctl networkkey
+af58620082e94dcc8b2e7e4a5735245b
+Done
+
+```
 
 ```c
 sudo systemctl stop otbr-agent

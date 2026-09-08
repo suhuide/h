@@ -2,6 +2,7 @@
 # [Commissioning](./files/matter/Commissioning/commissioning.md)  
 # [OTA](./files/matter/ota/ota.md)  
 # [Recovery](./files/matter/network-recovery.md)
+# [Portfolio-Certification-Policy](./files/matter/Portfolio-Certification-Policy.html)
 
 # Chip-tool on Ubuntu
 ```c

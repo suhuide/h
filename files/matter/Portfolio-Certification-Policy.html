@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio 认证 · 完整可申请组合类型清单</title>
+<style>
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px;
+    line-height: 1.75;
+    color: #2c3e50;
+    background: #fdfdfd;
+  }
+  h1 {
+    font-size: 1.6em;
+    border-bottom: 3px solid #2b6cb0;
+    padding-bottom: 8px;
+  }
+  h2 {
+    font-size: 1.3em;
+    color: #2b6cb0;
+    border-left: 5px solid #2b6cb0;
+    padding-left: 10px;
+    margin-top: 2em;
+  }
+  h3 {
+    font-size: 1.1em;
+    color: #34495e;
+    margin-top: 1.5em;
+  }
+  .banner {
+    background: #eef4fb;
+    border: 1px solid #bcd4ee;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 16px 0;
+  }
+  .core {
+    background: #fff8e1;
+    border: 1px solid #f0d47a;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 16px 0;
+  }
+  .note {
+    background: #f0faf0;
+    border: 1px solid #a8d8a8;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 12px 0;
+    font-size: 0.95em;
+  }
+  .warn {
+    background: #fdeeee;
+    border: 1px solid #e8b4b4;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 12px 0;
+    font-size: 0.95em;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 12px 0;
+    font-size: 0.95em;
+  }
+  th, td {
+    border: 1px solid #cfd8e3;
+    padding: 8px 10px;
+    text-align: left;
+  }
+  th {
+    background: #eef4fb;
+    color: #2b6cb0;
+  }
+  code {
+    background: #f2f4f7;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 0.92em;
+  }
+  ul, ol {
+    padding-left: 1.5em;
+  }
+  li {
+    margin: 4px 0;
+  }
+  .src {
+    color: #7a8aa0;
+    font-size: 0.9em;
+  }
+  .badge {
+    display: inline-block;
+    font-size: 0.78em;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 10px;
+    vertical-align: middle;
+  }
+  .b-both { background: #dbeafe; color: #1d4ed8; }
+  .b-matter { background: #fce7f3; color: #b0256e; }
+  footer {
+    margin-top: 3em;
+    padding-top: 1em;
+    border-top: 1px solid #d5dde7;
+    color: #8a97a8;
+    font-size: 0.88em;
+  }
+</style>
+</head>
+<body>
+
+<h1>📋 Portfolio 认证 · 完整可申请组合类型清单 </h1>
+
+<div class="banner">
+  基于 CSA 文件 <strong>24-37237-02</strong>（<strong>文件 24-37237-02</strong>，Revision 2，2025-06-18）· 涵盖 <strong>Matter</strong> 与 <strong>Zigbee</strong>（下文正文简称"该文件"或"原文"）
+</div>
+
+<div class="core">
+  <strong>📌 核心原则：</strong>
+  <ul>
+    <li>所有成员产品必须使用<strong>相同的固件代码</strong>（实现 Alliance 规范的部分）；在认证申请流程中，<strong>文件 24-37237-02</strong> 进一步要求成员产品实现 Alliance 规范的 <strong>HW、SW、FW 均与父产品一致</strong>（见 5.4.1 第 2 条、5.4.2 第 1 条）。</li>
+    <li>成员产品的 PICS 必须为父产品 PICS 的<strong>子集</strong>（只允许 Y→N，不允许 N→Y）。</li>
+    <li>父产品必须是功能最完整的变体。<strong>父产品本身也被视为一个组合成员产品</strong>（5.1 明确规定）。</li>
+  </ul>
+</div>
+
+<h2>✅ 可申请组合认证的组合类型（摘要归纳的 8 种）</h2>
+
+<div class="note">
+  <strong>⚠️ 说明：</strong>文件 24-37237-02 原文并未编号为"8 种类型"，以下分类为本摘要基于原文 5.1、5.1.1、5.1.2、5.1.3、5.1.4（示例 5A/5B/5C）及 5.1.4.1 各节<strong>自行归纳</strong>的组织方式，便于规划参考；正式引用请以文件 24-37237-02 原文章节为准。
+</div>
+
+<h3>类型 1：仅非功能性差异的变体 <span class="badge b-both">Matter &amp; Zigbee</span></h3>
+<p>所有成员 PICS 完全相同，差异仅在非功能方面（如不同区域的电源插头、物理外壳颜色、包装差异等）。</p>
+<p class="src">📄 来源：Section 5.1 开头示例（非穷举，如电源插头变体）。</p>
+
+<h3>类型 2：基于配置启用的功能裁剪（PICS 子集） <span class="badge b-both">Matter &amp; Zigbee</span></h3>
+<p>同一固件通过配置开关禁用某些特性（如门锁的 PIN 功能 vs RFID 功能）。父产品开启所有功能，成员选择性关闭。</p>
+<p class="src">📄 来源：Section 5.1.1 示例 1（洗衣烘干机）、示例 2B（门锁 D3 为父）。</p>
+
+<div class="warn">
+  <strong>🚫 反面示例 2A（不可组合）：</strong>门锁 D1（仅 PIN，无 RFID）与 D2（仅 RFID，无 PIN）——
+  D1 的 PICS 不是 D2 的子集，D2 的 PICS 也不是 D1 的子集，
+  <strong>两者互不为父，不能构成组合</strong>。必须新增 D3（PIN+RFID 均支持，同一固件）作为父产品后，D1、D2 才可作为成员加入组合（示例 2B）。这是 PICS 子集规则最重要的约束案例。
+</div>
+
+<h3>类型 3：超集设备类型层次（Hierarchical Superset Device Types） <span class="badge b-both">Matter &amp; Zigbee</span></h3>
+<p>父产品为高级设备类型（如 Extended Color Light），成员为较低级子类型（如 Color Temperature Light / Dimmable Light / On/Off Light）。</p>
+<p><strong>附加义务：</strong>父产品须实现组合内任何成员产品所使用的<strong>全部强制与可选集群</strong>。</p>
+
+<p><strong>🔹 Zigbee 专用超集设备类型清单（Appendix A · §6.2）：</strong></p>
+<ul>
+  <li>Dimmable Light ⊃ On/Off Light</li>
+  <li>Color Temperature Light ⊃ Dimmable Light</li>
+  <li>Color Dimmable Light ⊃ Dimmable Light</li>
+  <li>Extended Color Light ⊃ Color Temperature Light</li>
+  <li>Dimmable Plug-In Unit ⊃ On/Off Plug-In Unit</li>
+  <li>Dimmable Ballast ⊃ On/Off Ballast</li>
+  <li>On/Off Ballast ⊃ On/Off Light</li>
+  <li>Dimmable Ballast ⊃ Dimmable Light</li>
+  <li>Dimmer Switch ⊃ On/Off Light Switch</li>
+  <li>Color Dimmer Switch ⊃ Dimmer Switch</li>
+</ul>
+<p class="src">📄 来源：Section 5.1.2（Matter） &amp; Appendix A §6.2（Zigbee）。该清单未来将写入 Zigbee 规范正式版本。</p>
+
+<div class="note">
+  <strong>💡 示例 3 要点：</strong>照明系列中 L1（Extended Color Light，支持 XY+HS+CT）为父；同为 Extended Color Light 的 <strong>L2 不能为父</strong>，因 L1 比 L2 多支持 HS 特性——即使在同级超集设备类型中，也应选择 <strong>PICS 最全者</strong>作为父产品。
+</div>
+
+<h3>类型 4：组合设备类型（Composed Device Types） <span class="badge b-matter">仅 Matter</span></h3>
+<p>一个设备类型 ID 包含多个子设备类型（分布在多个端点）。父产品包含所有子设备类型，成员可裁减部分子设备类型。</p>
+
+<div class="note">
+  <strong>示例 4（冰箱系列，准确描述）：</strong>
+  <ul>
+    <li><strong>R1（父）</strong>：双隔室（冷冻+冷藏），各配温度传感器 —— Refrigerator + Temperature Controlled Cabinet + Temperature Sensor</li>
+    <li><strong>R2</strong>：仍为双隔室（冷冻+冷藏），但<strong>不暴露温度传感器</strong></li>
+    <li><strong>R3</strong>：单冷藏室，<strong>带</strong>温度传感器</li>
+    <li><strong>R4</strong>：单冷藏室，无温度传感器</li>
+  </ul>
+  注意：R2 的裁剪仅在于传感器（Temperature Measurement cluster 为 N），其隔室配置与父产品相同；R3 才是隔室数量裁剪的例子。
+</div>
+<p class="src">📄 来源：Section 5.1.3（示例 4：冰箱系列）。Zigbee 规范无 Composed Device Types 概念，故仅适用 Matter。</p>
+
+<h3>类型 5：复合设备 —— 固定端点数量，端点功能不同 <span class="badge b-both">Matter &amp; Zigbee</span></h3>
+<p>设备端点数量固定，但每个端点的功能因型号而异（如带内置开关的台灯，部分型号暴露开关功能，部分不暴露）。</p>
+
+<div class="note">
+  <strong>示例 5A（准确描述）：</strong>台灯 TL1（彩色+开关）、TL2（彩色+开关，仅尺寸与亮度更大，PICS 与 TL1 相同）、TL3（色温，无开关）。
+  TL3 的 PICS 是 TL1/TL2 的子集，故可入组；
+  <strong>TL1 或 TL2 任一均可被选为父产品</strong>（两者 PICS 相同，非唯一指定 TL1）。
+</div>
+
+<div class="note">
+  <strong>💡 Zigbee 7A 特殊点：</strong>Zigbee 版本中开关功能通过<strong>厂商特定（Manufacturer Specific, MS）集群</strong>暴露——该集群<strong>不出现在 PICS 中，也不参与认证测试</strong>（示例 7A 中 Switch cluster 一栏为 N/A）。
+</div>
+<p class="src">📄 来源：Section 5.1.4 示例 5A（Matter） &amp; Appendix B 示例 7A（Zigbee）。</p>
+
+<h3>类型 6：复合设备 —— 端点数量可变，功能相同 <span class="badge b-both">Matter &amp; Zigbee</span></h3>
+<p>每个端点功能相同（如插座），但产品提供的端点数量不同。父产品为端点数量最多的型号（功能更丰富）。</p>
+
+<div class="note">
+  <strong>示例 5B（含关键细节）：</strong>排插 PS1（1 个插座）、PS2（2 个）、PS4（4 个）——PS4 为父。
+  <strong>PS1 不能作为父产品</strong>：单插座时 Descriptor cluster 的 <code>TagList</code> 为<strong>可选</strong>，而多插座时为<strong>强制</strong>——PS1 的 PICS 因此不是 PS2/PS4 的子集，只能作为组合成员。<br>
+  另注意：此类设备 PICS 中各集群<strong>只列一次</strong>（不按端点重复），测试一个插座端点即可代表全部。<br>
+  <em>对比：Zigbee 示例 7B 中所有产品 PICS 完全相同（无 TagList 差异），但仍选端点最多的 PS4 为父。</em>
+</div>
+<p class="src">📄 来源：Section 5.1.4 示例 5B（Matter） &amp; Appendix B 示例 7B（Zigbee）。</p>
+
+<h3>类型 7：复合设备 —— 端点数量可变，端点功能不同 <span class="badge b-both">Matter &amp; Zigbee</span></h3>
+<p>不同型号有不同数量的端点，且各端点的功能类型可自由组合。父产品需包含所有可能的功能类型。</p>
+
+<div class="warn">
+  <strong>⚠️ 注意：Matter 5C 与 Zigbee 7C 并不相同，不可直接套用：</strong>
+  <table>
+    <tr><th></th><th>Matter 示例 5C</th><th>Zigbee 示例 7C</th></tr>
+    <tr><td>槽位功能类型</td><td>翘板（LS）、拨动（MS）、调光——3 种</td><td>翘板（LS）、拨动（MS）、<strong>On/Off 开关</strong>、调光——4 种</td></tr>
+    <tr><td>父产品 S1</td><td><strong>3 个槽</strong>（翘板+拨动+调光各一）</td><td><strong>2 个槽</strong>（各含一种类型）</td></tr>
+    <tr><td>成员 S2</td><td>4 个槽，全为翘板开关</td><td>4 个槽，全为 <strong>On/Off 开关</strong>（非翘板）</td></tr>
+    <tr><td>成员 S3</td><td>2 个槽，全为调光开关</td><td>2 个槽，全为调光开关</td></tr>
+    <tr><td>成员 S4</td><td>6 个槽：4 翘板 + 2 拨动</td><td>6 个槽：4 On/Off + 2 调光</td></tr>
+  </table>
+  Zigbee 7C 仅为 5C 的"对应示例"（体现相同组合思路），设备类型与集群构成均有差异（7C 中成员的 On/Off 与 Level Control client 集群覆盖情况与 5C 不同）。
+</div>
+<p class="src">📄 来源：Section 5.1.4 示例 5C（Matter） &amp; Appendix B 示例 7C（Zigbee）。</p>
+
+<h3>类型 8：包含 Matter 软件组件（SWC）的复合设备 <span class="badge b-matter">仅 Matter</span></h3>
+<p>硬件设备（如冰箱）内部集成了 Matter 控制器软件组件（SWC）。部分型号仅保留硬件功能，部分仅保留 SWC 功能，部分两者兼有。</p>
+<div class="note">
+  <strong>示例 6：</strong>冰箱 R1（硬件控制 + SWC 控制器）为父，R2（仅 SWC 控制器，温度不可经 Matter 控制）、R3（仅硬件控制，UI 不能控制其他 Matter 设备）为成员。
+</div>
+<p class="src">📄 来源：Section 5.1.4.1 示例 6。</p>
+
+<h2>🔄 认证流程总览（初始 / 扩展 / 重认证）</h2>
+<ul>
+  <li><strong>初始申请：</strong>提交标准申请 + 父产品 DoC、PICS 及（如经完整测试）测试报告 + 可选附成员清单（含唯一产品标识与相对父产品的差异说明）→ Alliance 认证团队审核，<strong>1 个日历周内</strong>给出结论 → 全部通过则授予认证并分配<strong>唯一组合 ID</strong>；部分被拒的成员需改走其他路径（ATL 测试 / CbS / PFC）。</li>
+  <li><strong>扩展组合：</strong>提交新 DoC（引用组合 ID，列明保留成员 + 新增成员及其差异）→ 父产品认证须在提交日前 <strong>3 年内</strong> → 审核通过后新成员加入。</li>
+  <li><strong>重认证：</strong>（如固件更新修复 Bug）提交新 DoC + 组合 ID，父产品必须仍为组合中功能最全者；<strong>所有申请认证的成员（含原初始认证和历次扩展认证的产品）均须全部列入申请</strong>；审核流程同初始流程。若为含 SWC 的复合设备且变更仅限 HW 或 SWC 其一，<strong>只重测变更部分</strong>。</li>
+</ul>
+
+<h2>📌 关键规则速查表</h2>
+
+<h3>PICS 子集规则</h3>
+<table>
+  <tr><th>父产品</th><th>成员产品</th><th>是否允许</th></tr>
+  <tr><td>Y</td><td>Y</td><td>✅</td></tr>
+  <tr><td>Y</td><td>N</td><td>✅</td></tr>
+  <tr><td>N</td><td>Y</td><td>❌</td></tr>
+</table>
+
+<h3>PIXIT 规则</h3>
+<p>PIXIT 项可为非布尔值。文件 24-37237-02 原文为 "Portfolio members <strong>should</strong> have identical PIXIT values"——即成员产品的 PIXIT 值<strong>应</strong>与父产品一致（建议性要求，非 SHALL 强制条款）。</p>
+
+<h3>父产品要求</h3>
+<ul>
+  <li>必须为组合中功能最全的变体，且为<strong>真实发货产品</strong>（但不要求先于成员发货）</li>
+  <li>认证方式二选一：① 通过完整合规测试；② 基于另一个经完整测试的产品通过 CbS / 产品族认证（该基准产品认证不超过 <strong>3 年</strong>）</li>
+  <li>父产品可以是<strong>在本试点计划启动之前已作为单品完成认证的产品</strong>，只要其认证不超过 3 年，即可直接作为组合父产品（5.2）</li>
+  <li>首个成员发货后 <strong>6 个月内</strong>父产品必须发货（可向认证总监 Director of Certifications 申请延期）</li>
+</ul>
+
+<h3>成员产品要求</h3>
+<ul>
+  <li>PICS 必须为父 PICS 子集；PIXIT 应与父一致（should）</li>
+  <li>可使用同一固件的配置开关实现差异</li>
+  <li>实现 Alliance 规范的 <strong>HW、SW、FW 均须与父产品一致</strong>（DoC 中须声明）</li>
+</ul>
+
+<h3>费用</h3>
+<p>初始组合认证申请时，适用 Portfolio 认证程序所定义的<strong>流程与费用</strong>（5.2 / 5.4.1）。</p>
+
+<h2>🔗 与认证转移计划的关系</h2>
+<ul>
+  <li>每个<strong>单独的</strong> Portfolio 成员产品均可独立参与认证转移计划（Certification Transfer Program）。</li>
+  <li>但<strong>整个组合不能整体转移</strong>给其他成员公司（5.5）。</li>
+</ul>
+
+<h2>🧪 典型示例索引（文件 24-37237-02 中完整列举）</h2>
+<ul>
+  <li><strong>示例 1（洗衣烘干机）：</strong>LD1（父，含 Laundry Dryer Controls 集群）→ LD2（经配置不暴露该集群）</li>
+  <li><strong>示例 2A/2B（门锁）：</strong>2A 为<strong>反例</strong>——D1（仅 PIN）与 D2（仅 RFID）互不为子集，不能成组；2B——新增 D3（PIN+RFID，同一固件）为父后，D1、D2 可作为成员</li>
+  <li><strong>示例 3（照明）：</strong>L1（Extended Color Light，含 HS，为父；注意同为 Extended Color Light 的 L2 因缺 HS 不能为父）→ L3（CT）、L4（Dimmable）、L5（On/Off）</li>
+  <li><strong>示例 4（冰箱，仅 Matter）：</strong>R1（父，双隔室+传感器）→ R2（双隔室、无传感器）、R3（单冷藏室+传感器）、R4（单冷藏室无传感器）</li>
+  <li><strong>示例 5A–5C（复合设备，Matter）：</strong>台灯（TL1/TL2 任一可为父）、排插（PS1 因 TagList 可选不能为父，PS4 为父）、开关面板（S1 为 3 槽）</li>
+  <li><strong>示例 6（含 SWC，仅 Matter）：</strong>冰箱 R1（硬件+控制器）→ R2（仅控制器）、R3（仅硬件）</li>
+  <li><strong>附录 B（Zigbee 复合设备）：</strong>7A（台灯，开关经 MS 厂商集群暴露，不入 PICS）、7B（排插，PICS 全同）、7C（开关面板——槽位含 On/Off 开关共 4 类，S1 为 2 槽，<strong>与 Matter 5C 并不相同</strong>）</li>
+</ul>
+
+<h2>⏳ 试点计划关键时间节点</h2>
+<ul>
+  <li><strong>期限：</strong>自采用之日起为期<strong>一年</strong>（2025 年 6 月 18 日启动，v2 修订加入 Zigbee 适用说明）。</li>
+  <li><strong>审查：</strong>TCOC 与 Matter SC <strong>每季度</strong>审查一次，期间可随时修订政策（需 TCOC 和 BoD 批准）。</li>
+  <li><strong>期满后续：</strong>可能整合入正式认证政策、延长另一年试点期，或终止。</li>
+</ul>
+
+<h2>📝 总结</h2>
+<ul>
+  <li><strong>本计划适用于：</strong>共享相同 HW/SW/FW（实现 Alliance 规范部分）、但可通过配置开关实现功能裁剪的系列产品；</li>
+  <li><strong>特别涵盖：</strong>超集设备类型层次、组合设备类型（Matter）、复合设备（多端点）、以及含软件组件（SWC）的复合设备；</li>
+  <li><strong>不适用：</strong>成员产品具有父产品所不支持的功能（PICS 中 N→Y 的情况），或成员间互不为子集且无更全父产品的情况（如示例 2A）。</li>
+</ul>
+
+<footer>
+  📄 基于 Connectivity Standards Alliance 文件 <strong>24-37237-02</strong>（Revision 2，2025-06-18）完整梳理 <br>
+  说明：本"8 种类型"分类为摘要自归纳，正式引用请以文件 24-37237-02 原文章节（5.1 / 5.1.1 / 5.1.2 / 5.1.3 / 5.1.4 / 5.1.4.1 / Appendix A / Appendix B）为准。
+</footer>
+
+</body>
+</html>

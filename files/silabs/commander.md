@@ -224,3 +224,16 @@ C:/Users/huide/AppData/Local/SiliconLabs/commander/SecurityStore/device_00000000
 Secure debug successfully unlocked
 DONE
 ```
+
+## EUI64
+```c
+C:\Users\huide>commander device info --device EFR32MG24
+Reconfiguring debug connection with detected device part number: EFR32MG24A410F1536IM40
+Part Number    : EFR32MG24A410F1536IM40
+Die Revision   : A1
+Production Ver : 19
+Flash Size     : 1536 kB
+SRAM Size      : 256 kB
+Unique ID      : 0c2a6ffffee629ca
+DONE
+```

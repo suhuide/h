@@ -47,7 +47,7 @@ PAA (信任根 / Root CA)
 | 特性 | PAA | PAI | DAC |
 |------|-----|-----|-----|
 | **证书类型** | Root CA | Intermediate CA | Leaf / End Entity |
-| **数量** | CSA 官方多把 / 厂商自建 1 个 | 每个产品系列 1 个 | 每台设备 1 个 |
+| **数量** | 每个厂商 1 个 | 每个产品系列 1 个 | 每台设备 1 个 |
 | **存储位置** | Commissioner 信任库 | 设备固件 Flash | 设备安全元件 |
 | **私钥存储** | HSM / 离线 CA | 安全工厂 | 设备 SE/TEE (不可导出) |
 | **Basic Constraints** | CA:TRUE, pathlen:1 | CA:TRUE, pathlen:0 | CA:FALSE |
@@ -56,8 +56,6 @@ PAA (信任根 / Root CA)
 ---
 
 ## 2. PAA / PAI / DAC 证书详解
-
-> 注：本章证书字段均为 **SDK 测试证书**样例（VID=0xFFF1，有效期至 9999-12-31）。量产证书由 CSA 官方/厂商私有 PAA 体系签发，字段结构相同。
 
 ### 2.1 PAA 证书 (Product Attestation Authority)
 
@@ -149,32 +147,23 @@ DAC (Leaf)
 
 ## 3. 验签流程总览
 
-Commissioner 端的设备验证分为 7 个步骤（编号与 §4–§10 一致）：
+Commissioner 端对设备的证书链验证分为 7 个步骤：
 
 ```
-Step 1: 提取证书与格式验证   CertChainRequest 获取 DAC + PAI；验证 X.509 格式、Matter OID、
-    │                        Basic Constraints、Key Usage                        → §4
+Step 1: 提取证书          从 Attestation Response 中提取 DAC + PAI 证书
     ↓
-Step 2: VID/PID 一致性       交叉验证 DAC.VID == PAI.VID；DAC.PID 与 PAI.PID(如有) → §5
+Step 2: 格式验证          验证 X.509 格式、Matter OID 扩展、Basic Constraints、Key Usage
     ↓
-Step 3: PAA 查找             从 PAI.AKID 在信任库中查找匹配的 PAA                 → §6
+Step 3: VID/PID 一致性    交叉验证 DAC.VID == PAI.VID == PAA.VID, DAC.PID == PAI.PID
     ↓
-Step 4: 证书链签名验证       PAA 公钥验证 PAI 签名 → PAI 公钥验证 DAC 签名        → §7
+Step 4: PAA 查找          从 PAI.AKID 在信任库中查找匹配的 PAA
     ↓
-Step 5: CD 验证              验证 Certification Declaration 的 CMS 签名及 VID/PID 匹配 → §8
+Step 5: 证书链签名验证    PAA 公钥验证 PAI 签名 → PAI 公钥验证 DAC 签名
     ↓
-Step 6: Attestation 签名验证 DAC 私钥对 attestation_elements||challenge 的签名   → §9
+Step 6: CD 验证           验证 Certification Declaration 的 CMS 签名及 VID/PID 匹配
     ↓
-Step 7: 吊销检查             查询 DCL 确认证书未被吊销                           → §10
+Step 7: 吊销检查          查询 DCL 确认证书未被吊销
 ```
-
-> 注①：SDK `DefaultDACVerifier::VerifyAttestationInformation` 的实际执行顺序是
-> 格式验证 → VID/PID → **Attestation 签名(Step 6)** → PAA 查找/链验证(Step 3/4) → CD(Step 5)，
-> 即 Attestation 签名验证先于证书链验证执行（与下方代码注释一致）。
->
-> 注②：另有 Firmware Information 校验（`kFirmwareInformationMismatch=400` / `kFirmwareInformationMissing=401`）：
-> 设备可在 Attestation Elements 的 `firmware_info`(tag 4) 返回 CSA 证书版本信息与 CD 的 version_number 比对；
-> 默认实现返回为空时跳过该校验。
 
 ### SDK 代码：DefaultDACVerifier 验证入口
 
@@ -233,9 +222,8 @@ void DefaultDACVerifier::VerifyAttestationInformation(
             deviceSignature);
     }
 
-    // 6. 查找并验证 PAA, 验证证书链 (Step 3/4)
-    // 7. 验证 Certification Declaration (Step 5)
-    //    注: Attestation 签名 (Step 6) 已在第 5 步提前验证
+    // 6. 查找并验证 PAA, 验证证书链
+    // 7. 验证 Certification Declaration
 
 exit:
     onCompletion->mCall(onCompletion->mContext, info, attestationError);
@@ -248,16 +236,31 @@ exit:
 
 ### 4.1 证书提取
 
-DAC 和 PAI 通过 **Certificate Chain Request / Response** 单独获取（见 §11 时序）：Commissioner 先后发送
-`CertChainRequest(type=PAI)` 与 `CertChainRequest(type=DAC)`，设备在 `CertChainResponse` 中返回对应的
-X.509 DER 证书。`Attestation Response` 本身只含 `attestation_elements + attestation_signature`，**不含证书**。
+设备在 `Attestation Response` 中返回 DAC 和 PAI 的 DER 编码证书：
 
 ```cpp
-// Commissioner 端: 分两步请求证书链
-// (chip-tool 对应阶段: SendPAICertificateRequest / SendDACCertificateRequest, 见 §12.2 日志)
+// Commissioner 端提取证书
+CHIP_ERROR ExtractDACfromResponse(const ByteSpan & attestationResponse,
+                                   MutableByteSpan & dacCert,
+                                   MutableByteSpan & paiCert)
+{
+    TLV::ContiguousBufferTLVReader tlvReader;
+    tlvReader.Init(attestationResponse);
 
-// CertChainRequest   { type: 1 = PAI, 2 = DAC }
-// CertChainResponse  { certificate: OCTET STRING }   // 所请求的 X.509 DER 证书
+    // 按 TLV 结构解析, Context Tag 2 = DAC cert, Context Tag 3 = PAI cert
+    ReturnErrorOnFailure(tlvReader.Next(TLV::kTLVType_Structure, TLV::AnonymousTag()));
+    ReturnErrorOnFailure(tlvReader.EnterContainer(TLV::kTLVType_Structure));
+
+    // Tag 2: DAC Certificate
+    ReturnErrorOnFailure(tlvReader.Next(TLV::kTLVType_ByteString, TLV::ContextTag(2)));
+    ReturnErrorOnFailure(tlvReader.GetByteView(dacCert));
+
+    // Tag 3: PAI Certificate
+    ReturnErrorOnFailure(tlvReader.Next(TLV::kTLVType_ByteString, TLV::ContextTag(3)));
+    ReturnErrorOnFailure(tlvReader.GetByteView(paiCert));
+
+    return CHIP_NO_ERROR;
+}
 ```
 
 ### 4.2 格式验证
@@ -301,7 +304,7 @@ CHIP_ERROR VerifyAttestationCertificateFormat(
         break;
     }
 
-    // 3. 验证必需包含 Matter VID OID (1.3.6.1.4.1.37244.2.1)
+    // 3. 验证必需包含 Matter VID OID (1.3.6.1.4.1.37244.1.1)
     uint16_t vid;
     VerifyOrReturnError(x509Cert.GetMatterVID(vid) == CHIP_NO_ERROR,
                        CHIP_ERROR_WRONG_CERT_TYPE);
@@ -332,9 +335,8 @@ AttestationVerificationResult CrossValidateVIDPID(
         return kDacVendorIdMismatch;
     }
 
-    // 2. 仅当 PAA 含 VID 时才要求 PAI.VID == PAA.VID
-    //    (CSA 官方 PAA 通常不含 VID, 多厂商共用; 验证器按 SKID 查找信任锚)
-    if (paa.mVendorId != 0 && pai.mVendorId != paa.mVendorId)
+    // 2. PAI.VID 必须等于 PAA.VID
+    if (pai.mVendorId != paa.mVendorId)
     {
         return kPaiVendorIdMismatch;
     }
@@ -359,8 +361,6 @@ AttestationVerificationResult CrossValidateVIDPID(
 }
 ```
 
-> 注：PAA 的 VID 是**可选**属性——CSA 官方 PAA 通常不含 VID（多厂商共用），此时验证器仅按 SKID 查找信任锚，不做 PAA↔PAI 的 VID 比对；仅当 PAA 含 VID 时才要求与 PAI 一致。
-
 ### 5.2 VID/PID 提取
 
 从证书的 Matter 特定 OID 扩展中提取：
@@ -371,8 +371,8 @@ CHIP_ERROR ExtractVIDPIDFromX509Cert(
     const ByteSpan & certDer,
     AttestationCertVidPid & vidpid)
 {
-    // OID 1.3.6.1.4.1.37244.2.1 = VID (必选)
-    // OID 1.3.6.1.4.1.37244.2.2 = PID (可选)
+    // OID 1.3.6.1.4.1.37244.1.1 = VID (必选)
+    // OID 1.3.6.1.4.1.37244.1.2 = PID (可选)
     //
     // 示例: 从证书 Subject DN 的 Matter 扩展中解析
     //   Subject: CN=..., VID=FFF1, PID=8010
@@ -391,11 +391,11 @@ CHIP_ERROR ExtractVIDPIDFromX509Cert(
     // 遍历扩展查找 Matter VID OID
     while (reader.HasNext())
     {
-        if (reader.GetOID() == kMatterVendorIDOID)  // 1.3.6.1.4.1.37244.2.1
+        if (reader.GetOID() == kMatterVendorIDOID)  // 1.3.6.1.4.1.37244.1.1
         {
             ReturnErrorOnFailure(reader.GetWord16(vidpid.mVendorId));
         }
-        if (reader.GetOID() == kMatterProductIDOID) // 1.3.6.1.4.1.37244.2.2
+        if (reader.GetOID() == kMatterProductIDOID) // 1.3.6.1.4.1.37244.1.2
         {
             ReturnErrorOnFailure(reader.GetWord16(vidpid.mProductId));
         }
@@ -617,8 +617,6 @@ CertificationDeclaration:
     security_information: 0
     version_number:      0x0001
     certification_type:  0             // 0=Dev/Test, 1=Provisional, 2=Official
-    dac_origin_vendor_id: (可选)       // DAC 实际签发 VID 与 CD VID 不同时填写(转 CD 场景)
-    dac_origin_product_id: (可选)      // 生产日志实例: origin_vendor_id=0x1470, origin_product_id=0x8006
     csa_revision_number: 1
     authorized_paa_list: [...]         // (可选) 允许的 PAA 列表
 }
@@ -633,12 +631,11 @@ CertificationDeclaration:
 constexpr uint8_t gTestCdPubkeyBytes[] = { 0x04, ... };
 constexpr uint8_t gTestCdPubkeyKid[]   = { 0x62, 0xFA, ... };
 
-// 官方 CD Signing Key 共 5 把 (001~005)，SDK gCdSigningKeys[] 内置 6 项 = 测试钥 + 001~005
-constexpr uint8_t gCdSigningKey001Kid[] = { 0xFE, 0x34, ... };   // FE:34:3F:95:99:47:76:3B:...
-// 002~005 见 src/credentials/attestation_verifier/DefaultDeviceAttestationVerifier.cpp
+// 官方 CD Signing Key 001
+constexpr uint8_t gCdSigningKey001Kid[] = { 0xFE, 0x34, ... };
 
 // 生产环境必须禁用测试密钥
-void EnableCdTestKeySupport(bool enabled);  // 默认 true (DeviceAttestationVerifier.h:445)，生产设为 false
+void EnableCdTestKeySupport(bool enabled);  // 默认 true，生产设为 false
 ```
 
 ---
@@ -655,7 +652,7 @@ message_to_sign = SHA256(attestation_elements || attestation_challenge)
 
 其中：
 - `attestation_elements`: TLV 编码的结构体，包含 CD、nonce、timestamp 等
-- `attestation_challenge`: 来自当前安全会话的挑战值（配网阶段为 PASE/SPAKE2+ 派生；后续阶段为 CASE）
+- `attestation_challenge`: 来自 CASE 安全会话的挑战值
 
 **流程图：**
 
@@ -1075,12 +1072,11 @@ PAA 自签名验证 (SKID == AKID):
 ### 12.4 chip-tool 命令行解析
 
 ```bash
-# 参数: Setup Pin Code = 20202021 (PASE passcode), Discriminator = 3840
-#       --paa-trust-store-path = PAA 信任库路径
 sudo ./chip-tool pairing ble-thread 2250 \
   hex:0e080000000000010000000300001835060004001fffe002084c579a3a07ca6346... \
-  20202021 3840 \
-  --paa-trust-store-path ~/paa-root-certs
+  20202021 \           # ← Setup Pin Code (PASE passcode)
+  3840 \               # ← Discriminator
+  --paa-trust-store-path ~/paa-root-certs   # ← PAA 信任库路径
 ```
 
 - `ble-thread`: 使用 BLE 配网，配网后切换到 Thread
@@ -1150,8 +1146,6 @@ sudo ./chip-tool pairing ble-thread 2250 \
 ---
 
 ## 14. SDK 关键数据结构与错误码
-
-> 本章 NVM3/Flash 存储布局与 `D:\hrf\h\files\aok\vendor.md` §3 相互对应（Factory Key 完整表见 vendor.md §3.2），两处任一更新需同步。
 
 ### 14.1 AttestationVerificationResult 完整枚举
 
@@ -1266,36 +1260,30 @@ kMatterNvm3KeyHiLimit  = 0x087FFFU
 kConfigKey_Creds_KeyId       = 0x87220  // 4B: credential key ID
 kConfigKey_Creds_Base_Addr   = 0x87221  // 4B: flash base address (0x0817E000)
 kConfigKey_Creds_DAC_Offset  = 0x87222  // 4B: DAC cert offset (0x1000)
-kConfigKey_Creds_DAC_Size    = 0x87223  // 4B: DAC cert size (0x01E1 = 481 bytes, 实测)
+kConfigKey_Creds_DAC_Size    = 0x87223  // 4B: DAC cert size (0x01E0 = 480 bytes)
 kConfigKey_Creds_PAI_Offset  = 0x87224  // 4B: PAI cert offset (0x1200)
 kConfigKey_Creds_PAI_Size    = 0x87225  // 4B: PAI cert size (0x01D6 = 470 bytes)
 kConfigKey_Creds_CD_Offset   = 0x87226  // 4B: CD offset (0x1400)
-kConfigKey_Creds_CD_Size     = 0x87227  // 4B: CD size (以设备实测值为准)
+kConfigKey_Creds_CD_Size     = 0x87227  // 4B: CD size (0xF5 = 245 bytes)
 ```
 
-**Flash 布局 (证书页 0x0817E000 起始, 8KB):**
+**Flash 布局 (0x0817E000 起始):**
 
 ```
 Offset      Content
 ──────────────────────────
 0x0000      保留
-0x1000      DAC Certificate (DER, 0x1E1 = 481 bytes, 实测)
-0x1200      PAI Certificate (DER, 0x1D6 = 470 bytes, 实测)
-0x1400      Certification Declaration (CMS Signed, 大小见 0x87227)
-0x1700      Lockout code (物理地址 0x0817F700, 见 common/app/app_lockout_mgr.c)
+0x1000      DAC Certificate (DER, ~480 bytes)
+0x1200      PAI Certificate (DER, ~470 bytes)
+0x1400      Certification Declaration (CMS Signed, ~245 bytes)
+0x1700      DAC Private Key (Secure Element, 不可导出)
 ```
 
-> DAC 私钥**不在证书页**：Silabs 默认 provision 存于 NVM3 `kConfigKey_MfrDevicePrivateKey`(0x87203)；
-> 采用 Secure Vault High 时可由 SE 托管。Spec 要求量产件 DAC 私钥不可导出。
-
-**读取 NVM3 与证书页的工具命令：**
+**读取 NVM3 的工具命令：**
 
 ```bash
-# 读取 NVM3 全区 (0x08170000 起, 56KB = 57344 B)
-commander nvm3 read -o nvm3.s37 --device efr32mg24 --range 0x08170000:0x0817E000
-
-# 读取证书页 (CD/DAC/PAI 本体)
-commander readmem --device efr32mg24 --range 0x0817E000:0x08180000 -o cert_page.bin
+# 从设备读取 NVM3 区域
+commander nvm3 read -o nvm3.s37 --device efr32mg24 --range 0x8174000:0x817e000
 
 # 解析 NVM3 数据
 commander nvm3 parse nvm3.s37
@@ -1303,32 +1291,22 @@ commander nvm3 parse nvm3.s37
 
 ### 14.4 Matter 证书 OID 定义
 
-**X.509 证书 DN 属性**（源码实测：`CHIPCryptoPALmbedTLSCert.cpp:167-168`）：
-
 ```
-Matter OID 弧: 1.3.6.1.4.1.37244.2.x
+Matter 特定 OID (1.3.6.1.4.1.37244.x):
 
-1.3.6.1.4.1.37244.2.1  - Vendor ID  (VID)   必选, DAC/PAI/PAA 的 DN 属性
-1.3.6.1.4.1.37244.2.2  - Product ID (PID)   可选, DAC/PAI 的 DN 属性
+1.3.6.1.4.1.37244.1.1  - Vendor ID        (必选, 在 DAC/PAI/PAA 中)
+1.3.6.1.4.1.37244.1.2  - Product ID       (可选, 在 DAC/PAI 中)
+1.3.6.1.4.1.37244.1.3  - Security Level
+1.3.6.1.4.1.37244.1.4  - Product URL
+1.3.6.1.4.1.37244.1.5  - Product Name
+1.3.6.1.4.1.37244.1.6  - Product Label
+1.3.6.1.4.1.37244.1.7  - Serial Number
+1.3.6.1.4.1.37244.1.8  - Revision Number
+
+1.3.6.1.4.1.37244.2.1  - Fabric ID        (在 NOC 中)
+1.3.6.1.4.1.37244.2.2  - Node ID          (在 NOC 中)
+1.3.6.1.4.1.37244.2.3  - CASE Auth Tags   (在 NOC 中)
 ```
-
-**Matter TLV 原生证书 DN 属性**（`src/lib/asn1/gen_asn1oid.py`，弧 37244.1.x）：
-
-```
-1.3.6.1.4.1.37244.1.1  - MatterNodeId               (NOC)
-1.3.6.1.4.1.37244.1.2  - MatterFirmwareSigningId
-1.3.6.1.4.1.37244.1.3  - MatterICACId
-1.3.6.1.4.1.37244.1.4  - MatterRCACId
-1.3.6.1.4.1.37244.1.5  - MatterFabricId             (NOC)
-1.3.6.1.4.1.37244.1.6  - MatterCASEAuthTag          (NOC)
-1.3.6.1.4.1.37244.1.7  - MatterVidVerificationSignerId
-```
-
-> 注意：
-> - X.509 证书中 VID/PID 在 **37244.2.x** 弧，不要与 Matter TLV 证书的 37244.1.x 弧混淆；
-> - Product URL / Product Label / Serial Number 等是 **Basic Information 集群属性**，不存在对应证书 OID；
-> - 解析代码 `ExtractVIDPIDFromX509Cert()` 仅识别 CommonName(2.5.4.3)、MatterVendorId、MatterProductId
->   三种 DN 属性；CN 中内嵌的 `0xVID/0xPID` 后缀作为回退解析来源。
 
 ---
 
@@ -1388,4 +1366,4 @@ connectedhomeip/
 
 ---
 
-*文档版本: v1.1 (2026-09-08 修订: OID 弧修正为 37244.2.x、证书获取途径、NVM3/证书页布局按实测校正、CD origin 字段补充) | 基于 Matter Core Specification v1.5 | 测试芯片: EFR32MG24 | SDK: connectedhomeip (Silicon Labs)*
+*文档版本: v1.0 | 基于 Matter Core Specification v1.5 | 测试芯片: EFR32MG24 | SDK: connectedhomeip (Silicon Labs)*

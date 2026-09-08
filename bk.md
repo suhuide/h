@@ -57,6 +57,7 @@ QDID: Q332743 & Q317849
 </div>
 
 ## MCU DFU
+jlink烧录,没有bootloader的话，地址要偏移0x2000
 ```mermaid
 sequenceDiagram
     participant Matter模块
@@ -620,4 +621,45 @@ main()
                  └─ osThreadTerminate()            // main 线程自删
   └─ while(app_process_action())    // Start Task 进入事件循环
 ```
+## OTA
+### Time
+```c
+//1112seconds -> 18.5minutes
+```
+11:28:48.021
+11:17:50.364
+### MCU & Matter version
+| Matter| MCU|
+|---|---|
+|v0.0.4|v300|
+|v0.0.5|v111|
+|v0.0.6|v124|
+|v0.0.7|v125|
+|v0.0.8|v---|
+|v0.0.9|v126|
 
+### MCU Version
+
+获取 MCU version 的完整时序（开机后两条请求路径 + 一条应答路径）：
+
+1. 路径 A：comm_mgr 开机查询（立即，只发一次）
+AppTask.cpp:97-98：AppInit() 里 app_comm_mgr_init() → app_mcu_dfu_init() 依次调用
+app_comm_mgr.cpp:99：app_comm_mgr_start() 里 ev_set_delay_ms(&query_device_event, 0) → 事件立即触发一次
+app_comm_mgr.cpp:143-151：_query_device_event_handler 中，若 app_spm_is_init_done() 为 false（还没收到 MCU 上报），就发 kGetProductInfo（0x01）给 MCU
+⚠️ 重发那行被注释掉了（app_comm_mgr.cpp:152），所以这条路开机只发一次，失败不重试
+2. 路径 B：DFU 线程兜底查询（启动时，最多等 30s）
+app_mcu_dfu.cpp:275-289：mcu_dfu_init_thread_func 启动时，若 app_mcu_dfu_is_version_valid() 为 false：
+再发一次 kGetProductInfo
+轮询 300 × 100ms = 30s 等 version 变 valid
+30s 还没有 → 打日志 "will retry on trigger"，先进入正常轮询循环
+3. 应答路径：version 真正被写入的时刻
+MCU 回包后走分发表（app_spm_mgr.cpp:776），两个入口都会写 version：
+
+入口	位置	触发时机
+spp_app_event_GetProductInfo	app_spm_mgr.cpp:491	回应上面的 0x01 查询
+spp_app_event_OTAVersionRequest	app_spm_mgr.cpp:668	MCU 主动请求 OTA 版本
+两者都解析 JSON 里的 x.x.x（失败还有逐字符 fallback），调 app_mcu_dfu_set_current_version()（app_mcu_dfu.cpp:543）→ 置 s_current_version_valid = true。
+
+4. 使用时刻
+Matter OTA 触发后（OTATriggerMeteFwUpgrade），DFU 线程读 metadata header、做版本比较（app_mcu_dfu.cpp:361-375）；version 仍无效则跳过 MCU 升级直接走 Matter 镜像 apply。
+一句话总结：开机瞬间 comm_mgr 发一次 kGetProductInfo，DFU 线程紧接着再发一次并等最多 30s；MCU 回包（GetProductInfo 或 OTAVersionRequest）解析 JSON 版本号成功的那一刻，s_current_version_valid 才变 true。

@@ -973,3 +973,12 @@ MATTER RX:55 aa 02 00 0f <font color="#dd00dd">05</font> 00 05 <font color="#660
 MATTER RX:55 aa 02 00 10 <font color="#dd00dd">06</font> 00 08 <font color="#6600aa">0b 02</font> 00 04 00 02 0e 22 62 <font color="#dd0000">//</font>Lighting 1(02)brightness level   
 MATTER RX:55 aa 02 00 11 <font color="#dd00dd">06</font> 00 08 <font color="#6600aa">0b 02</font> 00 04 00 04 06 52 8d <font color="#dd0000">//</font>Lighting 2(04)brightness level  
 
+## 20260902 6PCS Module
+|No.|QRCode|ManualCode|
+|---|---|---|
+|0|MT:MNKA1KKN167PHX01T10|1527-385-0948|
+|1|MT:MNKA1ANB00QP8I65000|3100-040-0119|
+|2|MT:MNKA1SWV178.OM4JX10|1187-185-4359|
+|3|MT:MNKA1SWV1791MU35.10|3482-625-7105|
+|4|MT:MNKA1C8F15ZO450OU10|3497-005-2164|
+|5|MT:MNKA1IZJ01DJNJ77400|1142-260-3192|
