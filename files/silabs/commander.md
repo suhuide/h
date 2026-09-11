@@ -48,6 +48,9 @@ commander readmem --range 0x8000000:0x80FC000 --device EFR32MG24B210F1536IM48 --
 ```c
 commander flash ez01_matter-signed--v0.0.13-2d274330.s37 --device efr32mg24 --no-reset
 ```
+```c
+commander readmem --range 0x0817E000:0x08180000 --device efr32mg24 -o cert_page.bin
+```
 
 ### NVM3
 ```c

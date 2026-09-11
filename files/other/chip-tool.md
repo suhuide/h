@@ -67,6 +67,7 @@ sudo ./chip-tool basicinformation read software-version-string 2250 0
 sudo ./chip-tool basicinformation read specification-version 2250 0
 [1773207413.406] [2596661:2596663] [TOO]   SpecificationVersion: 17039360(0x01040000)
 //inline constexpr uint32_t kSpecificationVersion = 0x01040000;
+[1789023647.410] [2264371:2264399] [TOO]   SpecificationVersion: 17104896(0x01050000)
 //inline constexpr uint32_t kSpecificationVersion = 0x01050000;
 ```
 |Bits |Name |Summary|

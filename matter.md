@@ -3,6 +3,7 @@
 # [OTA](./files/matter/ota/ota.md)  
 # [Recovery](./files/matter/network-recovery.md)
 # [Portfolio-Certification-Policy](./files/matter/Portfolio-Certification-Policy.html)
+# [Attestation](./files/matter/attestation/attestation.md)  
 
 # Chip-tool on Ubuntu
 ```c
