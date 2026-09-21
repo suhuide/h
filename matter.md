@@ -4,6 +4,9 @@
 # [Recovery](./files/matter/network-recovery.md)
 # [Portfolio-Certification-Policy](./files/matter/Portfolio-Certification-Policy.html)
 # [Attestation](./files/matter/attestation/attestation.md)  
+# [Message](./files/matter/message.md)
+# [Spec-v17-te](./files/matter/spec-v17-te.md)
+# [RDI](./files/matter/rdi.md)
 
 # Chip-tool on Ubuntu
 ```c

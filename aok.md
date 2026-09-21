@@ -592,6 +592,19 @@ C:\Si\ws\aok02_matter_dc\config\sl_matter_config.h
 # QR code
 [MT:SAGA442C00KA0648G00](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3ASAGA442C00KA0648G00)  
 [MT:GYFB5KY61495TG11V10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AGYFB5KY61495TG11V10)  
+
+[MT:MNKA1IZJ01E01O68K10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AMNKA1IZJ01E01O68K10)
+
+## 20260921
+[MT:MNKA1IZJ01LHG.6OM10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3A)
+[MT:MNKA1KKN1688PT1FV00]
+[MT:MNKA1ANB0065MU7TM00]
+[MT:MNKA1YL-03SD6K58320]
+
+### Broken
+[MT:MNKA14Y6144C5Z3CH10]
+[MT:MNKA1ANB00JKIG2FY10]
+
 # [Chip-tool](./files/other/chip-tool.md)
 
 # Issue

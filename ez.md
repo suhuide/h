@@ -149,6 +149,9 @@ R16 -> Hi7011 pin2
 [4号:MT:K2CA04QO161KD754L10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AK2CA04QO161KD754L10)  
 [5号:MT:K2CA0C0X17IIIZ3MY10](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AK2CA0C0X17IIIZ3MY10)  
 
+### new
+[X号:MT:MT:K2CA0IR.03JA8V7AT00](https://project-chip.github.io/connectedhomeip/qrcode.html?data=MT%3AK2CA0IR.03JA8V7AT00)  
+
 ## Customer Report Issue
 1、PWM信号频率改为16KHZ  
 2、最低占空比1%分辨率降低一半  

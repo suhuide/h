@@ -40,6 +40,11 @@ http://pdm.hoperf.cc/main.php?m=User&a=index
 HP1239
 er..1
 ```
+## CSA
+https://allianceconnect.b2clogin.com/allianceconnect.onmicrosoft.com/B2C_1A_SIGNUP_SIGNIN_SAML_ZOOM/samlp/sso/login
+suhuide@hoperf.com
+@E...1
+
 ## ONES
 ```c
 https://ones.cn/project/#/workspace/team/VocipTXV/dashboard/common/VPLLqdYw
