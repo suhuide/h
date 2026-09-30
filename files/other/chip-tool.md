@@ -76,7 +76,11 @@ sudo ./chip-tool basicinformation read specification-version 2250 0
 |23 .. 16 |Minor | Minor version of specification.|
 |15 .. 8 |Dot | Dot version of the specification.|
 |7 .. 0 |Reserved1 | Future reserved version field 1,set to 0 until defined.|
+```c
+sudo ./chip-tool descriptor read-by-id 0xFFFFFFFF 2250 1
+sudo ./chip-tool identify read-by-id 0xFFFFFFFF 2250 1
 
+```
 ```c
 sudo ./chip-tool descriptor read parts-list 2250 0
 [1773133102.269] [2893471:2893473] [TOO]   PartsList: 6 entries
@@ -188,6 +192,7 @@ sudo ./chip-tool windowcovering up-or-open 2250 1
 sudo ./chip-tool windowcovering go-to-lift-percentage 6000 2250 1
 sudo ./chip-tool windowcovering go-to-lift-percentage 3000 2250 1
 sudo ./chip-tool windowcovering down-or-close 2250 1
+sudo ./chip-tool windowcovering stop-motion 2250 1
 ```
 ## Groups
 ```c

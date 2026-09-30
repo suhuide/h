@@ -27,6 +27,13 @@ Rules (MODIFIED - false default):
 3. Manually items (.S.M.* or .C.M.*) - Set to false
 4. Base.xml - ALL items default to false unless ZAP confirms capability
 5. Cluster XML items not parseable as .S/.C format - Set to false
+
+FeatureMap fallbacks when the zap declares no default: Network Commissioning
+assumes Thread (bit 1); Descriptor assumes TagList (bit 0) iff attribute 0x0004
+is present. All other clusters fall back to 0 (all F rows false).
+
+Items left at default (false/0x00) are collected and printed as a
+"MANUAL REVIEW REPORT" at the end of the run.
 """
 
 import argparse
@@ -170,6 +177,19 @@ NON_APPLICATION_DEVICE_TYPE_IDS = {
     0x0015,  # Composed Device
 }
 
+# Device type ID for OTA Provider (drives MCORE.OTA.Provider in Base.xml)
+DEVICE_TYPE_OTA_PROVIDER = 0x0014
+
+# Client clusters that are infrastructure helpers and do not indicate that the
+# DUT acts as an Interaction Model client (MCORE.IDM.C must stay false for these).
+INFRASTRUCTURE_CLIENT_CLUSTERS = {
+    "OTA Software Update Provider",
+}
+
+# Items left at default (false / 0x00) that need human review.
+# Printed as a report at the end of the run.
+MANUAL_REVIEW_ITEMS: List[str] = []
+
 
 def has_application_device_type(zap_data: dict) -> bool:
     """Check if any endpoint in the ZAP data implements an Application Device Type.
@@ -205,6 +225,39 @@ def has_application_device_type(zap_data: dict) -> bool:
         for code in codes_seen:
             if code not in NON_APPLICATION_DEVICE_TYPE_IDS:
                 return True
+    return False
+
+
+def has_device_type_code(zap_data: dict, code: int) -> bool:
+    """Check whether any endpoint in the ZAP data declares the given device type code.
+
+    Walks the 'endpoints' array and looks up each endpoint's device types via
+    endpointTypeIndex into 'endpointTypes'.
+    """
+    endpoint_types = zap_data.get("endpointTypes", [])
+    endpoints = zap_data.get("endpoints", [])
+
+    for ep in endpoints:
+        type_idx = ep.get("endpointTypeIndex")
+        if type_idx is None or type_idx < 0 or type_idx >= len(endpoint_types):
+            continue
+        et = endpoint_types[type_idx]
+
+        codes_seen = set()
+
+        for dt in et.get("deviceTypes", []):
+            if dt.get("code"):
+                codes_seen.add(dt["code"])
+
+        if et.get("deviceTypeCode", 0):
+            codes_seen.add(et["deviceTypeCode"])
+
+        ref = et.get("deviceTypeRef", {})
+        if ref and ref.get("code", 0):
+            codes_seen.add(ref["code"])
+
+        if code in codes_seen:
+            return True
     return False
 
 
@@ -392,7 +445,16 @@ def parse_item_number(item_text: str) -> Optional[dict]:
 
 
 def get_feature_map_from_zap(cluster_data: dict) -> int:
-    """Extract FeatureMap value from cluster attributes (code=65532)."""
+    """Extract FeatureMap value from cluster attributes (code=65532).
+
+    When the zap declares no explicit FeatureMap default, fall back to
+    derivable defaults:
+      - Network Commissioning: assume Thread (bit 1) - consistent with the
+        "defaults to Thread" template fallback.
+      - Descriptor: bit 0 (TagList) iff the TagList attribute (0x0004) is
+        present in the zap attribute list.
+    All other clusters fall back to 0 (all feature rows false).
+    """
     attributes = cluster_data.get('attributes', [])
     for attr in attributes:
         if attr.get('code') == 65532:
@@ -409,7 +471,24 @@ def get_feature_map_from_zap(cluster_data: dict) -> int:
                             return 0
                 elif isinstance(default_val, int):
                     return default_val
+
+    # No explicit default: derive where possible
+    cluster_name = cluster_data.get('name', '')
+    if cluster_name == 'Network Commissioning':
+        return 2  # Thread bit; consistent with "defaults to Thread" template fallback
+    if cluster_name == 'Descriptor':
+        attr_codes = {a.get('code') for a in attributes}
+        if 0x0004 in attr_codes:
+            return 1  # TagList feature (DESC.S.F00)
     return 0
+
+
+def has_explicit_feature_map(cluster_data: dict) -> bool:
+    """True if the cluster declares a FeatureMap attribute (code 65532) with an explicit defaultValue."""
+    for attr in cluster_data.get('attributes', []):
+        if attr.get('code') == 65532 and attr.get('defaultValue') is not None:
+            return True
+    return False
 
 
 def get_attributes_by_side(cluster_data: dict, side: str) -> set:
@@ -619,6 +698,9 @@ def generate_pics_xml_for_ota(
     print(f"  Processing OTA combined template: {pics_file_name}")
     modified_count = 0
 
+    ep_match = re.search(r'EP(\d+)', output_path.replace('\\', '/'))
+    ep_label = f"EP{ep_match.group(1)} " if ep_match else ""
+
     def process_node(node):
         nonlocal modified_count
         item_number_element = node.find('itemNumber')
@@ -700,6 +782,11 @@ def generate_pics_xml_for_ota(
     if modified_count == 0:
         print(f"    No modifications needed (all items already match ZAP)")
 
+    # PIXIT values are not touched; collect a review note for each file that has them
+    pixit_items = root.findall('.//pixitItem')
+    if pixit_items:
+        MANUAL_REVIEW_ITEMS.append(f"{ep_label}{pics_file_name}: {len(pixit_items)} PIXIT item(s) left at template defaults (0x00)")
+
     # Write output
     output_file = f"{output_path}{pics_file_name}"
     indent_xml(root)
@@ -779,6 +866,15 @@ def generate_pics_xml(
     print(f"  Processing template: {pics_file_name}")
     modified_count = 0
 
+    ep_match = re.search(r'EP(\d+)', output_path.replace('\\', '/'))
+    ep_label = f"EP{ep_match.group(1)} " if ep_match else ""
+
+    # Feature rows can only be decided when the zap declares a FeatureMap default.
+    # For clusters without one, all F rows stay false - collect a review note.
+    if not pics_file_name_override and not has_explicit_feature_map(cluster_data):
+        MANUAL_REVIEW_ITEMS.append(
+            f"{ep_label}{pics_file_name}: FeatureMap defaultValue absent in zap; all F rows left at false - verify features")
+
     # Helper function to process a node
     def process_node(node):
         nonlocal modified_count
@@ -818,6 +914,11 @@ def generate_pics_xml(
         # If a prefix_filter is active, skip items whose prefix is not in the list
         if prefix_filter and parsed.get('prefix') not in prefix_filter:
             return
+
+        # Manual items are not derivable from zap; they are left at false and
+        # collected for the manual review report.
+        if parsed['type'] == 'manual':
+            MANUAL_REVIEW_ITEMS.append(f"{ep_label}{pics_file_name} {item_text}: manual item left at false - verify against device")
 
         # Determine new support value based on side
         if parsed['side'] == 'S':
@@ -920,6 +1021,11 @@ def generate_pics_xml(
 
     if modified_count == 0:
         print(f"    No modifications needed (all items already match ZAP)")
+
+    # PIXIT values are not touched; collect a review note for each file that has them
+    pixit_items = root.findall('.//pixitItem')
+    if pixit_items:
+        MANUAL_REVIEW_ITEMS.append(f"{ep_label}{pics_file_name}: {len(pixit_items)} PIXIT item(s) left at template defaults (0x00)")
 
     # Write the output XML file
     output_file = f"{output_path}{pics_file_name}"
@@ -1061,7 +1167,6 @@ def generate_base_xml(zap_data: dict, xml_template_path: str, output_path: str):
 
     # Detect OTA support
     has_ota_requestor = False
-    has_ota_provider = False
     endpoints = extract_clusters_from_zap(zap_data)
     for ep_data in endpoints.values():
         for cluster in ep_data.get('clusters', []):
@@ -1071,10 +1176,13 @@ def generate_base_xml(zap_data: dict, xml_template_path: str, output_path: str):
             side = cluster.get('side')
             if name == 'OTA Software Update Requestor' and side == 'server':
                 has_ota_requestor = True
-            elif name in ('OTA Software Update Provider',) and side == 'client':
-                has_ota_provider = True
+    # MCORE.OTA.Provider asks about the OTA Provider DEVICE TYPE, not the cluster.
+    # A device may carry the provider client cluster without being a Provider device type.
+    has_ota_provider = has_device_type_code(zap_data, DEVICE_TYPE_OTA_PROVIDER)
 
-    # Detect if device has any client/server clusters
+    # Detect if device has any client/server clusters.
+    # Infrastructure client clusters (e.g. OTA Provider client) are excluded from
+    # has_client_cluster: they do not make the DUT an Interaction Model client.
     has_client_cluster = False
     has_server_cluster = False
     for ep_data in endpoints.values():
@@ -1082,7 +1190,10 @@ def generate_base_xml(zap_data: dict, xml_template_path: str, output_path: str):
             if not cluster.get('enabled', 0):
                 continue
             side = cluster.get('side')
+            name = cluster.get('name')
             if side == 'client':
+                if name in INFRASTRUCTURE_CLIENT_CLUSTERS:
+                    continue
                 has_client_cluster = True
             elif side == 'server':
                 has_server_cluster = True
@@ -1093,7 +1204,7 @@ def generate_base_xml(zap_data: dict, xml_template_path: str, output_path: str):
     print(f"  Detected network capabilities: WiFi={wifi_supported}, Thread={thread_supported}, Ethernet={ethernet_supported}")
     print(f"  Detected roles: Commissionee={roles['commissionee']}, Commissioner={roles['commissioner']}, Controller={roles['controller']}")
     print(f"  Detected OTA: Requestor={has_ota_requestor}, Provider={has_ota_provider}, BDX={has_bdx}")
-    print(f"  Detected clusters: has_server={has_server_cluster}, has_client={has_client_cluster}")
+    print(f"  Detected clusters: has_server={has_server_cluster}, has_client={has_client_cluster} (infrastructure client clusters excluded)")
 
     # Update each picsItem — default to false unless ZAP confirms
     modified_count = 0
@@ -1140,18 +1251,22 @@ def generate_base_xml(zap_data: dict, xml_template_path: str, output_path: str):
         elif item_text == 'MCORE.OTA.Provider':
             new_value = 'true' if has_ota_provider else 'false'
         elif item_text == 'MCORE.OTA.HTTPS':
-            new_value = 'true' if has_ota_requestor else 'false'
-        elif item_text in ('MCORE.OTA.RequestorConsent', 'MCORE.OTA.Resume', 'MCORE.OTA.VendorSpecific', 'MCORE.OTA.Retry'):
+            # OTA image download over HTTPS is not derivable from zap.
+            # Device downloads OTA via BDX; default false.
             new_value = 'false'
+            MANUAL_REVIEW_ITEMS.append("Base.xml MCORE.OTA.HTTPS: not derivable from zap, left at false (device downloads OTA via BDX)")
+        elif item_text in ('MCORE.OTA.RequestorConsent', 'MCORE.OTA.Resume', 'MCORE.OTA.VendorSpecific'):
+            new_value = 'false'
+        elif item_text == 'MCORE.OTA.Retry':
+            # Not derivable from zap. Default false per policy
+            # (golden aok02ac has true - hand-tuned, review required).
+            new_value = 'false'
+            MANUAL_REVIEW_ITEMS.append("Base.xml MCORE.OTA.Retry: not derivable from zap, left at false (golden aok02ac has true)")
 
         # --- BDX (OTA uses BDX) ---
         elif item_text == 'MCORE.BDX.Sender':
             new_value = 'true' if has_bdx else 'false'
         elif item_text == 'MCORE.BDX.Receiver':
-            new_value = 'true' if has_bdx else 'false'
-        elif item_text == 'MCORE.BDX.AsynchronousSender':
-            new_value = 'true' if has_bdx else 'false'
-        elif item_text == 'MCORE.BDX.AsynchronousReceiver':
             new_value = 'true' if has_bdx else 'false'
         elif item_text == 'MCORE.BDX.Initiator':
             new_value = 'true' if has_bdx else 'false'
@@ -1163,6 +1278,10 @@ def generate_base_xml(zap_data: dict, xml_template_path: str, output_path: str):
         # --- IDM (Interaction Data Model) ---
         elif item_text == 'MCORE.IDM.S':
             new_value = 'true' if has_server_cluster else 'false'
+        elif item_text == 'MCORE.IDM.S.LargeData':
+            # Not derivable from zap. Default false.
+            new_value = 'false'
+            MANUAL_REVIEW_ITEMS.append("Base.xml MCORE.IDM.S.LargeData: not derivable from zap, left at false")
         elif item_text == 'MCORE.IDM.C':
             new_value = 'true' if has_client_cluster else 'false'
         elif item_text.startswith('MCORE.IDM.C.'):
@@ -1205,6 +1324,10 @@ def generate_base_xml(zap_data: dict, xml_template_path: str, output_path: str):
             if item_text in ('MCORE.DD.QR', 'MCORE.DD.MANUAL_PC'):
                 new_value = 'true' if roles['commissionee'] else 'false'
             else:
+                # Not derivable from zap. Default false per policy
+                # (golden aok02ac has true for these three - hand-tuned, review required).
+                if item_text in ('MCORE.DD.STANDARD_COMM_FLOW', 'MCORE.DD.TXT_KEY_VP', 'MCORE.DD.TXT_KEY_PH'):
+                    MANUAL_REVIEW_ITEMS.append(f"Base.xml {item_text}: not derivable from zap, left at false (golden aok02ac has true)")
                 new_value = 'false'
 
         # --- Subtype / mDNS ---
@@ -1397,6 +1520,16 @@ def process_zap_file(zap_file: str, xml_template_path: str, output_path: str):
     print(f"  - Processed {len(endpoints)} endpoint(s)")
     print(f"  - Generated {total_files} PICS XML file(s)")
     print(f"  - Output directory: {output_path}")
+
+    # Print manual review report (items left at default false/0x00)
+    if MANUAL_REVIEW_ITEMS:
+        print(f"\n{'='*60}")
+        print(f"MANUAL REVIEW REPORT - {len(MANUAL_REVIEW_ITEMS)} item(s) left at default (false/0x00)")
+        print(f"{'='*60}")
+        for entry in MANUAL_REVIEW_ITEMS:
+            print(f"  - {entry}")
+    else:
+        print(f"\nNo manual review items.")
 
 def main():
     parser = argparse.ArgumentParser(

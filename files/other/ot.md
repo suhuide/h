@@ -1,6 +1,23 @@
 ```c
 sudo gedit /etc/default/otbr-agent
+
 ```
+```c
+cat /etc/default/otbr-agent 
+# Default settings for otbr-agent. This file is sourced by systemd
+
+# Options to pass to otbr-agent
+OTBR_AGENT_OPTS="-I wpan0 -B enp0s3 spinel+hdlc+uart:///dev/ttyUSB0?uart-flow-control=1 trel://enp0s3"
+OTBR_NO_AUTO_ATTACH=0
+````
+```c
+cat /etc/default/otbr-agent 
+# Default settings for otbr-agent. This file is sourced by systemd
+
+# Options to pass to otbr-agent
+OTBR_AGENT_OPTS="-I wpan0 -B eth0 spinel+hdlc+uart:///dev/ttyUSB0?uart-flow-control=1 trel://eth0"
+OTBR_NO_AUTO_ATTACH=0
+````
 ```c
 //Channel Config
 sudo ot-ctl channel //Read current channel
