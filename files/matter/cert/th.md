@@ -1,3 +1,4 @@
+[th-setup](th-setup.md)  
 
 # Enable log
 ```c
@@ -41,6 +42,16 @@ cd /home/ubuntu/certification-tool/backend/test_collections/matter/scripts/OTBR/
 ./otbr_start.sh
 ./otbr_stop.sh
 ```
+# AVAHI
+```c
+docker exec th-sdk python3 -m pip show zeroconf
+sudo tcpdump -i any -s 0 -w /tmp/tc-sc-4_3-mdns.pcap 'udp port 5353'
+```
+```c
+sudo systemctl restart avahi-daemon && docker exec -it th-sdk avahi-browse -r _matter._tcp
+```
+
+
 # SemiAutomated
 ## Node Id
 ```c

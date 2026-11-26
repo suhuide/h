@@ -2,13 +2,16 @@
 | 1 | 2 | 3 | 4 | 5 | 6 |
 | ---- | ---- | ---- | ---- | ---- | ---- |
 | [memo](../../l/l/memo.md) |[silabs](./files/silabs/silabs.md)| [w](w.md) |[other](other.md) |[ble](ble.md)|[matter](matter.md)|
-| [bootloader](bootloader.md) |[ai](./files/ai/ai.md)|[cert](./files/matter/cert/cert.md)|
+| [bootloader](bootloader.md) |[ai](./files/ai/ai.md)|[cert](./files/matter/cert/cert.md)|[ACK](./files/other/ack.md)|[S-Protocol](./files/serial/serial.md)|xxx|
+|   |   |   |   |   |   |
 
 # project
 | 1 | 2 | 3 | 4 | 5 | 6 |
 | ---- | ---- | ---- | ---- | ---- | ---- |
 |[aok](aok.md)|[ez](ez.md)|[pte9](pte9.md)|[bk](bk.md)|[ll](ll.md)|[hc](hc.md)|
-|[zh](zh.md)|
+|[zh](zh.md)|[dosron](dosron.md)|   |   |   |   |
+|   |   |   |   |   |   |
+|   |   |   |   |   |   |
 
 # [Module](./files/other/module.md)
 # [MFG](./files/other/mfg.md)
@@ -42,6 +45,7 @@ er..1
 ```
 ## CSA
 https://allianceconnect.b2clogin.com/allianceconnect.onmicrosoft.com/B2C_1A_SIGNUP_SIGNIN_SAML_ZOOM/samlp/sso/login  
+https://csa-iot.org  
 suhuide@hoperf.com  
 @E...1  
 
@@ -74,12 +78,16 @@ raspi4-p
 192.168.100.4
 Rasberrypi
 
+ubuntu@192.168.100.8
+ubuntu
+
 raspi4-e
-192.168.100.20
+ubuntu@192.168.100.20
 ...e
 raspi4-h
-192.168.100.21
+ubuntu@192.168.100.21
 ...h
+
 ```
 ## B
 ```c
@@ -99,7 +107,9 @@ suhuide@hoperf.com
 # Cmake
 ```
 cd target_project
+slc generate -p xxx.slcp --force
 cmake --build cmake_gcc\build --target clean
+cmake --build cmake_gcc\build --clean-first
 cmake --build cmake_gcc\build
 ```
 # VScode Filter

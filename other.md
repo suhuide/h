@@ -7,9 +7,9 @@
 确保文档在任何平台上都能正确显示且不会中断。
 ```
 # VPN
-网址一: https://fbweb02.flyingbird.la
-网址二: https://fbweb03.flyingbird.id
-网址三: https://www.fbweb.cc
+网址一: https://fbweb03.flyingbird.la  
+网址二: https://fbweb03.flyingbird.id   
+网址三: https://www.fbweb.cc   
 
 # Raspi
 <div align="left">
@@ -203,4 +203,8 @@ typedef struct {
 用户界面     →   查表函数             →     PWM输出        →   LED实际亮度
 brightness  →   calculate_curve_pwm  →     pwm            →   人眼感知亮度
 (0-2400)        (非线性转换)               (0-2400占空比)      (非线性感知)
+```
+## SSH
+```c
+scp .\cert.tar.gz ubuntu@192.168.100.22:/home/ubuntu/
 ```

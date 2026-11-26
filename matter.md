@@ -8,7 +8,10 @@
 # [Spec-v17-te](./files/matter/spec-v17-te.md)
 # [RDI](./files/matter/rdi.md)
 
-# [Chip-tool on Ubuntu](./files/matter/chip-tool-ubuntu.md)
+# [Chip-tool on Ubuntu](./files/matter/chip-tool-ubuntu.md)  
+
+# [WiFi vs. Thread](./files/matter/wt.md)  
+
 ```c
 https://snapcraft.io/install/chip-tool/ubuntu
 https://snapcraft.io/install/openthread-border-router/ubuntu

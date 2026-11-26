@@ -251,6 +251,36 @@ BLE OTA reboot to install
 重启后 Current Software Version 变为新版本
 ```
 
+### 6.2 chip BLE 通道全链路成功实拍（2026-10-09）
+```
+[00:00:29.101] BLE OTA control cmd=0 (opcode=0x12, conn=2, state=IDLE)     ← chip BLE 连接发起
+[00:00:29.101] BLE OTA state IDLE -> PREPARING
+[00:00:29.101] BLE OTA preparing: erasing slot (single-click flow)
+[00:00:29.101] BLE OTA erasing slot 0 ...
+[00:00:29.235] BLE OTA flash@erase: ff …（整槽擦除 1.25s）
+[00:00:29.235] BLE OTA state PREPARING -> DOWNLOAD
+[00:00:29.235] BLE OTA deferred resp sent ret:0x0000 conn:2                 ← 延迟应答送达
+[00:00:29.235] BLE OTA ready - streaming can start
+[00:00:29.670] BLE OTA rx0: eb 17 a6 03 …                                  ← GBL 头正确
+…rx 进度（每 8KB）…
+[00:04:44.934] BLE OTA download DONE (659912 bytes), verifying
+[00:04:44.937] BLE OTA hdr0 / hdr244 dump                                  ← flash 读回与文件一致
+[00:04:44.938] BLE OTA verify start (659912 bytes)
+…verifying… steps:512 … 4608 …
+[00:05:00.916] BLE OTA verify OK (5158 steps)
+[00:05:00.xxx] BLE OTA reboot to install → 重启后 0.0.2                    ← 全链路成功
+```
+（注：该次传输速率 ~2.6KB/s，瓶颈为 CHIPoBLE 连接被 Matter 重协商到 90ms 连接间隔，见 §9）
+
+---
+
+## 9. 速度瓶颈：CHIPoBLE 连接被 Matter 重协商到 90ms ★
+
+- **现象**：chip BLE 通道 OTA 吞吐 ~2.6KB/s；write-with-response 与 write-without-response（speed OTA）**同速**——瓶颈不在响应等待。
+- **根因**：**Matter ConnectivityManager 对 CHIPoBLE 连接的省电参数管理**：连接建立时 fast（30ms），稳定/idle 后重协商到 **90ms**（日志 `i:72`）——90ms 间隔 × 每连接事件 ~1 包 ≈ 2.6KB/s 上限。side-channel 连接不受 Matter 参数管理，参数由手机（central）决定——**实测两条通道速率相同（~2.6KB/s）**，side-channel 并不更快（其参数同样是手机侧的默认值）。
+- **修复**：OTA 会话期间由设备（peripheral）发 L2CAP 参数请求：BEGIN 成功进入 DOWNLOAD 后调用 `sl_bt_connection_set_parameters(conn, 16, 24, 0, 500, 0, 0)`（20-30ms）——central（手机）通常会接受。若实测仍被 Matter 降回，可在 rx 进度处周期性重申。
+- 预期效果：30ms 间隔下吞吐 ~8-20KB/s（659KB 约 40-80s）。
+
 ---
 
 ## 7. 已知限制与遗留

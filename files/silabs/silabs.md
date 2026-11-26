@@ -70,6 +70,49 @@ serial vcom config speed 115200
 serial vcom config speed 921600
 serial vcom config handshake disable
 ```
+## SLC
+[SLT-CLI](https://www.silabs.com/software-and-tools/simplicity-studio/silicon-labs-tool)
+```c
+>slt install slc-cli
+Building dependencies...
+Installing packages...
+Installing package python, url: https://updates.silabs.com/studio/v6/updates/update_site/archives/python/3.10.4/python.3.10.4.win32.win32.x86_64.zip
+downloading https://updates.silabs.com/studio/v6/updates/update_site/archives/python/3.10.4/python.3.10.4.win32.win32.x86_64.zip...
+Downloading 133.69 MB from https://updates.silabs.com/studio/v6/updates/update_site/archives/python/3.10.4/python.3.10.4.win32.win32.x86_64.zip ...
+1%: Downloaded 2.50 MB out of 133.69 MB...
+//...
+100%: Downloaded 75.48 MB out of 75.48 MB. Done!
+Downloaded file: C:\Users\huide\.silabs\slt\installs\archive\slc-cli-v6.0.25.zip
+Package slc-cli downloaded in 42.636 seconds
+Unpacking C:\Users\huide\.silabs\slt\installs\archive\slc-cli-v6.0.25.zip to C:\Users\huide\.silabs\slt\installs\archive\slc-cli-v6.0.25
+Running postinstall hook for slc-cli/6.0.25...
+postinstall hook completed for slc-cli/6.0.25
+Installed Packages:
+  Id: python
+  Version: 3.10.4
+  Installer type: archive
+  Package type: apack
+  Path: C:\Users\huide\.silabs\slt\installs\archive\python-v3.10.4\python
+
+  Id: java21
+  Version: 21.0.6
+  Label: Minimal Java 21 Package
+  Installer type: archive
+  Package type: tools
+  Path: C:\Users\huide\.silabs\slt\installs\archive\java21-v21.0.6\win32.x86_64_21.0.6
+
+  Id: slc-cli
+  Version: 6.0.25
+  Label: SLC CLI Package
+  Installer type: archive
+  Package type: tools
+  Path: C:\Users\huide\.silabs\slt\installs\archive\slc-cli-v6.0.25\slc_cli
+  Subpackages:
+    Id: java21
+    Version: 21.0.6
+    Path: C:\Users\huide\.silabs\slt\installs\archive\java21-v21.0.6\win32.x86_64_21.0.6
+```
+
 ## Radio
 ```c
 // Radio interrupts.

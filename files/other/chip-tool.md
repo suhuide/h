@@ -60,6 +60,15 @@ sudo ./chip-tool pairing ble-thread 2250 hex:0e0800000000000100004a0300000b35060
 sudo ./chip-tool pairing ble-thread 2250 hex:0e0800000000000100004a0300000b35060004001fffe00208d66aa42e602782d70708fd119c64dd37b8c40510af58620082e94dcc8b2e7e4a5735245b030f4f70656e5468726561642d323235660102225f04101ab41530faf60b359a71bbd4d65101e50c0402a0f7f8000300000f 28770211 3876 --paa-trust-store-path ~/paa-root-certs
 ```
 ```c
+//manual code
+sudo ./chip-tool pairing code 2250 <manual_code>
+```
+```c
+//device that’s already on your IP network. 20202021 is pincode
+sudo ./chip-tool pairing onnetwork 1 20202021
+```
+
+```c
 sudo ./chip-tool basicinformation read software-version 2250 0
 sudo ./chip-tool basicinformation read software-version-string 2250 0
 ```
@@ -193,6 +202,17 @@ sudo ./chip-tool windowcovering go-to-lift-percentage 6000 2250 1
 sudo ./chip-tool windowcovering go-to-lift-percentage 3000 2250 1
 sudo ./chip-tool windowcovering down-or-close 2250 1
 sudo ./chip-tool windowcovering stop-motion 2250 1
+sudo ./chip-tool windowcovering read operational-status 2250 1
+sudo ./chip-tool windowcovering read current-position-lift-percent100ths 2250 1
+sudo ./chip-tool windowcovering read target-position-lift-percent100ths 2250 1
+```
+```c
+// motorDirReversed enable
+sudo ./chip-tool windowcovering write mode 1 2250 1
+// motorDirReversed disable
+sudo ./chip-tool windowcovering write mode 0 2250 1 
+// status checking
+sudo ./chip-tool windowcovering read config-status 2250 1
 ```
 ## Groups
 ```c
@@ -216,11 +236,21 @@ sudo ./chip-tool identify identify 3600 2250 1
 sudo ./chip-tool identify trigger-effect 0 0 2250 1
 sudo ./chip-tool identify trigger-effect 1 1 2250 1
 ```
+## Icdmanagement
+```c
+sudo ./chip-tool icdmanagement read active-mode-duration 2256 0
+sudo ./chip-tool icdmanagement read active-mode-threshold 2256 0
+sudo ./chip-tool icdmanagement read idle-mode-duration 2256 0
+```
 
 ## Other
 ```c
 sudo ./chip-tool interactive start
 any subscribe-by-id 0xffffffff 0xffffffff 0 1 2250 0xffff
+
+sudo ./chip-tool threadnetworkdiagnostics read-event network-fault-change 2250 0
+sudo ./chip-tool threadnetworkdiagnostics read-event connection-status 2250 0
+sudo ./chip-tool threadnetworkdiagnostics read-event
 ```
 
 # CD

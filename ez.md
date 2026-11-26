@@ -17,6 +17,7 @@
 [reset](./files/ez/reset.md)  
 [blink-test-code](./files/ez/blink-test-code.md)  
 [Module-QRcode-20260526](./files/ez/Module-20260526.md)  
+[SW](./files/ez/sw.md)  
 
 ## 0. Serial Port
 ```c
@@ -130,6 +131,11 @@ static sl_led_pwm_t warm_light = {
 ```c
 HPTSB01
 ```
+
+<div align="left">
+  <img src="files/ez/m.png" width="480">
+</div>
+
 ```c
 EFR32MG24A420F1536IM40
 ```

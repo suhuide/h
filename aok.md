@@ -190,6 +190,12 @@ extension/matter_extension/third_party/matter_sdk/src/platform/silabs/efr32/BLEM
 ```
 ## Build
 ```c
+cd "c:/Si/v6/aok02_matter_ac"
+slc generate -p aok02_matter_ota.slcp --force
+cmake --build cmake_gcc\build --target clean
+cmake --build cmake_gcc\build
+```
+```c
 cd "c:/Si/v6/aok02_matter_ac/cmake_gcc" && cmake --build --preset default_config 2>&1 | grep -E "error|Error|warning|\.cpp\.obj|\.out" | head -20; echo "EXIT=$?"
 cd "c:/Si/v6/aok02_matter_ac/cmake_gcc" && cmake --build --preset default_config 2>&1 | tail -6
 ```
@@ -886,6 +892,28 @@ Ram usage       :   262140 /   262140 B (100.00 %)
   text_application_ram:      448 B            (  0.17 %)
 Flash usage     :   953752 /  1540096 B ( 61.93 %)
 ```
+### 正常需要多大 heap
+heap 的真正消耗方（FreeRTOS pvPortMalloc / newlib malloc / chip Platform 动态分配全走这一个池子）：
+Matter 层：PASE/CASE 会话状态、TLV scratch、exchange/会话对象——主要在配网和 CASE 建立瞬间冲高
+ - BLE 栈动态分配
+ - 应用侧 pvPortMalloc（比如 msg_mgr 的帧节点）
+ - OpenThread 反而几乎不占 heap——OT 的 buffer/pool 是静态放 .bss 的（这就是你 .bss 145KB 的主要来源）。
+经验值：这类 MG24 + Matter over Thread + BLE 设备，峰值大概 40–70 KB，最坏点在配网/BLE PASE 阶段。你现在剩 108KB，余量充足，不动它。
+
+怎么确认而不是猜：在 AppInit、配网完成回调、长时间运行后各打一行水位：
+```c
+LOG_MSG_ERR(TAG_CTM, "heap min-ever-free %d", xPortGetMinimumEverFreeHeapSize());
+```
+Silabs GSDK 下 pvPortMalloc 已接到 memory manager，这个值就是全池最小余量。
+最小余量 ≥ 池子的 15–20% 就安全。
+由于 heap 本来就是"剩余 RAM"，缩它没有意义——除非你后面想把这 RAM 挪去做更大的静态池。
+
+### FTD vs MTD 的区别
+总 RAM 差 15–25KB，但差在 .bss 和任务栈，不在 heap。
+
+ - FTD 多的是 OpenThread 的路由相关静态结构：RouterTable、NeighborTable、AddressResolver/Cache、更大的 OT 池，加上更大的 OT 任务栈
+ - heap 需求基本一样——heap 大头是 Matter 会话/TLV、BLE、FreeRTOS，这些跟 FTD/MTD 无关
+ 
 ## Bug report from Li
 ```c
 huide@eric-pc MINGW64 /c/Si/v6/aok02_matter_ac/common (develop)
